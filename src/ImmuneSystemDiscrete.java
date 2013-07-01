@@ -28,7 +28,7 @@ public class ImmuneSystemDiscrete implements ImmuneSystem{
 		// Specific immunity = Exp[-beta x num_seen_segments]
 		BitSet seenSegments = (BitSet) exposedToSegments.clone();
 		seenSegments.and(v.getSegmentIndices());
-		double specificImmunityExp = -xi_specific*seenSegments.cardinality();
+		double specificImmunityExp = -xi_specific*seenSegments.cardinality()/(double)Parameters.nSegments;
 		
 		// MAYBEDO: Drift		
 		// double driftImmuntiy = -xi_drift*getDriftDistance(v,previousInfections);
