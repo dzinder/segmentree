@@ -38,7 +38,7 @@ public class Parameters {
 	@Setting (description ="proportion of tips to use in tree reconstruction" )
 		static double treeProportion = 1E-2;	
 	@Setting (description ="interval used for sampling subset of tips to be marked" ) 
-		static double intervalForMarkTips = 0.5;
+		static double intervalForMarkTips = 5;
 	@Setting (description ="how many tips to sample when estimating diversity" )
 		static int	diversitySamplingCount = 50;
 	@Setting (description ="subtract this many years off the end of the tree when designating trunk" )
@@ -53,7 +53,7 @@ public class Parameters {
 
 	// Host & Host Population Parameters & Settings
 	@Setting (description ="Number of hosts in population" )
-		static int N = 4000000;								
+		static int N = 400000;								
 	@Setting (description ="in births per individual per day, i.e. 1/(30*365)" )
 		static double birthRate = 1.0/(30.0*365.0);	
 	@Setting (description ="in deaths per individual per day, i.e. 1/(30*365)" )
@@ -73,9 +73,9 @@ public class Parameters {
 	
 	// Virus Segment Parameters
 	@Setting (description ="number of viral segments" ) 
-		static int nSegments = 2;
+		static int nSegments = 3;
 	@Setting (description ="number of inital segment allels" ) 
-		static int[] nInitialSegmentAllels = {1,1};
+		static int[] nInitialSegmentAllels = {1,1,1};
 	@Setting (description ="number of inital random viral segement combinations" ) 
 		static int nInitialStrains = 1;
 	

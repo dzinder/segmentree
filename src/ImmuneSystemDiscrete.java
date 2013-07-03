@@ -4,9 +4,9 @@ import java.util.BitSet;
 public class ImmuneSystemDiscrete implements ImmuneSystem{
 
 	@Setting (description ="risk=specific_risk x exp(-xi_generalized x number_of_previous_infections)"	)  
-		static double xi_generalized = 0.6;												
+		static double xi_generalized = 0.3;												
 	@Setting (description ="risk=generalized_risk x exp(-xi_specific x number_of_segments_encountered_before)"	) 
-		static double xi_specific = 0.6;
+		static double xi_specific = 0.3;
 	
 	int numPreviousInfections = 0;
 	BitSet exposedToSegments = new BitSet();	
