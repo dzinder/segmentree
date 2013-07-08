@@ -12,6 +12,8 @@ public class HostPopulation {
 	private List<Host> susceptibles = new ArrayList<Host>(); 
 	private List<Host> infecteds = new ArrayList<Host>(); // including superinfecteds
 
+
+
 	// host samples
 	private InfectedHostSamples infectedHostSamples = new InfectedHostSamples();
 	private HostsForImmunitySamples hostsForImmunitySamples = new HostsForImmunitySamples();
@@ -20,6 +22,8 @@ public class HostPopulation {
 	private HashMap<BitSet,Pair<Virus,Integer>> strainTallyForVaccineComposition = new HashMap<BitSet,Pair<Virus,Integer>>();	
 	private HashMap<Integer,Pair<Segment,Integer>> segmentTallyForVaccineComposition = new HashMap<Integer,Pair<Segment,Integer>>(); // TODO: implement this	
 	private List<Virus> vaccineComposition = new ArrayList<Virus>();
+	// Vaccine queue
+	private List<Host> vaccineQueue = new ArrayList<Host>();
 
 	// genome samples for vaccine makeup determination
 
@@ -171,10 +175,21 @@ public class HostPopulation {
 
 	private void vaccinate() {
 		if (Parameters.day > Parameters.vaccinationProgramStartTime) {
+
 			// TODO: switch to a non-naive algorithm for this
-			for (Host h : susceptibles) {
-				for (double age : Parameters.ages) {
-					if (h.getAge()==age) {
+			for (Host h : susceptibles ) {
+				for (double age : Parameters.vaccinationAges) {
+					if (h.getAgeInDays()==age) {
+						if (Random.nextBoolean(Parameters.vaccineP)) {
+							h.immunize(vaccineComposition); 
+						}
+					}
+				}
+			}
+			
+			for (Host h : infecteds ) {
+				for (double age : Parameters.vaccinationAges) {
+					if (h.getAgeInDays()==age) {
 						if (Random.nextBoolean(Parameters.vaccineP)) {
 							h.immunize(vaccineComposition); 
 						}
@@ -182,15 +197,28 @@ public class HostPopulation {
 				}
 			}
 
-			for (Host h : infecteds) {
-				for (double age : Parameters.ages) {
-					if (h.getAge()==age) {
-						if (Random.nextBoolean(Parameters.vaccineP)) {
-							h.immunize(vaccineComposition);
-						}
-					}
-				}
-			}
+			//			int minTimediff = Parameters.vaccinationAges[0]; // TODO: this
+			//			int maxAge = Parameters.vaccinationAges[Parameters.vaccinationAges.length-1];
+			//			if ((Parameters.day-Parameters.vaccinationProgramStartTime)%minTimediff==0) {
+			//				vaccineQueue.clear();
+			//				for (Host h : susceptibles) {
+			//					if (h.getAgeInDays()<=maxAge) {
+			//						vaccineQueue.add(h);
+			//					}
+			//				}
+			//			}
+			//			
+			//			// TODO: switch to a non-naive algorithm for this
+			//			for (Host h : vaccineQueue ) {
+			//				for (double age : Parameters.vaccinationAges) {
+			//					if (h.getAge()==age) {
+			//						if (Random.nextBoolean(Parameters.vaccineP)) {
+			//							h.immunize(vaccineComposition); 
+			//						}
+			//					}
+			//				}
+			//			}
+
 		}
 	}
 

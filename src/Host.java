@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.BitSet;
 import java.util.List;
 
 public class Host {
@@ -7,7 +6,7 @@ public class Host {
 	// fields
 	private List<Virus> infectingViruses = new ArrayList<Virus>();												
 	private ImmuneSystem immuneSystem = new ImmuneSystemDiscrete();
-	private float birth;	// measured in years relative to burnin	
+	private int birth;	// measured in years relative to burnin	
 
 
 	// CONSTRUCTORS & INITIALIZERS
@@ -16,12 +15,12 @@ public class Host {
 	public Host() {		
 		float lifespan = (float) (1 / (365.0 * Parameters.birthRate));
 		float age = (float) Random.nextExponential(lifespan);
-		birth = (float) (Parameters.getDate() - age);	
+		birth = (int) (Parameters.day - age*365);	
 	}
 
 	// recycle host 
 	public void reset() {
-		birth = (float) Parameters.getDate();
+		birth = Parameters.day;
 		infectingViruses.clear();
 		immuneSystem.reset();
 	}
@@ -31,8 +30,8 @@ public class Host {
 		return birth;
 	}
 	
-	public float getAge() {
-		return Parameters.getDate()-birth;
+	public float getAgeInDays() {
+		return Parameters.day-birth;
 	}
 
 	public boolean isInfected() {		
@@ -44,7 +43,7 @@ public class Host {
 	}
 
 	public void infect(Virus infectingVirus_) {
-		float hostAge = Parameters.getDate() - birth;
+		float hostAge = Parameters.getDate() - ((float)birth/(float)365.0);
 		infectingViruses.add(new Virus(infectingVirus_,hostAge));			
 	}
 	

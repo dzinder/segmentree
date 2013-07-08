@@ -364,7 +364,7 @@ public class SegmentTree {
 			PrintStream tipStream = new PrintStream(tipFile);
 			tipStream.printf("{\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\"}\n", "name", "wholegenome", "year", "trunk", "tip", "mark", "hostAge", "layout","segmentID","loci");							
 			for (int i = 0; i < tips.size(); i++) {
-				Segment s = tips.get(i);			
+				Segment s = tips.get(i);		
 				tipStream.printf("{\"%s\",%d,%.4f,%d,%d,%d,%.4f,%.4f,%s,%d}\n", s, s.getWholeGenomeID(),s.getBirth(), s.isTrunk()?1:0, s.isTip()?1:0, s.isMarked()?1:0,s.getHostAge(), s.getLayout(), s.getSegmentName(),s.getLoci());
 			}
 			tipStream.close();

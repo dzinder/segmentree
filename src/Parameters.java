@@ -88,8 +88,8 @@ public class Parameters {
 		static double n_bottleNeck = 1;			     	
 
 	// Vaccine Parameters
-	@Setting (description ="vaccination ages in years (has to be ordered)" )
-	static double[] ages = {1, 2};
+	@Setting (description ="vaccination ages in days (must be inputed in increasing order)" )
+	static int[] vaccinationAges = {1*365, 2*365}; 
 	@Setting (description ="vaccine proportion" )
 	static double vaccineP = 0.9;
 	@Setting (description ="vaccine makeup - PREVALENT_SEGMENTS or PREVALENT_STRAINS or MAXIMUM_COVERGE" )
