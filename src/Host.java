@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.BitSet;
 import java.util.List;
 
 public class Host {
@@ -28,6 +29,10 @@ public class Host {
 	// METHODS
 	public float getBirth() {
 		return birth;
+	}
+	
+	public float getAge() {
+		return Parameters.getDate()-birth;
 	}
 
 	public boolean isInfected() {		
@@ -79,6 +84,10 @@ public class Host {
 
 	public ImmuneSystem getImmuneSystem() {
 		return immuneSystem;
+	}
+
+	public void immunize(List<Virus> vaccineComposition) {
+		immuneSystem.vaccinate(vaccineComposition);		
 	}
 
 	

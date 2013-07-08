@@ -10,7 +10,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 enum PhenotypeType {SEGMENTED};
-
+enum VaccineMakeup {PREVALENT_SEGMENTS, PREVALENT_STRAINS, MAXIMUM_COVERAGE};
 
 public class Parameters {
 			
@@ -87,6 +87,18 @@ public class Parameters {
 	@Setting (description ="infection bottle neck size - at most number of segment combinations to be transmitted from a superinfected host" )
 		static double n_bottleNeck = 1;			     	
 
+	// Vaccine Parameters
+	@Setting (description ="vaccination ages in years (has to be ordered)" )
+	static double[] ages = {1, 2};
+	@Setting (description ="vaccine proportion" )
+	static double p = 0.9;
+	@Setting (description ="vaccine makeup - PREVALENT_SEGMENTS or PREVALENT_STRAINS or MAXIMUM_COVERGE" )
+	static VaccineMakeup vaccineMakeup = VaccineMakeup.PREVALENT_STRAINS;
+	@Setting (description ="vaccine valancy - number of strains or segments in vaccine" )
+	static int vaccineValancy = 2;
+	@Setting (description ="time of vaccination program start in days" )
+	static double vaccinationProgramStartTime = 365*80; // days 
+		
 	// Memory Optimization Parameters
 	@Setting (description ="interval at which to streamline tree (optimize memory usage)" )
 		static int treeStreamlineInterval = 5000;

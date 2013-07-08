@@ -3,8 +3,7 @@
 import java.util.*;
 import java.io.*;
 
-import org.omg.Dynamic.Parameter;
-import org.omg.PortableInterceptor.SUCCESSFUL;
+import org.javatuples.Pair;
 
 public class HostPopulation {
 
@@ -12,19 +11,25 @@ public class HostPopulation {
 	private int cases;	// number of cases from last count, doesn't effect dynamics 
 	private List<Host> susceptibles = new ArrayList<Host>(); 
 	private List<Host> infecteds = new ArrayList<Host>(); // including superinfecteds
-	
+
 	// host samples
 	private InfectedHostSamples infectedHostSamples = new InfectedHostSamples();
-	private HostsForImmunitySamples hostsForImmunitySamples = new HostsForImmunitySamples(); 
+	private HostsForImmunitySamples hostsForImmunitySamples = new HostsForImmunitySamples();
+
+	// Vaccine composition
+	private HashMap<BitSet,Pair<Virus,Integer>> strainTallyForVaccineComposition = new HashMap<BitSet,Pair<Virus,Integer>>();
+	private List<Virus> vaccineComposition = new ArrayList<Virus>();
+
+	// genome samples for vaccine makeup determination
 
 	// CONSTRUCTORS & INITIALIZERS
 	public HostPopulation() {			
 	}
-	
-	// reset population to factory condition
+
+	// close sample lists
 	public void close() {
 		infectedHostSamples.close();
-		hostsForImmunitySamples.close();
+		hostsForImmunitySamples.close();				
 	}
 
 	// reset population to factory condition
@@ -32,11 +37,13 @@ public class HostPopulation {
 
 		// samples
 		infectedHostSamples.reset();
-		hostsForImmunitySamples.reset();
-		
+		hostsForImmunitySamples.reset();		
+
 		// clearing lists
 		susceptibles.clear();
-		infecteds.clear();	
+		infecteds.clear();			
+		strainTallyForVaccineComposition.clear();
+		vaccineComposition.clear();
 
 		// fill population with susceptibles
 		int initialS = Parameters.N;
@@ -45,7 +52,7 @@ public class HostPopulation {
 		for (int i = 0; i < initialS; i++) {			
 			if (i%5000000 == 0 ) System.out.println("adding hosts: " + i + " out of " + initialS); 	// display											
 			Host h = new Host();			
-			susceptibles.add(h);											
+			susceptibles.add(h);	
 		}
 		System.out.println("finished constructing " + initialS + " initial susceptible hosts\n"); // display
 
@@ -154,8 +161,29 @@ public class HostPopulation {
 		recover();			
 		mutate(); // introduce new segments without recycling
 
+		vaccinate(); // vaccinate individuals based on policy
+
 		sample(); // doesn't effect dynamics
 
+	}
+
+	private void vaccinate() {
+		// TODO: switch to a non-naive algorithm for this
+		for (Host h : susceptibles) {
+			for (double age : Parameters.ages) {
+				if (h.getAge()==age) {
+					h.immunize(vaccineComposition); 
+				}
+			}
+		}
+
+		for (Host h : infecteds) {
+			for (double age : Parameters.ages) {
+				if (h.getAge()==age) {
+					h.immunize(vaccineComposition); 
+				}
+			}
+		}		
 	}
 
 	private void mutate() {		
@@ -336,7 +364,7 @@ public class HostPopulation {
 		if (getI()>0 && Parameters.day >= Parameters.burnin) {
 			// Sample infected hosts for out.infected
 			int numInfectedHostSamples = Random.nextPoisson(Parameters.infectedHostSamplingRate*getI());
-			
+
 			for (int i=0; i<numInfectedHostSamples; i++) {
 				Host h = getRandomHostI();					
 				for (Virus v : h.getInfections()) {
@@ -345,14 +373,14 @@ public class HostPopulation {
 					}
 				}				
 			}
-			
+
 			// Sample all hosts for out.immunity
 			int numImmunityHostSamples = Random.nextPoisson(Parameters.immunityHostSamplingRate*getN());
-			
+
 			for (int i=0; i<numImmunityHostSamples; i++) {
 				hostsForImmunitySamples.add(getRandomHost());
 			}
-			
+
 			// Sample tree tips
 			double totalSamplingRate = Parameters.tipSamplingRate;
 			if (Parameters.tipSamplingProportional) 
@@ -406,4 +434,44 @@ public class HostPopulation {
 		return infecteds;
 	}
 
+	public void determineVaccineComposition() {
+		switch (Parameters.vaccineMakeup) {
+		case MAXIMUM_COVERAGE :	
+			// TODO: this
+			System.err.println("MAXIMUM_COVERAGE - NOT IMPLEMENTED!");
+			System.exit(0);
+			break;
+		case PREVALENT_SEGMENTS :
+			// TODO: this
+			System.err.println("PREVALENT_SEGMENTS - NOT IMPLEMENTED!");
+			System.exit(0);
+			break;
+		case PREVALENT_STRAINS :
+			// Tally up strain compositions
+			for (Host h : infecteds) {
+				for (Virus v : h.getInfections()) {
+					BitSet segmentIndices = v.getSegmentIndices();
+					if (strainTallyForVaccineComposition.containsKey(segmentIndices)) {
+						Pair<Virus,Integer> newCount = new Pair<Virus, Integer>(strainTallyForVaccineComposition.get((segmentIndices)).getValue0(),strainTallyForVaccineComposition.get((segmentIndices)).getValue1()+1);
+						strainTallyForVaccineComposition.put(segmentIndices,newCount);
+					}
+				}		
+			}
+
+			// Get Most Prevalent Strains
+			for (int i = 0; i<Parameters.vaccineValancy; i++) {		
+				Pair<Virus,Integer> prevalentStrainTally = strainTallyForVaccineComposition.values().iterator().next();
+				
+				for (BitSet segmentIndices : strainTallyForVaccineComposition.keySet()) {
+					Integer currentStrainTally = strainTallyForVaccineComposition.get(segmentIndices).getValue1();				
+					if (currentStrainTally>prevalentStrainTally.getValue1()) {
+						prevalentStrainTally =strainTallyForVaccineComposition.get(segmentIndices);					
+					}
+				}
+				
+				vaccineComposition.add(prevalentStrainTally.getValue0());
+				strainTallyForVaccineComposition.remove(prevalentStrainTally.getValue0().getSegmentIndices());
+			}
+		}
+	}
 }

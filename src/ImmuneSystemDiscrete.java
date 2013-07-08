@@ -1,5 +1,6 @@
 
 import java.util.BitSet;
+import java.util.List;
 
 public class ImmuneSystemDiscrete implements ImmuneSystem{
 
@@ -51,6 +52,14 @@ public class ImmuneSystemDiscrete implements ImmuneSystem{
 		}
 
 		return returnValue;		
+	}
+
+	@Override
+	public void vaccinate(List<Virus> virusList) {
+		for (Virus v : virusList) {
+			exposedToSegments.or(v.getSegmentIndices());
+		}
+		numPreviousInfections+=1;		
 	}
 	
 }
