@@ -91,13 +91,13 @@ public class Parameters {
 	@Setting (description ="vaccination ages in years (has to be ordered)" )
 	static double[] ages = {1, 2};
 	@Setting (description ="vaccine proportion" )
-	static double p = 0.9;
+	static double vaccineP = 0.9;
 	@Setting (description ="vaccine makeup - PREVALENT_SEGMENTS or PREVALENT_STRAINS or MAXIMUM_COVERGE" )
 	static VaccineMakeup vaccineMakeup = VaccineMakeup.PREVALENT_STRAINS;
 	@Setting (description ="vaccine valancy - number of strains or segments in vaccine" )
 	static int vaccineValancy = 2;
 	@Setting (description ="time of vaccination program start in days" )
-	static double vaccinationProgramStartTime = 365*80; // days 
+	static int vaccinationProgramStartTime = 365*10; // days 
 		
 	// Memory Optimization Parameters
 	@Setting (description ="interval at which to streamline tree (optimize memory usage)" )

@@ -17,7 +17,8 @@ public class HostPopulation {
 	private HostsForImmunitySamples hostsForImmunitySamples = new HostsForImmunitySamples();
 
 	// Vaccine composition
-	private HashMap<BitSet,Pair<Virus,Integer>> strainTallyForVaccineComposition = new HashMap<BitSet,Pair<Virus,Integer>>();
+	private HashMap<BitSet,Pair<Virus,Integer>> strainTallyForVaccineComposition = new HashMap<BitSet,Pair<Virus,Integer>>();	
+	private HashMap<Integer,Pair<Segment,Integer>> segmentTallyForVaccineComposition = new HashMap<Integer,Pair<Segment,Integer>>(); // TODO: implement this	
 	private List<Virus> vaccineComposition = new ArrayList<Virus>();
 
 	// genome samples for vaccine makeup determination
@@ -43,6 +44,7 @@ public class HostPopulation {
 		susceptibles.clear();
 		infecteds.clear();			
 		strainTallyForVaccineComposition.clear();
+		segmentTallyForVaccineComposition.clear();
 		vaccineComposition.clear();
 
 		// fill population with susceptibles
@@ -168,22 +170,28 @@ public class HostPopulation {
 	}
 
 	private void vaccinate() {
-		// TODO: switch to a non-naive algorithm for this
-		for (Host h : susceptibles) {
-			for (double age : Parameters.ages) {
-				if (h.getAge()==age) {
-					h.immunize(vaccineComposition); 
+		if (Parameters.day > Parameters.vaccinationProgramStartTime) {
+			// TODO: switch to a non-naive algorithm for this
+			for (Host h : susceptibles) {
+				for (double age : Parameters.ages) {
+					if (h.getAge()==age) {
+						if (Random.nextBoolean(Parameters.vaccineP)) {
+							h.immunize(vaccineComposition); 
+						}
+					}
 				}
 			}
-		}
 
-		for (Host h : infecteds) {
-			for (double age : Parameters.ages) {
-				if (h.getAge()==age) {
-					h.immunize(vaccineComposition); 
+			for (Host h : infecteds) {
+				for (double age : Parameters.ages) {
+					if (h.getAge()==age) {
+						if (Random.nextBoolean(Parameters.vaccineP)) {
+							h.immunize(vaccineComposition);
+						}
+					}
 				}
-			}
-		}		
+			}	
+		}
 	}
 
 	private void mutate() {		
@@ -444,6 +452,37 @@ public class HostPopulation {
 		case PREVALENT_SEGMENTS :
 			// TODO: this
 			System.err.println("PREVALENT_SEGMENTS - NOT IMPLEMENTED!");
+//			// Tally up segment counts
+//			for (Host h : infecteds) {
+//				for (Virus v : h.getInfections()) {
+//					for (Segment s : v.segments) {						
+//						if (segmentTallyForVaccineComposition.containsKey(s.getSegmentNumber())) {
+//							Pair<Segment,Integer> newCount = new Pair<Segment, Integer>(s,segmentTallyForVaccineComposition.get(s.getSegmentNumber()).getValue1()+1);
+//							segmentTallyForVaccineComposition.put(s.getSegmentNumber(),newCount);
+//						}
+//						else { 
+//							Pair<Segment,Integer> newCount = new Pair<Segment, Integer>(s,1);
+//							segmentTallyForVaccineComposition.put(s.getSegmentNumber(),newCount);
+//						}
+//					}
+//				}		
+//			}
+//
+//			// Get Most Prevalent Segments
+//			for (int i = 0; i<Parameters.vaccineValancy; i++) {		
+//				Pair<Segment,Integer> prevalentSegmentTally = strainTallyForVaccineComposition.values().iterator().next();
+//
+//				for (BitSet segmentIndices : strainTallyForVaccineComposition.keySet()) {
+//					Integer currentStrainTally = strainTallyForVaccineComposition.get(segmentIndices).getValue1();				
+//					if (currentStrainTally>prevalentStrainTally.getValue1()) {
+//						prevalentStrainTally =strainTallyForVaccineComposition.get(segmentIndices);					
+//					}
+//				}
+//
+//				vaccineComposition.add(prevalentStrainTally.getValue0());
+//				strainTallyForVaccineComposition.remove(prevalentStrainTally.getValue0().getSegmentIndices());
+//			}
+//			
 			System.exit(0);
 			break;
 		case PREVALENT_STRAINS :
@@ -452,7 +491,11 @@ public class HostPopulation {
 				for (Virus v : h.getInfections()) {
 					BitSet segmentIndices = v.getSegmentIndices();
 					if (strainTallyForVaccineComposition.containsKey(segmentIndices)) {
-						Pair<Virus,Integer> newCount = new Pair<Virus, Integer>(strainTallyForVaccineComposition.get((segmentIndices)).getValue0(),strainTallyForVaccineComposition.get((segmentIndices)).getValue1()+1);
+						Pair<Virus,Integer> newCount = new Pair<Virus, Integer>(v,strainTallyForVaccineComposition.get((segmentIndices)).getValue1()+1);
+						strainTallyForVaccineComposition.put(segmentIndices,newCount);
+					}
+					else {
+						Pair<Virus,Integer> newCount = new Pair<Virus, Integer>(v,1);
 						strainTallyForVaccineComposition.put(segmentIndices,newCount);
 					}
 				}		
@@ -461,17 +504,19 @@ public class HostPopulation {
 			// Get Most Prevalent Strains
 			for (int i = 0; i<Parameters.vaccineValancy; i++) {		
 				Pair<Virus,Integer> prevalentStrainTally = strainTallyForVaccineComposition.values().iterator().next();
-				
+
 				for (BitSet segmentIndices : strainTallyForVaccineComposition.keySet()) {
 					Integer currentStrainTally = strainTallyForVaccineComposition.get(segmentIndices).getValue1();				
 					if (currentStrainTally>prevalentStrainTally.getValue1()) {
 						prevalentStrainTally =strainTallyForVaccineComposition.get(segmentIndices);					
 					}
 				}
-				
+
 				vaccineComposition.add(prevalentStrainTally.getValue0());
 				strainTallyForVaccineComposition.remove(prevalentStrainTally.getValue0().getSegmentIndices());
 			}
+			strainTallyForVaccineComposition.clear();
+			break;
 		}
 	}
 }
