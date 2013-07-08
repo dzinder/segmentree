@@ -16,9 +16,9 @@ public class Parameters {
 			
 	// Simulation Parameters
 	@Setting (description ="Burn In time in days. Initial run time without recording output."	) 
-		static int burnin = 365*50; 	
+		static int burnin = 365*10; 	
 	@Setting (description ="Simulation end time in days."	) 
-		static int endDay = 365*50+365*50; 	
+		static int endDay = 365*10+365*10; 	
 	@Setting (description ="Repeat simulation following a stochastic extinction until endDay is reached."	) 
 		static boolean repeatSim = true;		
 	@Setting (description ="Prevent stochastic extinction during burn-in period by maintaining at least one infected individual...." ) 
