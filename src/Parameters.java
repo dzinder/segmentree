@@ -38,7 +38,7 @@ public class Parameters {
 	@Setting (description ="proportion of tips to use in tree reconstruction" )
 		static double treeProportion = 1E-2;	
 	@Setting (description ="interval used for sampling subset of tips to be marked" ) 
-		static double intervalForMarkTips = 5;
+		static double intervalForMarkTips = 10;
 	@Setting (description ="how many tips to sample when estimating diversity" )
 		static int	diversitySamplingCount = 50;
 	@Setting (description ="subtract this many years off the end of the tree when designating trunk" )
@@ -46,9 +46,9 @@ public class Parameters {
 	@Setting (description = "Sample whole genomes for tips rather than random samples.... " )
 		static boolean sampleWholeGenomes = true; 
 	@Setting (description = "Infected host sampling rate for out.infected" )
-		static double infectedHostSamplingRate = 1E-3; 
+		static double infectedHostSamplingRate = 1E-4; 
 	@Setting (description = "Host sampling rate for out.immunity" )
-		static double immunityHostSamplingRate = 1E-6;
+		static double immunityHostSamplingRate = 1E-5;
 	
 
 	// Host & Host Population Parameters & Settings
@@ -89,7 +89,7 @@ public class Parameters {
 
 	// Vaccine Parameters
 	@Setting (description ="vaccination ages in days (must be inputed in increasing order)" )
-	static int[] vaccinationAges = {1*365, 2*365}; 
+	static int[] vaccinationAges = {2*30, 4*30, 6*30}; 
 	@Setting (description ="vaccine proportion" )
 	static double vaccineP = 0.9;
 	@Setting (description ="vaccine makeup - PREVALENT_SEGMENTS or PREVALENT_STRAINS or MAXIMUM_COVERGE" )
