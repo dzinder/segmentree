@@ -163,6 +163,9 @@ public class Simulation {
 		// mk output
 		SegmentTree.printMK();
 		
+		// vaccine output
+		hp.printVaccine();
+		
 		// close streams in host population
 		hp.close();
 

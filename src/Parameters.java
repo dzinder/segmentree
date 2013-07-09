@@ -16,9 +16,9 @@ public class Parameters {
 			
 	// Simulation Parameters
 	@Setting (description ="Burn In time in days. Initial run time without recording output."	) 
-		static int burnin = 365*10; 	
+		static int burnin = 365*50; 	
 	@Setting (description ="Simulation end time in days."	) 
-		static int endDay = 365*10+365*10; 	
+		static int endDay = 365*50+365*50; 	
 	@Setting (description ="Repeat simulation following a stochastic extinction until endDay is reached."	) 
 		static boolean repeatSim = true;		
 	@Setting (description ="Prevent stochastic extinction during burn-in period by maintaining at least one infected individual...." ) 
@@ -97,7 +97,7 @@ public class Parameters {
 	@Setting (description ="vaccine valancy - number of strains or segments in vaccine" )
 	static int vaccineValancy = 2;
 	@Setting (description ="time of vaccination program start in days" )
-	static int vaccinationProgramStartTime = 365*10; // days 
+	static int vaccinationProgramStartTime = 365*80; // days 
 		
 	// Memory Optimization Parameters
 	@Setting (description ="interval at which to streamline tree (optimize memory usage)" )

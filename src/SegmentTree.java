@@ -479,6 +479,7 @@ public class SegmentTree {
 	public static void init() {
 		root = Parameters.urSegment;	
 		tips = new ArrayList<Segment>();		
-	}	
+	}
+	
 
 }

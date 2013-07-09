@@ -186,7 +186,7 @@ public class HostPopulation {
 					}
 				}
 			}
-			
+
 			for (Host h : infecteds ) {
 				for (double age : Parameters.vaccinationAges) {
 					if (h.getAgeInDays()==age) {
@@ -547,4 +547,31 @@ public class HostPopulation {
 			break;
 		}
 	}
+
+	public void printVaccine() {
+		try {
+			File vacFile = new File("out.vaccine");
+			vacFile.delete();
+			vacFile.createNewFile();
+			PrintStream vacStream = new PrintStream(vacFile);
+			vacStream.printf("segment1, segment1, ....\n");
+			for (Virus vaccineStrain : vaccineComposition) {
+				List<Segment> vaccineStrainSegments = vaccineStrain.getSegments();
+				for (int i=0; i<vaccineStrainSegments.size();i++) {
+					vacStream.printf("%d");
+					if (i!=(vaccineStrainSegments.size()-1)) {
+						vacStream.printf(",");
+					}
+				}
+				vacStream.printf("\n");
+			}
+			vacStream.close();
+		} catch(IOException ex) {
+			System.out.println("Could not write to file out.vaccine"); 
+			System.exit(0);
+		}
+
+	}	
+
+}
 }
