@@ -57,14 +57,14 @@ public class HostPopulation {
 
 		for (int i = 0; i < initialS; i++) {			
 			if (i%5000000 == 0 ) System.out.println("adding hosts: " + i + " out of " + initialS); 	// display											
-			Host h = new Host();			
+			Host h = new Host(true);			
 			susceptibles.add(h);	
 		}
 		System.out.println("finished constructing " + initialS + " initial susceptible hosts\n"); // display
 
 		// infect some individuals
 		for (int i = 0; i < Parameters.initialI; i++) {		
-			Host h = new Host();
+			Host h = new Host(true);
 			h.infect(Parameters.initialViruses.get(Random.nextInt(0, Parameters.initialViruses.size()-1)));
 			infecteds.add(h);
 		}		
@@ -237,7 +237,7 @@ public class HostPopulation {
 		double totalBirthRate = getN() * Parameters.birthRate;
 		int births = Random.nextPoisson(totalBirthRate);
 		for (int i = 0; i < births; i++) {
-			Host h = new Host();
+			Host h = new Host(false);
 			susceptibles.add(h);
 		}
 	}
