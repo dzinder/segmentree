@@ -24,7 +24,7 @@ public class InfectedHostSamples {
 		Host h=h_; 
 		Virus v=v_;
 		
-		infectedStream.printf("%f,\"%s\",\"%s\",%s,%f,%d\n",Parameters.getDate(),h,v,s.getSegmentName(), Parameters.getDate()-h.getBirth(),h.getInfections().size());
+		infectedStream.printf("%f,\"%s\",\"%s\",%s,%f,%d\n",Parameters.getDate(),h,v,s.getSegmentName(), Parameters.getDate()-h.getBirthInYears(),h.getInfections().size());
 		if (h!=lastHostSampled) {
 			lastHostSampled=h;
 			numHostsSampled+=1;

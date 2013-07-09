@@ -31,8 +31,8 @@ public class Host {
 	}
 
 	// METHODS
-	public float getBirth() {
-		return birth;
+	public float getBirthInYears() {
+		return ((float)birth-Parameters.burnin)/(float)365.0;
 	}
 
 	public float getAgeInDays() {
