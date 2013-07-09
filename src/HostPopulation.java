@@ -567,7 +567,14 @@ public class HostPopulation {
 			vacFile.delete();
 			vacFile.createNewFile();
 			PrintStream vacStream = new PrintStream(vacFile);
-			vacStream.printf("segment1, segment1, ....\n");
+			for (int i=0;i<Parameters.nSegments;i++) {
+				vacStream.printf("segment%d",i);
+				if (i!=(Parameters.nSegments-1)) {
+					vacStream.printf(",");
+				}
+				vacStream.printf("\n");				
+			}
+			
 			for (Virus vaccineStrain : vaccineComposition) {
 				List<Segment> vaccineStrainSegments = vaccineStrain.getSegments();
 				for (int i=0; i<vaccineStrainSegments.size();i++) {
