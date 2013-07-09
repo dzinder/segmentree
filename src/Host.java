@@ -12,10 +12,15 @@ public class Host {
 	// CONSTRUCTORS & INITIALIZERS
 
 	// generate initial naive host
-	public Host() {		
-		float lifespan = (float) (1 / (365.0 * Parameters.birthRate));
-		float age = (float) Random.nextExponential(lifespan);
-		birth = (int) (Parameters.day - age*365);	
+	public Host(boolean bornOld) {
+		if (bornOld) {
+			float lifespan = (float) (1 / (365.0 * Parameters.birthRate));
+			float age = (float) Random.nextExponential(lifespan);
+			birth = (int) (Parameters.day - age*365);
+		}
+		else {
+			birth = Parameters.day;
+		}
 	}
 
 	// recycle host 
@@ -29,7 +34,7 @@ public class Host {
 	public float getBirth() {
 		return birth;
 	}
-	
+
 	public float getAgeInDays() {
 		return Parameters.day-birth;
 	}
@@ -46,7 +51,7 @@ public class Host {
 		float hostAge = Parameters.getDate() - ((float)birth/(float)365.0);
 		infectingViruses.add(new Virus(infectingVirus_,hostAge));			
 	}
-	
+
 	public void addToImmuneHistory(Virus immunizingVirus_) {
 		immuneSystem.add(immunizingVirus_);			
 	}
@@ -78,7 +83,7 @@ public class Host {
 	public void mutate() {
 		int infectingVirusToMutate = Random.nextInt(0, infectingViruses.size()-1);
 		infectingViruses.set(infectingVirusToMutate, infectingViruses.get(infectingVirusToMutate).mutate());
-		
+
 	}
 
 	public ImmuneSystem getImmuneSystem() {
@@ -89,6 +94,6 @@ public class Host {
 		immuneSystem.vaccinate(vaccineComposition);		
 	}
 
-	
-	
+
+
 }
