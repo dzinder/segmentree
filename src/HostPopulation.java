@@ -558,7 +558,7 @@ public class HostPopulation {
 			for (Virus vaccineStrain : vaccineComposition) {
 				List<Segment> vaccineStrainSegments = vaccineStrain.getSegments();
 				for (int i=0; i<vaccineStrainSegments.size();i++) {
-					vacStream.printf("%d");
+					vacStream.printf("%d",vaccineStrainSegments.get(i).getSegmentNumber());
 					if (i!=(vaccineStrainSegments.size()-1)) {
 						vacStream.printf(",");
 					}
