@@ -61,6 +61,10 @@ public class Parameters {
 	@Setting (description ="whether to keep overall population size constant" )
 	static boolean swapDemography = true;				
 
+	// Strain Reservoir Parameters 
+	@Setting (description ="contact with initial strain reservoir as proporiton of beta" )
+	static double proportionContactWithReservoir = 0.000;
+	
 	// Infection & Epidemiology Parameters
 	@Setting (description ="initial number of infected individuals" )
 	static int initialI = 1;
@@ -79,13 +83,13 @@ public class Parameters {
 	@Setting (description ="number of inital segment allels" ) 
 	static int[] nInitialSegmentAllels = {1,1,1,1};
 	@Setting (description ="number of inital random viral segement combinations" ) 
-	static int nInitialStrains = 1;
+	static int nInitialStrains = 30;
 
 	// Mutation & Reassortment Parameters
 	@Setting (description ="mutation rate - in mutations per infected host per day" )
 	static double mu = 0;//1E-4;
 	@Setting (description ="reassortment probability - probability of segment to be randomly chosen from all possible segments in a superinfection" )
-	static double rho = 0;//0.1;			    
+	static double rho = 1;//0.1;			    
 	@Setting (description ="infection bottle neck size - at most number of segment combinations to be transmitted from a superinfected host" )
 	static double n_bottleNeck = 1;			     	
 
