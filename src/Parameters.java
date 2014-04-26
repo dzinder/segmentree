@@ -10,7 +10,8 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 enum PhenotypeType {SEGMENTED};
-enum VaccineMakeup {PREVALENT_SEGMENTS, PREVALENT_STRAINS, MAXIMUM_COVERAGE};
+enum VaccineMakeup {NONE, PREVALENT_SEGMENTS, PREVALENT_STRAINS, MAXIMUM_COVERAGE};
+enum DisruptionType {NONE, MASS_EXTINCTION};
 
 public class Parameters {
 
@@ -99,12 +100,20 @@ public class Parameters {
 	@Setting (description ="vaccine proportion" )
 	static double vaccineP = 0.9;
 	@Setting (description ="vaccine makeup - PREVALENT_SEGMENTS or PREVALENT_STRAINS or MAXIMUM_COVERGE" )
-	static VaccineMakeup vaccineMakeup = VaccineMakeup.PREVALENT_STRAINS;
+	static VaccineMakeup vaccineMakeup = VaccineMakeup.NONE;
 	@Setting (description ="vaccine valancy - number of strains or segments in vaccine" )
 	static int vaccineValancy = 2;
 	@Setting (description ="time of vaccination program start in days" )
-	static int vaccinationProgramStartTime = 365*70; // days 
-
+	static int vaccinationProgramStartTime = 365*7000; // days 
+	
+	// Population Disruption Parameters
+	@Setting (description ="distruptive interruption time" )
+	static int disruptionTime = 365*70;
+	@Setting (description ="disruption type" )
+	static DisruptionType disruptionType = DisruptionType.MASS_EXTINCTION;
+	@Setting (description ="disruption intensity (fraction extinction for mass extinciton)" )
+	static double disruptionIntensity = 0.95;
+	
 	// Memory Optimization Parameters
 	@Setting (description ="interval at which to streamline tree (optimize memory usage)" )
 	static int treeStreamlineInterval = 5000;
@@ -120,8 +129,6 @@ public class Parameters {
 
 	public static List<Virus> initialViruses = null;
 	public static Segment urSegment;
-
-
 
 	public static void init() {
 

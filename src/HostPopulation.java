@@ -5,6 +5,8 @@ import java.io.*;
 
 import org.javatuples.Pair;
 
+import cern.jet.random.sampling.RandomSampler;
+
 public class HostPopulation {
 
 	// fields
@@ -188,6 +190,8 @@ public class HostPopulation {
 		mutate(); // introduce new segments without recycling
 
 		vaccinate(); // vaccinate individuals based on policy
+		
+		disruption(); // 
 
 		sample(); // doesn't effect dynamics
 
@@ -242,6 +246,23 @@ public class HostPopulation {
 			}
 
 		}
+	}
+	
+	private void disruption() {
+		if (Parameters.day == Parameters.disruptionTime) {
+			switch (Parameters.disruptionType) {
+			case MASS_EXTINCTION :			
+				for (Host h : infecteds) {
+					if (Random.nextDouble()<Parameters.disruptionIntensity)
+						h.clearInfections();				
+				}
+			case NONE:
+				break;
+			default:
+				break;
+			}
+		}
+		
 	}
 
 	private void mutate() {		
@@ -611,6 +632,10 @@ public class HostPopulation {
 				strainTallyForVaccineComposition.remove(prevalentStrainTally.getValue0().getSegmentIndices());
 			}
 			strainTallyForVaccineComposition.clear();
+			break;
+		case NONE:
+			break; // TODO: check if  this works
+		default:
 			break;
 		}
 	}
