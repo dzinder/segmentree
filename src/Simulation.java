@@ -145,15 +145,16 @@ public class Simulation {
 			System.exit(0);
 		}	
 		
+		SegmentTree.sortChildrenByDescendants();
+		SegmentTree.setLayoutByDescendants();
+		
 		// tree reduction
 		SegmentTree.pruneTips(); 
 		SegmentTree.markTips();		
 
 		// tree prep
 		makeTrunk();
-		SegmentTree.fillBackward();			
-		SegmentTree.sortChildrenByDescendants();
-		SegmentTree.setLayoutByDescendants();
+		SegmentTree.fillBackward();					
 		SegmentTree.streamline();
 	
 		// tip and tree output
