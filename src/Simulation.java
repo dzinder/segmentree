@@ -143,14 +143,14 @@ public class Simulation {
 		} catch(IOException ex) {
 			System.out.println("Could not write to file"); 
 			System.exit(0);
-		}	
-		
-		SegmentTree.sortChildrenByDescendants();
-		SegmentTree.setLayoutByDescendants();
+		}			
 		
 		// tree reduction
 		SegmentTree.pruneTips(); 
-		SegmentTree.markTips();		
+		SegmentTree.markTips();
+		
+		SegmentTree.sortChildrenByDescendants();
+		SegmentTree.setLayoutByDescendants();
 
 		// tree prep
 		makeTrunk();
