@@ -68,7 +68,7 @@ public class Parameters {
 	
 	// Infection & Epidemiology Parameters
 	@Setting (description ="initial number of infected individuals" )
-	static int initialI = 1;
+	static int initialI = 2500;
 	@Setting (description ="proportion recovered to intial virus/es (multiple recoveries for value greater than 1)" )
 	static double initialPrR = 8.0; 
 	@Setting (description ="in contacts per individual per day" )
@@ -108,7 +108,7 @@ public class Parameters {
 	
 	// Population Disruption Parameters
 	@Setting (description ="distruptive interruption time" )
-	static int disruptionTime = 365*50;
+	static int disruptionTime = 365*75;
 	@Setting (description ="disruption type" )
 	static DisruptionType disruptionType = DisruptionType.MASS_EXTINCTION;
 	@Setting (description ="disruption intensity (fraction extinction for mass extinciton)" )
