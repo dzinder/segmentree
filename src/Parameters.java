@@ -19,7 +19,7 @@ public class Parameters {
 	@Setting (description ="Burn In time in days. Initial run time without recording output."	) 
 	static int burnin = 365*50; 	
 	@Setting (description ="Simulation end time in days."	) 
-	static int endDay = 365*90; 	
+	static int endDay = 365*100; 	
 	@Setting (description ="Repeat simulation following a stochastic extinction until endDay is reached."	) 
 	static boolean repeatSim = true;		
 	@Setting (description ="Prevent stochastic extinction during burn-in period by maintaining at least one infected individual...." ) 
@@ -33,13 +33,13 @@ public class Parameters {
 	@Setting (description ="print to out.immunity every X days")
 	static int printStepImmunity = 7;						
 	@Setting (description ="in proportion samples per day")
-	static double tipSamplingRate = 1E-4;				    
+	static double tipSamplingRate = 1E-5;				    
 	@Setting (description ="true to set sampling proportional to prevalence (vs. population size)" )
 	static boolean tipSamplingProportional = false;		
 	@Setting (description ="proportion of tips to use in tree reconstruction" )
-	static double treeProportion = 1E-1;	
+	static double treeProportion = 1E-2;	
 	@Setting (description ="interval used for sampling subset of tips to be marked" ) 
-	static double intervalForMarkTips = 10;
+	static double intervalForMarkTips = 0.5;
 	@Setting (description ="how many tips to sample when estimating diversity" )
 	static int	diversitySamplingCount = 50;
 	@Setting (description ="subtract this many years off the end of the tree when designating trunk" )
@@ -54,7 +54,7 @@ public class Parameters {
 
 	// Host & Host Population Parameters & Settings
 	@Setting (description ="Number of hosts in population" )
-	static int N = 300000;								
+	static int N = 4000000;								
 	@Setting (description ="in births per individual per day, i.e. 1/(30*365)" )
 	static double birthRate = 1.0/(30.0*365.0);	
 	@Setting (description ="in deaths per individual per day, i.e. 1/(30*365)" )
@@ -68,7 +68,7 @@ public class Parameters {
 	
 	// Infection & Epidemiology Parameters
 	@Setting (description ="initial number of infected individuals" )
-	static int initialI = 2500;
+	static int initialI = 1;
 	@Setting (description ="proportion recovered to intial virus/es (multiple recoveries for value greater than 1)" )
 	static double initialPrR = 8.0; 
 	@Setting (description ="in contacts per individual per day" )
@@ -82,13 +82,13 @@ public class Parameters {
 	@Setting (description ="number of immunogenic segments (only these first n segments will generate effective immunity)" ) 
 	static int nImmunogenicSegments = 3;
 	@Setting (description ="number of inital segment allels" ) 
-	static int[] nInitialSegmentAllels = {12,8,4};
+	static int[] nInitialSegmentAllels = {1,1,1};
 	@Setting (description ="number of inital random viral segement combinations" ) 
-	static int nInitialStrains = 50;
+	static int nInitialStrains = 1;
 
 	// Mutation & Reassortment Parameters
 	@Setting (description ="mutation rate - in mutations per infected host per day" )
-	static double mu = 0;//1E-4;
+	static double mu = 5E-7;//1E-4;
 	@Setting (description ="reassortment probability - probability of segment to be randomly chosen from all possible segments in a superinfection" )
 	static double rho = 1;//0.1;			    
 	@Setting (description ="infection bottle neck size - at most number of segment combinations to be transmitted from a superinfected host" )
