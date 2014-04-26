@@ -78,13 +78,13 @@ public class Parameters {
 
 	// Virus Segment Parameters
 	@Setting (description ="number of viral segments" ) 
-	static int nSegments = 4;
+	static int nSegments = 3;
 	@Setting (description ="number of immunogenic segments (only these first n segments will generate effective immunity)" ) 
-	static int nImmunogenicSegments = 2;
+	static int nImmunogenicSegments = 3;
 	@Setting (description ="number of inital segment allels" ) 
-	static int[] nInitialSegmentAllels = {1,1,1,1};
+	static int[] nInitialSegmentAllels = {12,8,4};
 	@Setting (description ="number of inital random viral segement combinations" ) 
-	static int nInitialStrains = 30;
+	static int nInitialStrains = 50;
 
 	// Mutation & Reassortment Parameters
 	@Setting (description ="mutation rate - in mutations per infected host per day" )
@@ -108,7 +108,7 @@ public class Parameters {
 	
 	// Population Disruption Parameters
 	@Setting (description ="distruptive interruption time" )
-	static int disruptionTime = 365*70;
+	static int disruptionTime = 365*50;
 	@Setting (description ="disruption type" )
 	static DisruptionType disruptionType = DisruptionType.MASS_EXTINCTION;
 	@Setting (description ="disruption intensity (fraction extinction for mass extinciton)" )

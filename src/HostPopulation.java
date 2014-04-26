@@ -251,11 +251,19 @@ public class HostPopulation {
 	private void disruption() {
 		if (Parameters.day == Parameters.disruptionTime) {
 			switch (Parameters.disruptionType) {
-			case MASS_EXTINCTION :			
-				for (Host h : infecteds) {
-					if (Random.nextDouble()<Parameters.disruptionIntensity)
-						h.clearInfections();				
+			case MASS_EXTINCTION :							
+				int recoveries = Random.nextPoisson(getI()*Parameters.disruptionIntensity);
+
+				for (int i = 0; i < recoveries; i++) {
+					if (getI()>0) {
+						int index = getRandomI();
+						Host h = infecteds.get(index);
+						removeInfected(index);
+						h.clearInfections();
+						susceptibles.add(h);
+					}					
 				}
+				break;
 			case NONE:
 				break;
 			default:
