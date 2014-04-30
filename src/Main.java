@@ -21,9 +21,11 @@ class Main {
 				
 		Parameters.applyArgs(args);				
 		
+		Parameters.printParams();
+		
 		Simulation sim = new Simulation();
 		sim.reset();
-		Parameters.printParams();
+
 		sim.run();
 		
 		try {
