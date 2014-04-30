@@ -5,8 +5,6 @@ import java.io.*;
 
 import org.javatuples.Pair;
 
-import cern.jet.random.sampling.RandomSampler;
-
 public class HostPopulation {
 
 	// fields
@@ -192,6 +190,8 @@ public class HostPopulation {
 		vaccinate(); // vaccinate individuals based on policy
 		
 		disruption(); // 
+		
+		contactReservoir();
 
 		sample(); // doesn't effect dynamics
 
