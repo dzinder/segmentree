@@ -19,8 +19,8 @@ class Main {
 		// initialize random  number generator
 		cern.jet.random.AbstractDistribution.makeDefaultGenerator();		
 				
-		Parameters.applyArgs(args);				
-		
+		Parameters.applyArgs(args);
+				
 		Parameters.printParams();
 		
 		Simulation sim = new Simulation();

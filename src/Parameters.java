@@ -169,7 +169,9 @@ public class Parameters {
 
 	public static void applyArgs(String[] args) {
 		s = new Settings(args);
-		s.apply(Parameters.class);	
+		s.apply(Parameters.class);
+		s.apply(ImmuneSystemDiscrete.class);	
+		s.apply(Random.class);
 	}
 
 	public static void printParams() {
