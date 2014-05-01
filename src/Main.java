@@ -25,6 +25,8 @@ class Main {
 		
 		Simulation sim = new Simulation();
 		sim.reset();
+		
+		Parameters.printParams();
 
 		sim.run();
 		
