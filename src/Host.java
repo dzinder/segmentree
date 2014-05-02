@@ -81,6 +81,7 @@ public class Host {
 	}
 
 	public void mutate() {
+		// TODO: What to do with mutation under coinfection? assume the same viral load? double the viral load?
 		int infectingVirusToMutate = Random.nextInt(0, infectingViruses.size()-1);
 		infectingViruses.set(infectingVirusToMutate, infectingViruses.get(infectingVirusToMutate).mutate());
 
