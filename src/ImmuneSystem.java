@@ -1,3 +1,5 @@
+import java.util.List;
+
 
 public interface ImmuneSystem {
 
@@ -8,5 +10,7 @@ public interface ImmuneSystem {
 	void add(Virus v);
 
 	String print();
+	
+	void vaccinate(List<Virus> v);
 
 }

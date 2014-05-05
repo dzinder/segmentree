@@ -1,7 +1,6 @@
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.util.GregorianCalendar;
 
 
 public class HostsForImmunitySamples {
@@ -21,7 +20,7 @@ public class HostsForImmunitySamples {
 	
 	public void add(Host h) {	
 		// For print purposes only ...
-		immuneStream.printf("%f,\"%s\",%f,%d%s\n",Parameters.getDate(),h, Parameters.getDate()-h.getBirth(),h.getInfections().size(),h.getImmuneSystem().print());	
+		immuneStream.printf("%f,\"%s\",%f,%d%s\n",Parameters.getDate(),h, Parameters.getDate()-h.getBirthInYears(),h.getInfections().size(),h.getImmuneSystem().print());	
 	}
 
 	public void reset() {
