@@ -48,7 +48,7 @@ public class Host {
 	}
 
 	public void infect(Virus infectingVirus_) {
-		float hostAge = Parameters.getDate() - ((float)birth/(float)365.0);
+		float hostAge = Parameters.getDate() - (((float)birth-Parameters.burnin)/(float)365.0);
 		infectingViruses.add(new Virus(infectingVirus_,hostAge));			
 	}
 
