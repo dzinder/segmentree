@@ -1,5 +1,6 @@
 /* Simulation functions, holds the host population */
 
+import java.util.*;
 import java.io.*;
 
 public class Simulation {
@@ -114,10 +115,6 @@ public class Simulation {
 					printState(seriesStream);
 					resetCases();
 				}
-				
-				if (Parameters.day % Parameters.vaccinationProgramStartTime == 0) {
-					determineVaccineComposition();					
-				}
 
 				if (getI()==0) {
 					if (Parameters.repeatSim) {
@@ -136,6 +133,9 @@ public class Simulation {
 					SegmentTree.fillBackward();
 					SegmentTree.streamline();
 					SegmentTree.removeBackward();
+//					SegmentTree.fillBackwardHostViruses(hp);
+//					SegmentTree.streamlineHostViruses(hp);
+//					SegmentTree.removeBackwardHostViruses(hp);
 				}
 			}
 
@@ -163,17 +163,10 @@ public class Simulation {
 		// mk output
 		SegmentTree.printMK();
 		
-		// vaccine output
-		hp.printVaccine();
-		
 		// close streams in host population
 		hp.close();
 
 	}	
-
-	private void determineVaccineComposition() {	
-		hp.determineVaccineComposition();				
-	}
 
 	public void reset() {
 		Parameters.init();

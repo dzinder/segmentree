@@ -6,7 +6,7 @@ import java.util.GregorianCalendar;
 
 /* Implements an individual-based model in which the infection's genealogical history is tracked through time */
 
-class Main {
+class SimTree {
 	public static void main(String[] args) {
 		
 		if (args.length>0) {
@@ -19,15 +19,11 @@ class Main {
 		// initialize random  number generator
 		cern.jet.random.AbstractDistribution.makeDefaultGenerator();		
 				
-		Parameters.applyArgs(args);
-				
-		Parameters.init();
+		Parameters.applyArgs(args);				
 		
 		Simulation sim = new Simulation();
 		sim.reset();
-		
 		Parameters.printParams();
-
 		sim.run();
 		
 		try {

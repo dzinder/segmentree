@@ -6,37 +6,28 @@ public class Host {
 	// fields
 	private List<Virus> infectingViruses = new ArrayList<Virus>();												
 	private ImmuneSystem immuneSystem = new ImmuneSystemDiscrete();
-	private int birth;	// measured in years relative to burnin	
+	private float birth;	// measured in years relative to burnin	
 
 
 	// CONSTRUCTORS & INITIALIZERS
 
 	// generate initial naive host
-	public Host(boolean bornOld) {
-		if (bornOld) {
-			float lifespan = (float) (1 / (365.0 * Parameters.birthRate));
-			float age = (float) Random.nextExponential(lifespan);
-			birth = (int) (Parameters.day - age*365);
-		}
-		else {
-			birth = Parameters.day;
-		}
+	public Host() {		
+		float lifespan = (float) (1 / (365.0 * Parameters.birthRate));
+		float age = (float) Random.nextExponential(lifespan);
+		birth = (float) (Parameters.getDate() - age);	
 	}
 
 	// recycle host 
 	public void reset() {
-		birth = Parameters.day;
+		birth = (float) Parameters.getDate();
 		infectingViruses.clear();
 		immuneSystem.reset();
 	}
 
 	// METHODS
-	public float getBirthInYears() {
-		return ((float)birth-Parameters.burnin)/(float)365.0;
-	}
-
-	public float getAgeInDays() {
-		return Parameters.day-birth;
+	public float getBirth() {
+		return birth;
 	}
 
 	public boolean isInfected() {		
@@ -48,10 +39,10 @@ public class Host {
 	}
 
 	public void infect(Virus infectingVirus_) {
-		float hostAge = Parameters.getDate() - ((float)birth/(float)365.0);
+		float hostAge = Parameters.getDate() - birth;
 		infectingViruses.add(new Virus(infectingVirus_,hostAge));			
 	}
-
+	
 	public void addToImmuneHistory(Virus immunizingVirus_) {
 		immuneSystem.add(immunizingVirus_);			
 	}
@@ -81,20 +72,15 @@ public class Host {
 	}
 
 	public void mutate() {
-		// TODO: What to do with mutation under coinfection? assume the same viral load? double the viral load?
 		int infectingVirusToMutate = Random.nextInt(0, infectingViruses.size()-1);
 		infectingViruses.set(infectingVirusToMutate, infectingViruses.get(infectingVirusToMutate).mutate());
-
+		
 	}
 
 	public ImmuneSystem getImmuneSystem() {
 		return immuneSystem;
 	}
 
-	public void immunize(List<Virus> vaccineComposition) {
-		immuneSystem.vaccinate(vaccineComposition);		
-	}
-
-
-
+	
+	
 }
