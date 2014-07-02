@@ -8,7 +8,9 @@ public class ImmuneSystemDiscrete implements ImmuneSystem{
 		static double xi_generalized = 0.3;												
 	@Setting (description ="risk=generalized_risk x exp(-xi_specific x number_of_segments_encountered_before / numImmunogenicSegments)"	) 
 		static double xi_specific = 0.3;
-		
+//	@Setting (description ="immunity gain probability to each epitope"	) 
+//		static double[] p_immunity = {0.1,0.9};
+	
 	int numPreviousInfections = 0;
 	BitSet exposedToSegments = new BitSet(Parameters.nSegments);
 	

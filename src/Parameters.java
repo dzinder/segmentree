@@ -15,7 +15,7 @@ enum DisruptionType {NONE, MASS_EXTINCTION};
 
 public class Parameters {
 
-	// Simulation Parameters
+	// Simulation Parameterss
 	@Setting (description ="Burn In time in days. Initial run time without recording output."	) 
 	static int burnin = 365*50; 	
 	@Setting (description ="Simulation end time in days."	) 
