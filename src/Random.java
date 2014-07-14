@@ -22,7 +22,7 @@ public class Random {
 	static Poisson myPoisson = null;
 		
 	public static void init() {
-		if (seed!=null && rng==null)
+		if (seed!=null)
 			rng = new MersenneTwister(seed);
 		else 
 			rng = new MersenneTwister();
