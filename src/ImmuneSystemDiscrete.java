@@ -12,12 +12,9 @@ public class ImmuneSystemDiscrete implements ImmuneSystem{
 //		static double[] p_immunity = {0.1,0.9};
 	
 	int numPreviousInfections = 0;
-	BitSet exposedToSegments = new BitSet(Parameters.nSegments);
-	
-	private static BitSet immunogenicSegmentsMask = new BitSet();
-	
+	BitSet exposedToImmunogenicSegments = new BitSet();
+
 	public static void updateImmunogenicSegmentMask(int nImmunogenicSegmets) {
-		immunogenicSegmentsMask.set(0,nImmunogenicSegmets);
 	}
 	
 	public ImmuneSystemDiscrete() {
@@ -26,7 +23,7 @@ public class ImmuneSystemDiscrete implements ImmuneSystem{
 
 	public void reset() {
 		numPreviousInfections=0;
-		exposedToSegments.clear();	
+		exposedToImmunogenicSegments.clear();	
 	}
 	
 	@Override
@@ -36,10 +33,9 @@ public class ImmuneSystemDiscrete implements ImmuneSystem{
 		double generalizedimmunityExp = -xi_generalized*numPreviousInfections;
 
 		// Specific immunity = Exp[-beta x num_seen_segments / nImmunogenicSegments]
-		BitSet seenSegments = (BitSet) exposedToSegments.clone();
-		seenSegments.and(immunogenicSegmentsMask);
-		seenSegments.and(v.getSegmentIndices());
-		double specificImmunityExp = -xi_specific*(double)seenSegments.cardinality()/(double)Parameters.nImmunogenicSegments;
+		BitSet seenViralSegments = (BitSet) exposedToImmunogenicSegments.clone();
+		seenViralSegments.and(v.getImmunogenicSegmentIndices());
+		double specificImmunityExp = -xi_specific*(double)seenViralSegments.cardinality()/(double)Parameters.nImmunogenicSegments;
 		
 		// MAYBEDO: Drift		
 		// double driftImmuntiy = -xi_drift*getDriftDistance(v,previousInfections);
@@ -50,14 +46,14 @@ public class ImmuneSystemDiscrete implements ImmuneSystem{
 
 	@Override
 	public void add(Virus v) {
-		exposedToSegments.or(v.getSegmentIndices());
+		exposedToImmunogenicSegments.or(v.getImmunogenicSegmentIndices());
 		numPreviousInfections+=1;
 	}
 
 	@Override
 	public String print() {
 		String returnValue=","+Integer.toString(numPreviousInfections); 
-		for (int i = exposedToSegments.nextSetBit(0); i >= 0; i = exposedToSegments.nextSetBit(i+1)) {
+		for (int i = exposedToImmunogenicSegments.nextSetBit(0); i >= 0; i = exposedToImmunogenicSegments.nextSetBit(i+1)) {
 		    returnValue=returnValue+","+Integer.toString(i);
 		}
 
@@ -67,7 +63,7 @@ public class ImmuneSystemDiscrete implements ImmuneSystem{
 	@Override
 	public void vaccinate(List<Virus> virusList) {
 		for (Virus v : virusList) {
-			exposedToSegments.or(v.getSegmentIndices());
+			exposedToImmunogenicSegments.or(v.getImmunogenicSegmentIndices());
 		}
 		numPreviousInfections+=1;		
 	}

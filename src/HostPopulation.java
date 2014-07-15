@@ -613,7 +613,7 @@ public class HostPopulation {
 			// Tally up strain compositions
 			for (Host h : infecteds) {
 				for (Virus v : h.getInfections()) {
-					BitSet segmentIndices = v.getSegmentIndices();
+					BitSet segmentIndices = v.getImmunogenicSegmentIndices();
 					if (strainTallyForVaccineComposition.containsKey(segmentIndices)) {
 						Pair<Virus,Integer> newCount = new Pair<Virus, Integer>(v,strainTallyForVaccineComposition.get((segmentIndices)).getValue1()+1);
 						strainTallyForVaccineComposition.put(segmentIndices,newCount);
@@ -637,7 +637,7 @@ public class HostPopulation {
 				}
 
 				vaccineComposition.add(prevalentStrainTally.getValue0());
-				strainTallyForVaccineComposition.remove(prevalentStrainTally.getValue0().getSegmentIndices());
+				strainTallyForVaccineComposition.remove(prevalentStrainTally.getValue0().getImmunogenicSegmentIndices());
 			}
 			strainTallyForVaccineComposition.clear();
 			break;

@@ -8,7 +8,8 @@ public class Virus {
 
 	private float birth;		// measured in years relative to burn-in
 	private float hostAge;		// age of host in years at time of infection
-	BitSet segmentIndices = new BitSet(); // Virus segment indices in bit form 	
+	//BitSet segmentIndices = new BitSet(); // Virus segment indices in bit form 	
+	BitSet immunogenicSegmentIndices = new BitSet(); // Virus segments which are immunogenic in bit form
 	List<Segment> segments = new ArrayList<Segment>(); // List of virus segments
 	//private long virusNumber = 0;
 	//static long lastVirusNumber = -1;
@@ -18,7 +19,7 @@ public class Virus {
 	public Virus(Virus pV, float hostAge_) {
 		hostAge=hostAge_;
 		birth = (float) Parameters.getDate();
-		segmentIndices=(BitSet) pV.segmentIndices.clone();
+		immunogenicSegmentIndices=(BitSet) pV.immunogenicSegmentIndices.clone();
 		for (Segment s : pV.segments) {
 			segments.add(new Segment(s,hostAge_,this.hashCode()));
 		}
@@ -31,7 +32,8 @@ public class Virus {
 		hostAge=hostAge_;
 		birth = (float) Parameters.getDate();
 		for (Segment s : pSegments) {
-			segmentIndices.set(s.getSegmentNumber());
+			if (s.getLoci()<Parameters.nImmunogenicSegments)
+				immunogenicSegmentIndices.set(s.getSegmentNumber());
 			segments.add(new Segment(s,hostAge_,s.getSegmentNumber(),this.hashCode()));
 		}	
 	}
@@ -66,8 +68,8 @@ public class Virus {
 		return segments;
 	}
 	
-	public BitSet getSegmentIndices() {
-		return segmentIndices;
+	public BitSet getImmunogenicSegmentIndices() {
+		return immunogenicSegmentIndices;
 	}
 
 	public Virus reassort(List<Virus> coinfectingViruses) { 
