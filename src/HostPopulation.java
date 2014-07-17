@@ -264,6 +264,9 @@ public class HostPopulation {
 					}					
 				}
 				break;
+			case STOP_MUTATION :							
+				Parameters.mu=0;
+				break;
 			case NONE:
 				break;
 			default:

@@ -11,7 +11,7 @@ import java.util.List;
 
 enum PhenotypeType {SEGMENTED};
 enum VaccineMakeup {NONE, PREVALENT_SEGMENTS, PREVALENT_STRAINS, MAXIMUM_COVERAGE};
-enum DisruptionType {NONE, MASS_EXTINCTION};
+enum DisruptionType {NONE, MASS_EXTINCTION, STOP_MUTATION};
 
 public class Parameters {
 
@@ -54,7 +54,7 @@ public class Parameters {
 
 	// Host & Host Population Parameters & Settings
 	@Setting (description ="Number of hosts in population" )
-	static int N = 4000000;								
+	static int N = 1000000;								
 	@Setting (description ="in births per individual per day, i.e. 1/(30*365)" )
 	static double birthRate = 1.0/(30.0*365.0);	
 	@Setting (description ="in deaths per individual per day, i.e. 1/(30*365)" )
@@ -90,7 +90,7 @@ public class Parameters {
 	@Setting (description ="mutation rate - in mutations per infected host per day" )
 	static double mu = 5E-7;//1E-4;
 	@Setting (description ="reassortment probability - probability of segment to be randomly chosen from all possible segments in a superinfection" )
-	static double rho = 1;//0.1;			    
+	static double rho = 0.5;			    
 	@Setting (description ="infection bottle neck size - at most number of segment combinations to be transmitted from a superinfected host" )
 	static double n_bottleNeck = 1;			     	
 
@@ -110,7 +110,7 @@ public class Parameters {
 	@Setting (description ="distruptive interruption time" )
 	static int disruptionTime = 365*75;
 	@Setting (description ="disruption type" )
-	static DisruptionType disruptionType = DisruptionType.MASS_EXTINCTION;
+	static DisruptionType disruptionType = DisruptionType.STOP_MUTATION;
 	@Setting (description ="disruption intensity (fraction extinction for mass extinciton)" )
 	static double disruptionIntensity = 0.95;
 	
