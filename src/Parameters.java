@@ -17,9 +17,9 @@ public class Parameters {
 
 	// Simulation Parameterss
 	@Setting (description ="Burn In time in days. Initial run time without recording output."	) 
-	static int burnin = 365*50; 	
+	static int burnin = 365*40; 	
 	@Setting (description ="Simulation end time in days."	) 
-	static int endDay = 365*100; 	
+	static int endDay = 365*80; 	
 	@Setting (description ="Repeat simulation following a stochastic extinction until endDay is reached."	) 
 	static boolean repeatSim = true;		
 	@Setting (description ="Prevent stochastic extinction during burn-in period by maintaining at least one infected individual...." ) 
@@ -88,9 +88,9 @@ public class Parameters {
 
 	// Mutation & Reassortment Parameters
 	@Setting (description ="mutation rate - in mutations per infected host per day" )
-	static double mu = 5E-7;//1E-4;
+	static double mu = 5E-6;//1E-4;
 	@Setting (description ="reassortment probability - probability of segment to be randomly chosen from all possible segments in a superinfection" )
-	static double rho = 0.5;			    
+	static double rho = 0.00;			    
 	@Setting (description ="infection bottle neck size - at most number of segment combinations to be transmitted from a superinfected host" )
 	static double n_bottleNeck = 1;			     	
 
@@ -108,11 +108,11 @@ public class Parameters {
 	
 	// Population Disruption Parameters
 	@Setting (description ="distruptive interruption time" )
-	static int disruptionTime = 365*75;
+	static int disruptionTime = 365*25;
 	@Setting (description ="disruption type" )
 	static DisruptionType disruptionType = DisruptionType.STOP_MUTATION;
 	@Setting (description ="disruption intensity (fraction extinction for mass extinciton)" )
-	static double disruptionIntensity = 0.95;
+	static double disruptionIntensity = 0.95; // TODO: add this option to mutation
 	
 	// Memory Optimization Parameters
 	@Setting (description ="interval at which to streamline tree (optimize memory usage)" )
