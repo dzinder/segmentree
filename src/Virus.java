@@ -9,8 +9,8 @@ public class Virus {
 	private float birth;		// measured in years relative to burn-in
 	private float hostAge;		// age of host in years at time of infection
 	//BitSet segmentIndices = new BitSet(); // Virus segment indices in bit form 	
-	BitSet immunogenicSegmentIndices = new BitSet(); // Virus segments which are immunogenic in bit form
-	List<Segment> segments = new ArrayList<Segment>(); // List of virus segments
+	BitSet immunogenicSegmentIndices =null; // Virus segments which are immunogenic in bit form
+	Segment[] segments = null; // List of virus segments
 	//private long virusNumber = 0;
 	//static long lastVirusNumber = -1;
 
@@ -18,24 +18,27 @@ public class Virus {
 	// generate virus copy from parent virus pV 
 	public Virus(Virus pV, float hostAge_) {
 		hostAge=hostAge_;
-		birth = (float) Parameters.getDate();
-		immunogenicSegmentIndices=(BitSet) pV.immunogenicSegmentIndices.clone();
-		for (Segment s : pV.segments) {
-			segments.add(new Segment(s,hostAge_,this.hashCode()));
+		birth = Parameters.getDate();
+		immunogenicSegmentIndices=(BitSet) pV.immunogenicSegmentIndices;
+		segments = new Segment[Parameters.nSegments];
+		for (int i=0;i<segments.length;i++) {
+			segments[i]=new Segment(pV.segments[i],hostAge_,this.hashCode());
 		}
 		//virusNumber=lastVirusNumber+1;
 		//lastVirusNumber+=1;
 	}
 	
 	// generate new virus from parent viral segments (for reassortment or initial virus construction)
-	public Virus(List<Segment> pSegments, float hostAge_) {
+	public Virus(Segment[] pSegments, float hostAge_) {
 		hostAge=hostAge_;
-		birth = (float) Parameters.getDate();
-		for (Segment s : pSegments) {
-			if (s.getLoci()<Parameters.nImmunogenicSegments)
-				immunogenicSegmentIndices.set(s.getSegmentNumber());
-			segments.add(new Segment(s,hostAge_,s.getSegmentNumber(),this.hashCode()));
-		}	
+		birth = Parameters.getDate();
+		immunogenicSegmentIndices = new BitSet();
+		segments = new Segment[Parameters.nSegments];
+		for (int i=0;i<pSegments.length;i++) {
+			if (pSegments[i].getLoci()<Parameters.nImmunogenicSegments)
+				immunogenicSegmentIndices.set(pSegments[i].getSegmentNumber());
+			segments[i]=new Segment(pSegments[i],hostAge_,pSegments[i].getSegmentNumber(),this.hashCode());
+		}		
 	}
 	
 	// METHODS
@@ -52,19 +55,19 @@ public class Virus {
 
 		String returnValue = "";
 
-		for (int i=0; i<segments.size()-1;i++) {
-			returnValue+=(segments.get(i).toString()+seperator);
+		for (int i=0; i<segments.length-1;i++) {
+			returnValue+=(segments[i].toString()+seperator);
 		}
-		returnValue+=segments.get(segments.size()-1).toString();
+		returnValue+=segments[segments.length-1].toString();
 		
 		return returnValue;
 	}
 
 	public Segment getRandomSegment() {		
-		return segments.get(Random.nextInt(0, segments.size()-1));
+		return segments[Random.nextInt(0, segments.length-1)];
 	}
 
-	public List<Segment> getSegments() {		
+	public Segment[] getSegments() {		
 		return segments;
 	}
 	
@@ -73,23 +76,23 @@ public class Virus {
 	}
 
 	public Virus reassort(List<Virus> coinfectingViruses) { 
-		List<Segment> reassortedSegments = new ArrayList<Segment>();
-		for (int i=0; i<segments.size();i++) {
+		Segment[] reassortedSegments = new Segment[Parameters.nSegments];
+		for (int i=0; i<segments.length;i++) {
 			if (Random.nextBoolean(Parameters.rho))  
-				reassortedSegments.add(coinfectingViruses.get(Random.nextInt(0, coinfectingViruses.size()-1)).getSegments().get(i));				
+				reassortedSegments[i]=coinfectingViruses.get(Random.nextInt(0, coinfectingViruses.size()-1)).getSegments()[i];				
 			else
-				reassortedSegments.add(segments.get(i));
+				reassortedSegments[i]=segments[i];
 		}
 		return new Virus(reassortedSegments,hostAge);
 	}
 
 	public Virus mutate() {			
-		List<Segment> mutatedSegments = new ArrayList<Segment>();
-		for (Segment s : segments) {
-			mutatedSegments.add(new Segment(s,hostAge, this.hashCode() ));
+		Segment[] mutatedSegments = new Segment[Parameters.nSegments];
+		for (int i=0;i<Parameters.nSegments;i++) {
+			mutatedSegments[i]=new Segment(segments[i],hostAge, this.hashCode());
 		}	
-		int randomSite = Random.nextInt(0, segments.size()-1);
-		mutatedSegments.set(randomSite, segments.get(randomSite).mutate());
+		int randomSite = Random.nextInt(0, segments.length-1);
+		mutatedSegments[randomSite]=segments[randomSite].mutate();
 		return new Virus(mutatedSegments,hostAge);		
 	}
 	

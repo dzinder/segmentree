@@ -75,8 +75,8 @@ public class Simulation {
 		diversity = 0.0;
 		int sampleCount = Parameters.diversitySamplingCount;
 		for (int i = 0; i < sampleCount; i++) {
-			Segment vA = getRandomInfection().getSegments().get(0);
-			Segment vB = getRandomInfection().getSegments().get(0);;
+			Segment vA = getRandomInfection().getSegments()[0];
+			Segment vB = getRandomInfection().getSegments()[0];;
 			if (vA != null && vB != null) {
 				diversity += vA.distance(vB);
 			}

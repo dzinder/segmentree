@@ -595,7 +595,7 @@ public class HostPopulation {
 			}
 
 			// Get Most Prevalent Segments
-			List<Segment> vaccineSegments = new ArrayList<Segment>();
+			Segment[] vaccineSegments = new Segment[Parameters.nSegments];
 			for (int i = 0; i<Parameters.vaccineValancy; i++) {		
 				Pair<Segment,Integer> prevalentSegmentTally = segmentTallyForVaccineComposition.values().iterator().next();
 
@@ -605,7 +605,7 @@ public class HostPopulation {
 						prevalentSegmentTally =segmentTallyForVaccineComposition.get(segmentIndex);					
 					}
 				}
-				vaccineSegments.add(prevalentSegmentTally.getValue0());
+				vaccineSegments[i]=prevalentSegmentTally.getValue0();
 				strainTallyForVaccineComposition.remove(prevalentSegmentTally.getValue0().getSegmentNumber());
 			}
 			Virus vaccineVirus = new Virus(vaccineSegments,(float)0.0);
@@ -666,10 +666,10 @@ public class HostPopulation {
 			vacStream.printf("\n");		
 
 			for (Virus vaccineStrain : vaccineComposition) {
-				List<Segment> vaccineStrainSegments = vaccineStrain.getSegments();
-				for (int i=0; i<vaccineStrainSegments.size();i++) {
-					vacStream.printf("%d",vaccineStrainSegments.get(i).getSegmentNumber());
-					if (i!=(vaccineStrainSegments.size()-1)) {
+				Segment[] vaccineStrainSegments = vaccineStrain.getSegments();
+				for (int i=0; i<vaccineStrainSegments.length;i++) {
+					vacStream.printf("%d",vaccineStrainSegments[i].getSegmentNumber());
+					if (i!=(vaccineStrainSegments.length-1)) {
 						vacStream.printf(",");
 					}
 				}
