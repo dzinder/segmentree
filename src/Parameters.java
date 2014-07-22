@@ -88,9 +88,9 @@ public class Parameters {
 
 	// Mutation & Reassortment Parameters
 	@Setting (description ="mutation rate - in mutations per infected host per day" )
-	static double mu = 5E-6;//1E-4;
+	static double mu = 1E-5;//1E-4;
 	@Setting (description ="reassortment probability - probability of segment to be randomly chosen from all possible segments in a superinfection" )
-	static double rho = 0.00;			    
+	static double rho = 0.1;			    
 	@Setting (description ="infection bottle neck size - at most number of segment combinations to be transmitted from a superinfected host" )
 	static double n_bottleNeck = 1;			     	
 
@@ -108,7 +108,7 @@ public class Parameters {
 	
 	// Population Disruption Parameters
 	@Setting (description ="distruptive interruption time" )
-	static int disruptionTime = 365*25;
+	static int disruptionTime = 365*20;
 	@Setting (description ="disruption type" )
 	static DisruptionType disruptionType = DisruptionType.STOP_MUTATION;
 	@Setting (description ="disruption intensity (fraction extinction for mass extinciton)" )

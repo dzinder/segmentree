@@ -5,9 +5,9 @@ import java.util.List;
 public class ImmuneSystemDiscrete implements ImmuneSystem{
 
 	@Setting (description ="risk=specific_risk x exp(-xi_generalized x number_of_previous_infections)"	)  
-		static double xi_generalized = 0.3333333;												
+		static double xi_generalized = 0.6;												
 	@Setting (description ="risk=generalized_risk x exp(-xi_specific x number_of_segments_encountered_before / numImmunogenicSegments)"	) 
-		static double xi_specific = 1.0;
+		static double xi_specific = 1.8;
 
 	int numPreviousInfections = 0;
 	BitSet exposedToImmunogenicSegments = new BitSet();
