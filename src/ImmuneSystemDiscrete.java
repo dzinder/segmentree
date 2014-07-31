@@ -24,7 +24,6 @@ public class ImmuneSystemDiscrete implements ImmuneSystem{
 		exposedToImmunogenicSegments.clear();	
 	}
 	
-	@Override
 	public double riskOfInfection(Virus v) {
 		
 		// Generalized immunity = Exp[-alpha x num_previous_infections]
@@ -42,13 +41,11 @@ public class ImmuneSystemDiscrete implements ImmuneSystem{
 		return Math.exp(generalizedimmunityExp+specificImmunityExp);
 	}
 
-	@Override
 	public void add(Virus v) {
 		exposedToImmunogenicSegments.or(v.getImmunogenicSegmentIndices());
 		numPreviousInfections+=1;
 	}
 
-	@Override
 	public String print() {
 		String returnValue=","+Integer.toString(numPreviousInfections); 
 		for (int i = exposedToImmunogenicSegments.nextSetBit(0); i >= 0; i = exposedToImmunogenicSegments.nextSetBit(i+1)) {
@@ -58,7 +55,6 @@ public class ImmuneSystemDiscrete implements ImmuneSystem{
 		return returnValue;		
 	}
 
-	@Override
 	public void vaccinate(List<Virus> virusList) {
 		for (Virus v : virusList) {
 			exposedToImmunogenicSegments.or(v.getImmunogenicSegmentIndices());
