@@ -55,14 +55,14 @@ public class Parameters {
 		static double immunityHostSamplingRate = 1E-4;
 		
 		// Memory Optimization Parameters
-		@Setting (description ="interval at which to streamline tree (optimize memory usage)" )
-		static int treeStreamlineInterval = 5000;
+//		@Setting (description ="interval at which to streamline tree (optimize memory usage)" )
+//		static int treeStreamlineInterval = 5000;
 	}
 
 	public static class DemographicParameters {
 		// Host & Host Population Parameters & Settings
 		@Setting (description ="Number of hosts in population" )
-		static int N = 5000000;								
+		static int N = 20000000;								
 		@Setting (description ="in births per individual per day, i.e. 1/(30*365)" )
 		static double birthRate = 1.0/(30.0*365.0);	
 		@Setting (description ="in deaths per individual per day, i.e. 1/(30*365)" )

@@ -6,9 +6,9 @@ public class ImmuneSystemDiscrete implements ImmuneSystem{
 
 	public static class ImmunityParametres {
 		@Setting (description ="risk=specific_risk x exp(-xi_generalized x number_of_previous_infections)"	)  
-		static double xi_generalized = 0.6;												
+		static double xi_generalized = 0.4;												
 		@Setting (description ="risk=generalized_risk x exp(-xi_specific x number_of_segments_encountered_before / numImmunogenicSegments)"	) 
-		static double xi_specific = 1.8;
+		static double xi_specific = 1.2;
 	}
 
 	int numPreviousInfections = 0;

@@ -132,11 +132,11 @@ public class Simulation {
 					}
 				}
 				
-				if ((Parameters.day % Parameters.SamplingParameters.treeStreamlineInterval) == 0 && (Parameters.day>=Parameters.SimulationParameters.burnin)) {
-					SegmentTree.fillBackward();
-					SegmentTree.streamline();
-					SegmentTree.removeBackward();
-				}
+//				if ((Parameters.day % Parameters.SamplingParameters.treeStreamlineInterval) == 0 && (Parameters.day>=Parameters.SimulationParameters.burnin)) {
+//					SegmentTree.fillBackward();
+//					SegmentTree.streamline();
+//					SegmentTree.removeBackward();
+//				}
 			}
 
 			seriesStream.close();
