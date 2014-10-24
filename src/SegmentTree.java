@@ -34,10 +34,10 @@ public class SegmentTree {
 	// return a random tip that lies between year from and year to
 	public static List<Segment> getRandomTipsFromTo(float from, float to) {
 
-		if (Parameters.sampleWholeGenomes) {
+		if (Parameters.SamplingParameters.sampleWholeGenomes) {
 			// fill temporary list with first loci segments
 			List<Integer> select = new ArrayList<Integer>();
-			for (int i=0; i<tips.size();i+=Parameters.nSegments) {
+			for (int i=0; i<tips.size();i+=Parameters.SegmentParameters.nSegments) {
 				float x = tips.get(i).getBirth();
 				assert (tips.get(i).getLoci()==1);
 				if (x >= from && x < to) {
@@ -49,7 +49,7 @@ public class SegmentTree {
 			ArrayList<Segment> singleGenomeSegmentList = new ArrayList<Segment>();			
 			if (select.size() > 0) {	
 				int selectIndex =select.get(Random.nextInt(0,select.size()-1));
-				for (int i=0;i<Parameters.nSegments;i++) {
+				for (int i=0;i<Parameters.SegmentParameters.nSegments;i++) {
 					singleGenomeSegmentList.add(tips.get(selectIndex+i));
 				}
 			}
@@ -150,7 +150,7 @@ public class SegmentTree {
 	public static void markTips() {
 		// mark tips
 		for (float i = 0; i < Parameters.getDate(); i+=0.1) {
-			List<Segment> segmentList = getRandomTipsFromTo(i,i+(float)Parameters.intervalForMarkTips);
+			List<Segment> segmentList = getRandomTipsFromTo(i,i+(float)Parameters.SamplingParameters.intervalForMarkTips);
 			for (Segment s : segmentList) {
 				if (s != null) {
 					while (s.getParent() != null) {
@@ -165,13 +165,13 @@ public class SegmentTree {
 	// prune tips
 	public static void pruneTips() {
 		List<Segment> reducedTips = new ArrayList<Segment>();
-		double keepProportion = (double) Parameters.treeProportion;
+		double keepProportion = (double) Parameters.SamplingParameters.treeProportion;
 
-		if (Parameters.sampleWholeGenomes) {
+		if (Parameters.SamplingParameters.sampleWholeGenomes) {
 			// sample tips in whole-genome chuncks 
-			for (int i=0;i<tips.size();i+=Parameters.nSegments) {				
+			for (int i=0;i<tips.size();i+=Parameters.SegmentParameters.nSegments) {				
 				if (Random.nextBoolean(keepProportion)) {
-					for (int j=0;j<Parameters.nSegments;j++) {
+					for (int j=0;j<Parameters.SegmentParameters.nSegments;j++) {
 						reducedTips.add(tips.get(i+j));
 					}
 				}
@@ -404,7 +404,7 @@ public class SegmentTree {
 	public static int sideBranchMutations() {
 		int count = 0;
 		for (Segment s : postOrderNodes(root)) {
-			if (s.getParent() != null && s.getBirth() < (Parameters.getDate() - Parameters.yearsToTrunk) && (s.getBirth()> 0) ) {
+			if (s.getParent() != null && s.getBirth() < (Parameters.getDate() - Parameters.SamplingParameters.yearsToTrunk) && (s.getBirth()> 0) ) {
 				Segment sp = s.getParent();
 				if (!s.isTrunk() && !(s.getSegmentNumber()==sp.getSegmentNumber())) {
 					count++;
@@ -417,7 +417,7 @@ public class SegmentTree {
 	public static double sideBranchOpportunity() {
 		double time = 0;
 		for (Segment s : postOrderNodes(root)) {
-			if (s.getParent() != null && s.getBirth() < (Parameters.getDate() - Parameters.yearsToTrunk)&&(s.getBirth()>0)) {
+			if (s.getParent() != null && s.getBirth() < (Parameters.getDate() - Parameters.SamplingParameters.yearsToTrunk)&&(s.getBirth()>0)) {
 				Segment sp = s.getParent();
 				if (!s.isTrunk()) {
 					time += s.getBirth() - sp.getBirth();
@@ -430,7 +430,7 @@ public class SegmentTree {
 	public static int trunkMutations() {
 		int count = 0;
 		for (Segment s : postOrderNodes(root)) {
-			if (s.getParent() != null && s.getBirth() < (Parameters.getDate() - Parameters.yearsToTrunk)&& (s.getBirth()> 0) ) {
+			if (s.getParent() != null && s.getBirth() < (Parameters.getDate() - Parameters.SamplingParameters.yearsToTrunk)&& (s.getBirth()> 0) ) {
 				Segment sp = s.getParent();
 				if (s.isTrunk() && sp.isTrunk() && !(s.getSegmentNumber()==sp.getSegmentNumber())) {
 					count++;
@@ -443,7 +443,7 @@ public class SegmentTree {
 	public static double trunkOpportunity() {
 		double time = 0;
 		for (Segment s : postOrderNodes(root)) {
-			if (s.getParent() != null && s.getBirth() < (Parameters.getDate() - Parameters.yearsToTrunk)&&(s.getBirth()>0) ) {
+			if (s.getParent() != null && s.getBirth() < (Parameters.getDate() - Parameters.SamplingParameters.yearsToTrunk)&&(s.getBirth()>0) ) {
 				Segment sp = s.getParent();
 				if (s.isTrunk() && sp.isTrunk()) {
 					time += (s.getBirth() - sp.getBirth());

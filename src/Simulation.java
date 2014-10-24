@@ -62,7 +62,7 @@ public class Simulation {
 	}
 
 	public void printState(PrintStream stream) {
-		if (Parameters.day > Parameters.burnin) {
+		if (Parameters.day > Parameters.SimulationParameters.burnin) {
 			stream.printf("%.4f\t%.4f\t%d\t%d\t%d\t%d\t%d", Parameters.getDate(), getDiversity(), getN(), getS(), getI(), 0/* getR()*/, getCases());
 			totalCases+=getCases();
 			stream.println();
@@ -73,7 +73,7 @@ public class Simulation {
 	public void updateDiversity() {
 		// Diversity
 		diversity = 0.0;
-		int sampleCount = Parameters.diversitySamplingCount;
+		int sampleCount = Parameters.SamplingParameters.diversitySamplingCount;
 		for (int i = 0; i < sampleCount; i++) {
 			Segment vA = getRandomInfection().getSegments()[0];
 			Segment vB = getRandomInfection().getSegments()[0];;
@@ -104,23 +104,23 @@ public class Simulation {
 			System.out.println("day\t\tdiversity\tN\tS\tI\tR\tcases");
 			printHeader(seriesStream);
 
-			for (int i = 0; i < Parameters.endDay; i++) {
+			for (int i = 0; i < Parameters.SimulationParameters.endDay; i++) {
 
 				stepForward(); // population dynamics
 
-				if (Parameters.day % Parameters.printStepTimeseries == 0) { // output
+				if (Parameters.day % Parameters.SamplingParameters.printStepTimeseries == 0) { // output
 					updateDiversity();
 					printState();
 					printState(seriesStream);
 					resetCases();
 				}
 				
-				if (Parameters.day % Parameters.vaccinationProgramStartTime == 0) {
+				if (Parameters.day % Parameters.VaccineParameters.vaccinationProgramStartTime == 0) {
 					determineVaccineComposition();					
 				}
 
 				if (getI()==0) {
-					if (Parameters.repeatSim) {
+					if (Parameters.SimulationParameters.repeatSim) {
 						reset();
 						i = 0; 
 						seriesFile.delete();
@@ -132,7 +132,7 @@ public class Simulation {
 					}
 				}
 				
-				if ((Parameters.day % Parameters.treeStreamlineInterval) == 0 && (Parameters.day>=Parameters.burnin)) {
+				if ((Parameters.day % Parameters.SamplingParameters.treeStreamlineInterval) == 0 && (Parameters.day>=Parameters.SimulationParameters.burnin)) {
 					SegmentTree.fillBackward();
 					SegmentTree.streamline();
 					SegmentTree.removeBackward();
@@ -186,7 +186,7 @@ public class Simulation {
 
 
 	public double getYearlyIncidancePercent() {	
-		return ((double)totalCases)*365.0/(Parameters.endDay-Parameters.burnin)/getN()*100;
+		return ((double)totalCases)*365.0/(Parameters.SimulationParameters.endDay-Parameters.SimulationParameters.burnin)/getN()*100;
 	}
 
 }

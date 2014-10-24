@@ -19,7 +19,7 @@ public class Virus {
 		hostAge=hostAge_;
 		birth = Parameters.getDate();
 		immunogenicSegmentIndices=(BitSet) pV.immunogenicSegmentIndices;
-		segments = new Segment[Parameters.nSegments];
+		segments = new Segment[Parameters.SegmentParameters.nSegments];
 		for (int i=0;i<segments.length;i++) {
 			segments[i]=new Segment(pV.segments[i],hostAge_,this.hashCode());
 		}
@@ -32,9 +32,9 @@ public class Virus {
 		hostAge=hostAge_;
 		birth = Parameters.getDate();
 		immunogenicSegmentIndices = new BitSet();
-		segments = new Segment[Parameters.nSegments];
+		segments = new Segment[Parameters.SegmentParameters.nSegments];
 		for (int i=0;i<pSegments.length;i++) {
-			if (pSegments[i].getLoci()<Parameters.nImmunogenicSegments)
+			if (pSegments[i].getLoci()<Parameters.SegmentParameters.nImmunogenicSegments)
 				immunogenicSegmentIndices.set(pSegments[i].getSegmentNumber());
 			segments[i]=new Segment(pSegments[i],hostAge_,pSegments[i].getSegmentNumber(),this.hashCode());
 		}		
@@ -75,9 +75,9 @@ public class Virus {
 	}
 
 	public Virus reassort(List<Virus> coinfectingViruses) { 
-		Segment[] reassortedSegments = new Segment[Parameters.nSegments];
+		Segment[] reassortedSegments = new Segment[Parameters.SegmentParameters.nSegments];
 		for (int i=0; i<segments.length;i++) {
-			if (Random.nextBoolean(Parameters.rho))  
+			if (Random.nextBoolean(Parameters.MutationAndReassortmentParameters.rho))  
 				reassortedSegments[i]=coinfectingViruses.get(Random.nextInt(0, coinfectingViruses.size()-1)).getSegments()[i];				
 			else
 				reassortedSegments[i]=segments[i];
@@ -86,8 +86,8 @@ public class Virus {
 	}
 
 	public Virus mutate() {			
-		Segment[] mutatedSegments = new Segment[Parameters.nSegments];
-		for (int i=0;i<Parameters.nSegments;i++) {
+		Segment[] mutatedSegments = new Segment[Parameters.SegmentParameters.nSegments];
+		for (int i=0;i<Parameters.SegmentParameters.nSegments;i++) {
 			mutatedSegments[i]=new Segment(segments[i],hostAge, this.hashCode());
 		}	
 		int randomSite = Random.nextInt(0, segments.length-1);

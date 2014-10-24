@@ -10,7 +10,7 @@ public class Segment {
 	private int segmentNumber;
 	private short loci;
 		
-	private float birth;		// measured in years relative to burnin
+	private float birth;		// measured in years relative to Parameters.SimulationParameters.burnin
 	private float hostAge;		// age of host in years at time of infection
 
 	// tree 	

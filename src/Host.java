@@ -6,7 +6,7 @@ public class Host {
 	// fields
 	private List<Virus> infectingViruses = new ArrayList<Virus>();												
 	private ImmuneSystem immuneSystem = new ImmuneSystemDiscrete();
-	private int birth;	// measured in years relative to burnin	
+	private int birth;	// measured in years relative to Parameters.SimulationParameters.burnin	
 
 
 	// CONSTRUCTORS & INITIALIZERS
@@ -14,7 +14,7 @@ public class Host {
 	// generate initial naive host
 	public Host(boolean bornOld) {
 		if (bornOld) {
-			float lifespan = (float) (1 / (365.0 * Parameters.birthRate));
+			float lifespan = (float) (1 / (365.0 * Parameters.DemographicParameters.birthRate));
 			float age = (float) Random.nextExponential(lifespan);
 			birth = (int) (Parameters.day - age*365);
 		}
@@ -32,7 +32,7 @@ public class Host {
 
 	// METHODS
 	public float getBirthInYears() {
-		return ((float)birth-Parameters.burnin)/(float)365.0;
+		return ((float)birth-Parameters.SimulationParameters.burnin)/(float)365.0;
 	}
 
 	public float getAgeInDays() {
@@ -48,7 +48,7 @@ public class Host {
 	}
 
 	public void infect(Virus infectingVirus_) {
-		float hostAge = Parameters.getDate() - (((float)birth-Parameters.burnin)/(float)365.0);
+		float hostAge = Parameters.getDate() - (((float)birth-Parameters.SimulationParameters.burnin)/(float)365.0);
 		infectingViruses.add(new Virus(infectingVirus_,hostAge));			
 	}
 

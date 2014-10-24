@@ -31,13 +31,13 @@ public class HostPopulation {
 	// CONSTRUCTORS & INITIALIZERS
 	public HostPopulation() {		
 		// For vaccination
-		if (Parameters.vaccinationAges.length>0) {
-			minTimeIntervalForVaccinationQueueUpdate  = Parameters.vaccinationAges[0];
-			maxAge  = Parameters.vaccinationAges[Parameters.vaccinationAges.length-1];
+		if (Parameters.VaccineParameters.vaccinationAges.length>0) {
+			minTimeIntervalForVaccinationQueueUpdate  = Parameters.VaccineParameters.vaccinationAges[0];
+			maxAge  = Parameters.VaccineParameters.vaccinationAges[Parameters.VaccineParameters.vaccinationAges.length-1];
 		}
 		else { 
-			minTimeIntervalForVaccinationQueueUpdate = Parameters.endDay;
-			maxAge = Parameters.endDay;
+			minTimeIntervalForVaccinationQueueUpdate = Parameters.SimulationParameters.endDay;
+			maxAge = Parameters.SimulationParameters.endDay;
 		}
 	}
 
@@ -63,7 +63,7 @@ public class HostPopulation {
 
 		// reservoir
 		initialStrainReservoir.clear();
-		if (Parameters.proportionContactWithReservoir>0) {					
+		if (Parameters.ReservoirParameters.proportionContactWithReservoir>0) {					
 			for (Virus v : Parameters.initialViruses) {
 				Host h = new Host(true);
 				h.infect(v);
@@ -72,8 +72,8 @@ public class HostPopulation {
 		}
 
 		// fill population with susceptibles
-		int initialS = Parameters.N;
-		initialS -= Parameters.initialI; // minus initial number of infected
+		int initialS = Parameters.DemographicParameters.N;
+		initialS -= Parameters.EpidemiologicalParameters.initialI; // minus initial number of infected
 
 		for (int i = 0; i < initialS; i++) {			
 			if (i%5000000 == 0 ) System.out.println("adding hosts: " + i + " out of " + initialS); 	// display											
@@ -83,19 +83,19 @@ public class HostPopulation {
 		System.out.println("finished constructing " + initialS + " initial susceptible hosts\n"); // display
 
 		// infect some individuals
-		for (int i = 0; i < Parameters.initialI; i++) {		
+		for (int i = 0; i < Parameters.EpidemiologicalParameters.initialI; i++) {		
 			Host h = new Host(true);
 			h.infect(Parameters.initialViruses.get(Random.nextInt(0, Parameters.initialViruses.size()-1)));
 			infecteds.add(h);
 		}		
-		System.out.println("finished constructing " + Parameters.initialI + " infected hosts\n"); // display
+		System.out.println("finished constructing " + Parameters.EpidemiologicalParameters.initialI + " infected hosts\n"); // display
 
 		// add initial immune history to some individuals
-		for (int i = 0; i < Math.round(Parameters.initialPrR*Parameters.N); i++) {
-			if (i%5000000 == 0 ) System.out.println("adding immune history: " + i + " out of " + Math.round(Parameters.initialPrR*Parameters.N)); 	// display		
+		for (int i = 0; i < Math.round(Parameters.EpidemiologicalParameters.initialPrR*Parameters.DemographicParameters.N); i++) {
+			if (i%5000000 == 0 ) System.out.println("adding immune history: " + i + " out of " + Math.round(Parameters.EpidemiologicalParameters.initialPrR*Parameters.DemographicParameters.N)); 	// display		
 			getRandomHost().addToImmuneHistory(Parameters.initialViruses.get(Random.nextInt(0, Parameters.initialViruses.size()-1)));
 		}		
-		System.out.println("finished immunizing " +Math.round(Parameters.initialPrR*Parameters.N) + " hosts\n"); // display
+		System.out.println("finished immunizing " +Math.round(Parameters.EpidemiologicalParameters.initialPrR*Parameters.DemographicParameters.N) + " hosts\n"); // display
 	}
 
 	// METHODS
@@ -176,7 +176,7 @@ public class HostPopulation {
 		// 4. Immunizing population - generalized immunization, segment specific immunization
 		// Fitness could be either in recovery or contact                                         
 
-		if (Parameters.swapDemography) {
+		if (Parameters.DemographicParameters.swapDemography) {
 			swap();
 		} else {
 			grow();
@@ -198,7 +198,7 @@ public class HostPopulation {
 	}
 
 	private void vaccinate() {
-		if (Parameters.day > Parameters.vaccinationProgramStartTime) {
+		if (Parameters.day > Parameters.VaccineParameters.vaccinationProgramStartTime) {
 
 			// TODO: switch to a non-naive algorithm for this
 			//			for (Host h : susceptibles ) {
@@ -221,7 +221,7 @@ public class HostPopulation {
 			//				}
 			//			}
 
-			if ((Parameters.day-Parameters.vaccinationProgramStartTime)%minTimeIntervalForVaccinationQueueUpdate==0) {
+			if ((Parameters.day-Parameters.VaccineParameters.vaccinationProgramStartTime)%minTimeIntervalForVaccinationQueueUpdate==0) {
 				vaccineQueue.clear();
 				for (Host h : susceptibles) {
 					if (h.getAgeInDays()<=maxAge) {
@@ -236,9 +236,9 @@ public class HostPopulation {
 			}
 
 			for (Host h : vaccineQueue ) {
-				for (double age : Parameters.vaccinationAges) {
+				for (double age : Parameters.VaccineParameters.vaccinationAges) {
 					if (h.getAgeInDays()==age) {
-						if (Random.nextBoolean(Parameters.vaccineP)) {
+						if (Random.nextBoolean(Parameters.VaccineParameters.vaccineP)) {
 							h.immunize(vaccineComposition); 
 						}
 					}
@@ -249,10 +249,10 @@ public class HostPopulation {
 	}
 	
 	private void disruption() {
-		if (Parameters.day == Parameters.disruptionTime) {
-			switch (Parameters.disruptionType) {
+		if (Parameters.day == Parameters.DisruptionParameters.disruptionTime) {
+			switch (Parameters.DisruptionParameters.disruptionType) {
 			case MASS_EXTINCTION :							
-				int recoveries = Random.nextPoisson(getI()*Parameters.disruptionIntensity);
+				int recoveries = Random.nextPoisson(getI()*Parameters.DisruptionParameters.disruptionIntensity);
 
 				for (int i = 0; i < recoveries; i++) {
 					if (getI()>0) {
@@ -265,7 +265,7 @@ public class HostPopulation {
 				}
 				break;
 			case STOP_MUTATION :							
-				Parameters.mu=0;
+				Parameters.MutationAndReassortmentParameters.mu=0;
 				break;
 			case NONE:
 				break;
@@ -278,7 +278,7 @@ public class HostPopulation {
 
 	private void mutate() {		
 
-		double totalMutationRate = getI() * Parameters.mu;
+		double totalMutationRate = getI() * Parameters.MutationAndReassortmentParameters.mu;
 		int mutations = Random.nextPoisson(totalMutationRate);
 		for (int i = 0; i < mutations; i++) {
 			getRandomHostI().mutate();
@@ -288,7 +288,7 @@ public class HostPopulation {
 	// draw a Poisson distributed number of births and add these hosts to the end of the population list
 	// new hosts are always born naive
 	public void grow() {
-		double totalBirthRate = getN() * Parameters.birthRate;
+		double totalBirthRate = getN() * Parameters.DemographicParameters.birthRate;
 		int births = Random.nextPoisson(totalBirthRate);
 		for (int i = 0; i < births; i++) {
 			Host h = new Host(false);
@@ -299,7 +299,7 @@ public class HostPopulation {
 	// draw a Poisson distributed number of deaths and remove random hosts from the population list
 	public void decline() {
 		// deaths in susceptible class
-		double totalDeathRate = getS() * Parameters.deathRate;
+		double totalDeathRate = getS() * Parameters.DemographicParameters.deathRate;
 		int deaths = Random.nextPoisson(totalDeathRate);
 		for (int i = 0; i < deaths; i++) {
 			if (getS()>0) {
@@ -308,7 +308,7 @@ public class HostPopulation {
 			}
 		}		
 		// deaths in infectious class		
-		totalDeathRate = getI() * Parameters.deathRate;
+		totalDeathRate = getI() * Parameters.DemographicParameters.deathRate;
 		deaths = Random.nextPoisson(totalDeathRate);
 		for (int i = 0; i < deaths; i++) {
 			if (getI()>0) {
@@ -321,7 +321,7 @@ public class HostPopulation {
 	
 	private void contactReservoir() {
 		// each infected (or superinfected) makes contacts on a per-day rate of propContactWithReservoir*beta*reservoirSize*S/N
-		double susceptibleContactRate = initialStrainReservoir.size()* getPrS()*Parameters.beta*Parameters.proportionContactWithReservoir;
+		double susceptibleContactRate = initialStrainReservoir.size()* getPrS()*Parameters.EpidemiologicalParameters.beta*Parameters.ReservoirParameters.proportionContactWithReservoir;
 		int contacts = Random.nextPoisson(susceptibleContactRate);
 		for (int i = 0; i < contacts; i++) {
 			if (getS()>0) {
@@ -345,7 +345,7 @@ public class HostPopulation {
 					// Pick n_bottleNeck random viruses, for each segment with probability rho replace it with segment from all infecting viruses
 					// viruses transmits based on individual probability
 					boolean infected = false; 
-					for (int j=0; j<Parameters.n_bottleNeck; j++) {
+					for (int j=0; j<Parameters.MutationAndReassortmentParameters.n_bottleNeck; j++) {
 						Virus v = iH.getRandomInfection();
 						double chanceOfSuccess = sH.riskOfInfection(v); 
 						if (Random.nextBoolean(chanceOfSuccess)) {
@@ -367,7 +367,7 @@ public class HostPopulation {
 	// draw a Poisson distributed number of births and reset these individuals
 	public void swap() {
 		// draw random individuals from susceptible class
-		double totalBirthRate = getS() * Parameters.birthRate;
+		double totalBirthRate = getS() * Parameters.DemographicParameters.birthRate;
 		int births = Random.nextPoisson(totalBirthRate);
 		for (int i = 0; i < births; i++) {
 			if (getS()>0) {
@@ -376,12 +376,12 @@ public class HostPopulation {
 		}		
 
 		// draw random individuals from infected class
-		totalBirthRate = getI() * Parameters.birthRate;
+		totalBirthRate = getI() * Parameters.DemographicParameters.birthRate;
 		births = Random.nextPoisson(totalBirthRate);
 
 		// remove infected and add to susceptible births
 		for (int i = 0; i < births; i++) {			
-			if (((Parameters.day>Parameters.burnin) || (!Parameters.keepAliveDuringBurnin)) && (!Parameters.keepAlive)) {
+			if (((Parameters.day>Parameters.SimulationParameters.burnin) || (!Parameters.SimulationParameters.keepAliveDuringBurnin)) && (!Parameters.SimulationParameters.keepAlive)) {
 				if (getI()>0) {
 					int index = getRandomI();
 					Host h = infecteds.get(index);		
@@ -390,7 +390,7 @@ public class HostPopulation {
 					susceptibles.add(h);
 				}
 			}
-			else if ((Parameters.day<Parameters.burnin || Parameters.keepAlive) && getI()>1) {
+			else if ((Parameters.day<Parameters.SimulationParameters.burnin || Parameters.SimulationParameters.keepAlive) && getI()>1) {
 				int index = getRandomI();
 				Host h = infecteds.get(index);
 				removeInfected(index);
@@ -404,7 +404,7 @@ public class HostPopulation {
 	public void contact() {
 
 		// each infected (or superinfected) makes contacts on a per-day rate of beta*I*S/N
-		double susceptibleContactRate = getI()* getPrS()*Parameters.beta;
+		double susceptibleContactRate = getI()* getPrS()*Parameters.EpidemiologicalParameters.beta;
 		int contacts = Random.nextPoisson(susceptibleContactRate);
 		for (int i = 0; i < contacts; i++) {
 			if (getS()>0) {
@@ -428,7 +428,7 @@ public class HostPopulation {
 					// Pick n_bottleNeck random viruses, for each segment with probability rho replace it with segment from all infecting viruses
 					// viruses transmits based on individual probability
 					boolean infected = false; 
-					for (int j=0; j<Parameters.n_bottleNeck; j++) {
+					for (int j=0; j<Parameters.MutationAndReassortmentParameters.n_bottleNeck; j++) {
 						Virus v = iH.getRandomInfection();
 						double chanceOfSuccess = sH.riskOfInfection(v); 
 						if (Random.nextBoolean(chanceOfSuccess)) {
@@ -446,7 +446,7 @@ public class HostPopulation {
 		}
 
 		// each infected (or superinfected) makes contact on a per-day rate of beta*I*I/N
-		double infectedContactRate = getI()* getPrI()*Parameters.beta;
+		double infectedContactRate = getI()* getPrI()*Parameters.EpidemiologicalParameters.beta;
 		contacts = Random.nextPoisson(infectedContactRate);
 		for (int i = 0; i < contacts; i++) {
 			// get indices and objects
@@ -469,11 +469,11 @@ public class HostPopulation {
 		// each infected recovers at a per-day rate of nu
 		// infected clear from multiple infections simultaneously
 
-		double totalRecoveryRate = getI() * Parameters.nu;
+		double totalRecoveryRate = getI() * Parameters.EpidemiologicalParameters.nu;
 		int recoveries = Random.nextPoisson(totalRecoveryRate);
 
 		for (int i = 0; i < recoveries; i++) {
-			if (((Parameters.day>Parameters.burnin) || (!Parameters.keepAliveDuringBurnin)) && (!Parameters.keepAlive)) {
+			if (((Parameters.day>Parameters.SimulationParameters.burnin) || (!Parameters.SimulationParameters.keepAliveDuringBurnin)) && (!Parameters.SimulationParameters.keepAlive)) {
 				if (getI()>0) {
 					int index = getRandomI();
 					Host h = infecteds.get(index);
@@ -482,7 +482,7 @@ public class HostPopulation {
 					susceptibles.add(h);
 				}
 			}
-			else if ((Parameters.day<Parameters.burnin || Parameters.keepAlive) && getI()>1) {
+			else if ((Parameters.day<Parameters.SimulationParameters.burnin || Parameters.SimulationParameters.keepAlive) && getI()>1) {
 				int index = getRandomI();
 				Host h = infecteds.get(index);
 				removeInfected(index);
@@ -496,9 +496,9 @@ public class HostPopulation {
 	}			
 
 	public void sample() {
-		if (getI()>0 && Parameters.day >= Parameters.burnin) {
+		if (getI()>0 && Parameters.day >= Parameters.SimulationParameters.burnin) {
 			// Sample infected hosts for out.infected
-			int numInfectedHostSamples = Random.nextPoisson(Parameters.infectedHostSamplingRate*getI());
+			int numInfectedHostSamples = Random.nextPoisson(Parameters.SamplingParameters.infectedHostSamplingRate*getI());
 
 			for (int i=0; i<numInfectedHostSamples; i++) {
 				Host h = getRandomHostI();					
@@ -510,22 +510,22 @@ public class HostPopulation {
 			}
 
 			// Sample all hosts for out.immunity
-			int numImmunityHostSamples = Random.nextPoisson(Parameters.immunityHostSamplingRate*getN());
+			int numImmunityHostSamples = Random.nextPoisson(Parameters.SamplingParameters.immunityHostSamplingRate*getN());
 
 			for (int i=0; i<numImmunityHostSamples; i++) {
 				hostsForImmunitySamples.add(getRandomHost());
 			}
 
 			// Sample tree tips
-			double totalSamplingRate = Parameters.tipSamplingRate;
-			if (Parameters.tipSamplingProportional) 
+			double totalSamplingRate = Parameters.SamplingParameters.tipSamplingRate;
+			if (Parameters.SamplingParameters.tipSamplingProportional) 
 				totalSamplingRate *= getI();
 			else 
 				totalSamplingRate *= getN();			
 
 			int samples = Random.nextPoisson(totalSamplingRate);
 
-			if (Parameters.sampleWholeGenomes) { // sample whole genomes of viruses
+			if (Parameters.SamplingParameters.sampleWholeGenomes) { // sample whole genomes of viruses
 				for (int i = 0; i < samples; i++) {									
 					for (Segment s : getRandomHostI().getRandomInfection().getSegments()) {
 						SegmentTree.add(s);
@@ -560,7 +560,7 @@ public class HostPopulation {
 	}	
 
 	public void printState(PrintStream stream) {
-		if (Parameters.day > Parameters.burnin) {
+		if (Parameters.day > Parameters.SimulationParameters.burnin) {
 			stream.printf("\t%d\t%d\t%d\t%d\t%d", getN(), getS(), getI(),0 /* getR()*/, getCases());
 		}
 	}	
@@ -570,7 +570,7 @@ public class HostPopulation {
 	}
 
 	public void determineVaccineComposition() {
-		switch (Parameters.vaccineMakeup) {
+		switch (Parameters.VaccineParameters.vaccineMakeup) {
 		case MAXIMUM_COVERAGE :	
 			// TODO: this
 			System.err.println("MAXIMUM_COVERAGE - NOT IMPLEMENTED!");
@@ -595,8 +595,8 @@ public class HostPopulation {
 			}
 
 			// Get Most Prevalent Segments
-			Segment[] vaccineSegments = new Segment[Parameters.nSegments];
-			for (int i = 0; i<Parameters.vaccineValancy; i++) {		
+			Segment[] vaccineSegments = new Segment[Parameters.SegmentParameters.nSegments];
+			for (int i = 0; i<Parameters.VaccineParameters.vaccineValancy; i++) {		
 				Pair<Segment,Integer> prevalentSegmentTally = segmentTallyForVaccineComposition.values().iterator().next();
 
 				for (Integer segmentIndex : segmentTallyForVaccineComposition.keySet()) {
@@ -629,7 +629,7 @@ public class HostPopulation {
 			}
 
 			// Get Most Prevalent Strains
-			for (int i = 0; i<Math.min(Parameters.vaccineValancy,strainTallyForVaccineComposition.size()); i++) {		
+			for (int i = 0; i<Math.min(Parameters.VaccineParameters.vaccineValancy,strainTallyForVaccineComposition.size()); i++) {		
 				Pair<Virus,Integer> prevalentStrainTally = strainTallyForVaccineComposition.values().iterator().next();
 
 				for (BitSet segmentIndices : strainTallyForVaccineComposition.keySet()) {
@@ -657,9 +657,9 @@ public class HostPopulation {
 			vacFile.delete();
 			vacFile.createNewFile();
 			PrintStream vacStream = new PrintStream(vacFile);
-			for (int i=0;i<Parameters.nSegments;i++) {
+			for (int i=0;i<Parameters.SegmentParameters.nSegments;i++) {
 				vacStream.printf("segment%d",i);
-				if (i!=(Parameters.nSegments-1)) {
+				if (i!=(Parameters.SegmentParameters.nSegments-1)) {
 					vacStream.printf(",");
 				}					
 			}
