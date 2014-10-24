@@ -87,11 +87,11 @@ public class Parameters {
 	public static class SegmentParameters {
 		// Virus Segment Parameters
 		@Setting (description ="number of viral segments" ) 
-		static int nSegments = 3;
+		static int nSegments = 11;
 		@Setting (description ="number of immunogenic segments (only these first n segments will generate effective immunity)" ) 
 		static int nImmunogenicSegments = 3;
 		@Setting (description ="number of inital segment allels" ) 
-		static int[] nInitialSegmentAllels = {1,1,1};
+		static int[] nInitialSegmentAllels = {1,1,1,1,1,1,1,1,1,1,1};
 		@Setting (description ="number of inital random viral segement combinations" ) 
 		static int nInitialStrains = 1;
 	}
@@ -133,7 +133,7 @@ public class Parameters {
 		@Setting (description ="distruptive interruption time" )
 		static int disruptionTime = 365*20;
 		@Setting (description ="disruption type" )
-		static DisruptionType disruptionType = DisruptionType.STOP_MUTATION;
+		static DisruptionType disruptionType = DisruptionType.NONE;
 		@Setting (description ="disruption intensity (fraction extinction for mass extinciton)" )
 		static double disruptionIntensity = 0.95; // TODO: add this option to mutation
 	}
