@@ -52,7 +52,7 @@ public class Parameters {
 		@Setting (description = "Infected host sampling rate for out.infected" )
 		static double infectedHostSamplingRate = 1E-3; 
 		@Setting (description = "Host sampling rate for out.immunity" )
-		static double immunityHostSamplingRate = 1E-4;
+		static double immunityHostSamplingRate = 1E-5;
 		
 		// Memory Optimization Parameters
 //		@Setting (description ="interval at which to streamline tree (optimize memory usage)" )
@@ -62,7 +62,7 @@ public class Parameters {
 	public static class DemographicParameters {
 		// Host & Host Population Parameters & Settings
 		@Setting (description ="Number of hosts in population" )
-		static int N = 20000000;								
+		static int N = 5000000;								
 		@Setting (description ="in births per individual per day, i.e. 1/(30*365)" )
 		static double birthRate = 1.0/(30.0*365.0);	
 		@Setting (description ="in deaths per individual per day, i.e. 1/(30*365)" )
@@ -91,7 +91,7 @@ public class Parameters {
 		@Setting (description ="number of immunogenic segments (only these first n segments will generate effective immunity)" ) 
 		static int nImmunogenicSegments = 3;
 		@Setting (description ="number of inital segment allels" ) 
-		static int[] nInitialSegmentAllels = {1,1,1,1,1,1,1,1,1,1,1};
+		static int[] nInitialSegmentAllels = {5,5,5,5,5,5,5,5,5,5,5};
 		@Setting (description ="number of inital random viral segement combinations" ) 
 		static int nInitialStrains = 1;
 	}
@@ -159,6 +159,7 @@ public class Parameters {
 		s.apply(SimulationParameters.class);
 		s.apply(SamplingParameters.class);
 		s.apply(EpidemiologicalParameters.class);
+		s.apply(DemographicParameters.class);
 		s.apply(SegmentParameters.class);
 		s.apply(MutationAndReassortmentParameters.class);
 		s.apply(ReservoirParameters.class);
@@ -212,6 +213,7 @@ public class Parameters {
 			Settings.printSettings(Parameters.class, paramStream);
 			Settings.printSettings(SimulationParameters.class, paramStream);
 			Settings.printSettings(Parameters.SamplingParameters.class, paramStream);
+			Settings.printSettings(Parameters.DemographicParameters.class, paramStream);
 			Settings.printSettings(Parameters.EpidemiologicalParameters.class, paramStream);
 			Settings.printSettings(Parameters.SegmentParameters.class, paramStream);
 			Settings.printSettings(Parameters.MutationAndReassortmentParameters.class, paramStream);
