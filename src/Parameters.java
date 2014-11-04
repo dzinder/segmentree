@@ -18,7 +18,7 @@ public class Parameters {
 	public static class SimulationParameters {
 		// Simulation Parameterss
 		@Setting (description ="Burn In time in days. Initial run time without recording output."	) 
-		static int burnin = 365*80; 	
+		static int burnin = 365*20; 	
 		@Setting (description ="Simulation end time in days."	) 
 		static int endDay = 365*120; 	
 		@Setting (description ="Repeat simulation following a stochastic extinction until endDay is reached."	) 
@@ -79,7 +79,7 @@ public class Parameters {
 		@Setting (description ="proportion recovered to intial virus/es (multiple recoveries for value greater than 1)" )
 		static double initialPrR = 8.0; 
 		@Setting (description ="in contacts per individual per day" )
-		static double beta = 25.0/7.0; 
+		static double beta = 20.0/7.0; 
 		@Setting (description ="in recoveries per individual per day" )
 		static double nu = 1.0/7.0; 
 	}
@@ -87,11 +87,11 @@ public class Parameters {
 	public static class SegmentParameters {
 		// Virus Segment Parameters
 		@Setting (description ="number of viral segments" ) 
-		static int nSegments = 11;
+		static int nSegments = 3;
 		@Setting (description ="number of immunogenic segments (only these first n segments will generate effective immunity)" ) 
 		static int nImmunogenicSegments = 3;
 		@Setting (description ="number of inital segment allels" ) 
-		static int[] nInitialSegmentAllels = {5,5,5,5,5,5,5,5,5,5,5};
+		static int[] nInitialSegmentAllels = {1,1,1};
 		@Setting (description ="number of inital random viral segement combinations" ) 
 		static int nInitialStrains = 1;
 	}
@@ -104,7 +104,8 @@ public class Parameters {
 		static double rho = 0.1;			    
 		@Setting (description ="infection bottle neck size - at most number of segment combinations to be transmitted from a superinfected host" )
 		static double n_bottleNeck = 1;
-
+		//TODO: @Setting (description ="post hoc neutral segment mutation rate" )
+		//static double postHocMutateNeutral = 0.1;
 	}
 
 	public static class ReservoirParameters {
@@ -131,7 +132,7 @@ public class Parameters {
 	public static class DisruptionParameters {
 		// Population Disruption Parameters
 		@Setting (description ="distruptive interruption time" )
-		static int disruptionTime = 365*20;
+		static int disruptionTime = 365*70;
 		@Setting (description ="disruption type" )
 		static DisruptionType disruptionType = DisruptionType.NONE;
 		@Setting (description ="disruption intensity (fraction extinction for mass extinciton)" )
