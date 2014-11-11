@@ -278,7 +278,7 @@ public class HostPopulation {
 
 	private void mutate() {		
 
-		double totalMutationRate = getI() * Parameters.MutationAndReassortmentParameters.mu;
+		double totalMutationRate = getI() * Parameters.MutationAndReassortmentParameters.mu+Parameters.MutationAndReassortmentParameters.intro;
 		int mutations = Random.nextPoisson(totalMutationRate);
 		for (int i = 0; i < mutations; i++) {
 			getRandomHostI().mutate();
