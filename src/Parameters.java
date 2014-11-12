@@ -11,7 +11,7 @@ import java.util.List;
 
 enum PhenotypeType {SEGMENTED};
 enum VaccineMakeup {NONE, PREVALENT_SEGMENTS, PREVALENT_STRAINS, MAXIMUM_COVERAGE};
-enum DisruptionType {NONE, MASS_EXTINCTION, CHANGE_MUTATION, CHANGE_INTRO};
+enum DisruptionType {NONE, MASS_EXTINCTION, CHANGE_MUTATION, CHANGE_INTRO, CHANGE_REASSORTMENT};
 
 public class Parameters {
 
@@ -137,7 +137,7 @@ public class Parameters {
 		static int disruptionTime = 365*70;
 		@Setting (description ="disruption type" )
 		static DisruptionType disruptionType = DisruptionType.CHANGE_INTRO;
-		@Setting (description ="disruption parameter (fraction extinction for mass extinciton, new mutation rate for change mutation, new introduction rate for change intro)" )
+		@Setting (description ="disruption parameter (fraction extinction for mass extinciton, new mutation/introduction/reassortment_rate for change mutation/intro/reassortment)" )
 		static double disruptionParameter = 0.00; 
 	}
 

@@ -270,6 +270,9 @@ public class HostPopulation {
 			case CHANGE_INTRO :							
 				Parameters.MutationAndReassortmentParameters.intro=Parameters.DisruptionParameters.disruptionParameter;
 				break;
+			case CHANGE_REASSORTMENT :							
+				Parameters.MutationAndReassortmentParameters.rho=Parameters.DisruptionParameters.disruptionParameter;
+				break;
 			case NONE:
 				break;
 			default:
