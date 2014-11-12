@@ -252,7 +252,7 @@ public class HostPopulation {
 		if (Parameters.day == Parameters.DisruptionParameters.disruptionTime) {
 			switch (Parameters.DisruptionParameters.disruptionType) {
 			case MASS_EXTINCTION :							
-				int recoveries = Random.nextPoisson(getI()*Parameters.DisruptionParameters.disruptionIntensity);
+				int recoveries = Random.nextPoisson(getI()*Parameters.DisruptionParameters.disruptionParameter);
 
 				for (int i = 0; i < recoveries; i++) {
 					if (getI()>0) {
@@ -264,11 +264,11 @@ public class HostPopulation {
 					}					
 				}
 				break;
-			case REDUCE_MUTATION :							
-				Parameters.MutationAndReassortmentParameters.mu=1-Parameters.DisruptionParameters.disruptionIntensity;
+			case CHANGE_MUTATION :							
+				Parameters.MutationAndReassortmentParameters.mu=Parameters.DisruptionParameters.disruptionParameter;
 				break;
-			case REDUCE_INTRODUCTION :							
-				Parameters.MutationAndReassortmentParameters.intro=1-Parameters.DisruptionParameters.disruptionIntensity;
+			case CHANGE_INTRO :							
+				Parameters.MutationAndReassortmentParameters.intro=Parameters.DisruptionParameters.disruptionParameter;
 				break;
 			case NONE:
 				break;
