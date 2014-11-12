@@ -264,8 +264,11 @@ public class HostPopulation {
 					}					
 				}
 				break;
-			case STOP_MUTATION :							
-				Parameters.MutationAndReassortmentParameters.mu=0;
+			case REDUCE_MUTATION :							
+				Parameters.MutationAndReassortmentParameters.mu=1-Parameters.DisruptionParameters.disruptionIntensity;
+				break;
+			case REDUCE_INTRODUCTION :							
+				Parameters.MutationAndReassortmentParameters.intro=1-Parameters.DisruptionParameters.disruptionIntensity;
 				break;
 			case NONE:
 				break;

@@ -11,7 +11,7 @@ import java.util.List;
 
 enum PhenotypeType {SEGMENTED};
 enum VaccineMakeup {NONE, PREVALENT_SEGMENTS, PREVALENT_STRAINS, MAXIMUM_COVERAGE};
-enum DisruptionType {NONE, MASS_EXTINCTION, STOP_MUTATION};
+enum DisruptionType {NONE, MASS_EXTINCTION, REDUCE_MUTATION, REDUCE_INTRODUCTION};
 
 public class Parameters {
 
@@ -136,9 +136,9 @@ public class Parameters {
 		@Setting (description ="distruptive interruption time" )
 		static int disruptionTime = 365*70;
 		@Setting (description ="disruption type" )
-		static DisruptionType disruptionType = DisruptionType.NONE;
+		static DisruptionType disruptionType = DisruptionType.REDUCE_INTRODUCTION;
 		@Setting (description ="disruption intensity (fraction extinction for mass extinciton)" )
-		static double disruptionIntensity = 0.95; // TODO: add this option to mutation
+		static double disruptionIntensity = 1.00; 
 	}
 
 
