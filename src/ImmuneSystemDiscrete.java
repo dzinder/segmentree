@@ -5,10 +5,11 @@ import java.util.List;
 public class ImmuneSystemDiscrete implements ImmuneSystem{
 
 	public static class ImmunityParametres {
-		@Setting (description ="risk=specific_risk x exp(-xi_generalized x number_of_previous_infections)"	)  
-		static double xi_generalized = 0.3;												
-		@Setting (description ="risk=generalized_risk x exp(-xi_specific x number_of_segments_encountered_before / numImmunogenicSegments)"	) 
-		static double xi_specific = 0.1;
+		@Setting (description ="risk=gen_risk x specific_risk = exp(-sigma*(sigma_het x #previous_infections) x exp (-sigma*(1-sigma_het) x #previous_segments / nSegments)"	)  
+		static double sigma = 0.41;
+		@Setting (description ="risk=specific_risk x exp(-sigma_het x #previous_infections) range: 0-1"	)  
+		static double sigma_het = 0.3;												
+		
 	}
 
 	int numPreviousInfections = 0;
@@ -29,12 +30,12 @@ public class ImmuneSystemDiscrete implements ImmuneSystem{
 	public double riskOfInfection(Virus v) {
 
 		// Generalized immunity = Exp[-alpha x num_previous_infections]
-		double generalizedimmunityExp = - ImmunityParametres.xi_generalized*numPreviousInfections;
+		double generalizedimmunityExp = - ImmunityParametres.sigma*ImmunityParametres.sigma_het*numPreviousInfections;
 
 		// Specific immunity = Exp[-beta x num_seen_segments / nImmunogenicSegments]
 		BitSet seenViralSegments = (BitSet) exposedToImmunogenicSegments.clone();
 		seenViralSegments.and(v.getImmunogenicSegmentIndices());
-		double specificImmunityExp = - ImmunityParametres.xi_specific*(double)seenViralSegments.cardinality()/(double)Parameters.SegmentParameters.nImmunogenicSegments;
+		double specificImmunityExp = - ImmunityParametres.sigma*(1.0-ImmunityParametres.sigma_het)*(double)seenViralSegments.cardinality()/(double)Parameters.SegmentParameters.nImmunogenicSegments;
 
 		// MAYBEDO: Drift		
 		// double driftImmuntiy = -xi_drift*getDriftDistance(v,previousInfections);
