@@ -95,6 +95,10 @@ public class Host {
 		immuneSystem.vaccinate(vaccineComposition);		
 	}
 
+	public double getRiskOfTransmission() {		
+		return Math.exp(immuneSystem.getRiskOfTransmission());
+	}
+
 
 
 }

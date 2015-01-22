@@ -13,4 +13,6 @@ public interface ImmuneSystem {
 	
 	void vaccinate(List<Virus> v);
 
+	double getRiskOfTransmission();
+
 }

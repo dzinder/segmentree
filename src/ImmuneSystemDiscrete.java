@@ -5,13 +5,13 @@ import java.util.List;
 public class ImmuneSystemDiscrete implements ImmuneSystem{
 
 	public static class ImmunityParameters {
-		@Setting (description ="risk=infection_risk x gen_risk x specific_risk = exp(-rho_reduced_infection*#previous_infections) x exp(-sigma*(sigma_het x #previous_infections) x exp (-sigma*(1-sigma_het) x #previous_segments / nSegments)"	)  
+		@Setting (description ="risk= gen_risk x specific_risk = exp(-sigma*(sigma_het x #previous_infections) x exp (-sigma*(1-sigma_het) x #previous_segments / nSegments)"	)  
 		static double sigma = 0.41;
 		@Setting (description ="the part of immunity which is reduction in suscptibility based on the number of previous infections\n"
-				+ "risk=infection_risk x gen_risk x specific_risk = exp(-rho_reduced_infection) x exp(-sigma*(sigma_het x #previous_infections) x exp (-sigma*(1-sigma_het) x #previous_segments / nSegments)"	)  
+				+ "risk=gen_risk x specific_risk = exp(-sigma*(sigma_het x #previous_infections) x exp (-sigma*(1-sigma_het) x #previous_segments / nSegments)"	)  
 		static double sigma_het = 0.3;	
 		@Setting (description ="reduction in infectivity following previous infections\n"
-				+ "risk=risk=infection_risk x gen_risk x specific_risk = exp(-rho_reduced_infection*#previous_infections) x exp(-sigma*(sigma_het x #previous_infections) x exp (-sigma*(1-sigma_het) x #previous_segments / nSegments)"	)
+				+ "risk=exp(-rho_reduced_infection x #previous_infections)"	)
 		static double rho_reduced_infection = 0.39;
 	}
 
@@ -31,10 +31,6 @@ public class ImmuneSystemDiscrete implements ImmuneSystem{
 	}
 
 	public double riskOfInfection(Virus v) {
-
-		// reduced infectivity
-		double reducedInfectivityExp = - ImmunityParameters.rho_reduced_infection*numPreviousInfections;
-		
 		// Generalized immunity = Exp[-alpha x num_previous_infections]
 		double generalizedimmunityExp = - ImmunityParameters.sigma*ImmunityParameters.sigma_het*numPreviousInfections;
 
@@ -47,7 +43,7 @@ public class ImmuneSystemDiscrete implements ImmuneSystem{
 		// double driftImmuntiy = -xi_drift*getDriftDistance(v,previousInfections);
 
 		// Immunity = GeneralizedImmunity x Specific Immunity = Exp[-alpha*num_previous_infections-beta*num_seen_segments]
-		return Math.exp(generalizedimmunityExp+specificImmunityExp+reducedInfectivityExp);
+		return Math.exp(generalizedimmunityExp+specificImmunityExp);
 	}
 
 	public void add(Virus v) {
@@ -69,6 +65,11 @@ public class ImmuneSystemDiscrete implements ImmuneSystem{
 			exposedToImmunogenicSegments.or(v.getImmunogenicSegmentIndices());
 		}
 		numPreviousInfections+=1;		
+	}
+
+	@Override
+	public double getRiskOfTransmission() {		
+		return Math.exp(-ImmunityParameters.rho_reduced_infection*numPreviousInfections);
 	}
 
 }

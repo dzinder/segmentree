@@ -422,7 +422,7 @@ public class HostPopulation {
 				if (!iH.isSuperinfected()) {
 					// attempt infection
 					Virus v = iH.getRandomInfection();
-					double chanceOfSuccess = sH.riskOfInfection(v); 
+					double chanceOfSuccess = sH.riskOfInfection(v)*iH.getRiskOfTransmission(); 
 					if (Random.nextBoolean(chanceOfSuccess)) {
 						sH.infect(v);
 						removeSusceptible(sndex);
@@ -436,7 +436,7 @@ public class HostPopulation {
 					boolean infected = false; 
 					for (int j=0; j<Parameters.MutationAndReassortmentParameters.n_bottleNeck; j++) {
 						Virus v = iH.getRandomInfection();
-						double chanceOfSuccess = sH.riskOfInfection(v); 
+						double chanceOfSuccess = sH.riskOfInfection(v)*iH.getRiskOfTransmission(); 
 						if (Random.nextBoolean(chanceOfSuccess)) {
 							infected = true;
 							sH.infect(v);
