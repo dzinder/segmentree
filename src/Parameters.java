@@ -172,7 +172,7 @@ public class Parameters {
 
 		Random.init();
 
-		s.apply(ImmuneSystemDiscrete.ImmunityParametres.class);		
+		s.apply(ImmuneSystemDiscrete.ImmunityParameters.class);		
 		ImmuneSystemDiscrete.updateImmunogenicSegmentMask(Parameters.SegmentParameters.nImmunogenicSegments);
 
 		urSegment = new Segment(); // root to all segments		
@@ -224,7 +224,7 @@ public class Parameters {
 			Settings.printSettings(Parameters.VaccineParameters.class, paramStream);
 			Settings.printSettings(Parameters.DisruptionParameters.class, paramStream);
 			Settings.printSettings(Random.class, paramStream); 	
-			Settings.printSettings(ImmuneSystemDiscrete.ImmunityParametres.class, paramStream); 	
+			Settings.printSettings(ImmuneSystemDiscrete.ImmunityParameters.class, paramStream); 	
 			paramStream.print((new GregorianCalendar()).getTime());												
 			paramStream.close();
 		} catch(IOException ex) {
