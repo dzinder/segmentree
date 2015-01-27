@@ -28,6 +28,10 @@ public class Simulation {
 	public int getI() {
 		return hp.getI();
 	}	
+	
+	public int getR() {
+		return hp.getR();
+	}	
 
 	public int getCases() {
 		return hp.getCases();
@@ -53,7 +57,7 @@ public class Simulation {
 	}	
 
 	public void printState() {
-		System.out.printf("%d\t%.3f\t%d\t%d\t%d\t%d\t%d\n", Parameters.day, getDiversity(), getN(), getS(), getI(),0 /* getR() */, getCases());
+		System.out.printf("%d\t%.3f\t%d\t%d\t%d\t%d\t%d\n", Parameters.day, getDiversity(), getN(), getS(), getI(), getR() , getCases());
 	}
 
 	public void printHeader(PrintStream stream) {
@@ -63,7 +67,7 @@ public class Simulation {
 
 	public void printState(PrintStream stream) {
 		if (Parameters.day > Parameters.SimulationParameters.burnin) {
-			stream.printf("%.4f\t%.4f\t%d\t%d\t%d\t%d\t%d", Parameters.getDate(), getDiversity(), getN(), getS(), getI(), 0/* getR()*/, getCases());
+			stream.printf("%.4f\t%.4f\t%d\t%d\t%d\t%d\t%d", Parameters.getDate(), getDiversity(), getN(), getS(), getI(), getR(), getCases());
 			totalCases+=getCases();
 			stream.println();
 		}

@@ -7,10 +7,15 @@ import org.javatuples.Pair;
 
 public class HostPopulation {
 
-	// fields
+
 	private int cases;	// number of cases from last count, doesn't effect dynamics 
+
+	// major classes
 	private List<Host> susceptibles = new ArrayList<Host>(); 
 	private List<Host> infecteds = new ArrayList<Host>(); // including superinfecteds
+	private List<Host> recoverds = new ArrayList<Host>(); // fully protected  
+
+	// strain reservoir
 	private List<Host> initialStrainReservoir = new ArrayList<Host>();
 
 	// host samples
@@ -56,7 +61,8 @@ public class HostPopulation {
 
 		// clearing lists
 		susceptibles.clear();
-		infecteds.clear();			
+		infecteds.clear();
+		recoverds.clear();
 		strainTallyForVaccineComposition.clear();
 		segmentTallyForVaccineComposition.clear();
 		vaccineComposition.clear();
@@ -100,11 +106,15 @@ public class HostPopulation {
 
 	// METHODS
 	public int getN() {
-		return susceptibles.size() + infecteds.size();
+		return susceptibles.size() + infecteds.size() + recoverds.size();
 	}
 
 	public int getS() {
 		return susceptibles.size();
+	}
+
+	public int getR() {
+		return recoverds.size();
 	}
 
 	public int getI() {
@@ -125,24 +135,33 @@ public class HostPopulation {
 	public int getRandomS() {
 		return Random.nextInt(0,getS()-1);
 	}
+	public int getRandomR() {
+		return Random.nextInt(0,getR()-1);
+	}
 	public int getRandomI() {
 		return Random.nextInt(0,getI()-1);
 	}	
 
 	public Host getRandomHost() {
 		double n = Random.nextInt(0,getN()-1);
-		if (n <= (getS()-1)) 
+		if (n <= (getS()-1))
 			return getRandomHostS();
-		return getRandomHostI();
+		if (n <= (getS() + getI() - 1))
+			return getRandomHostI();
+		else
+			return getRandomHostR();
 	}
 
 	public Host getRandomHostS() {
 		return susceptibles.get(Random.nextInt(0,susceptibles.size()-1));
 	}
-
 	public Host getRandomHostI() {
 		return infecteds.get(Random.nextInt(0,infecteds.size()-1));
 	}
+	public Host getRandomHostR() {
+		return recoverds.get(Random.nextInt(0,recoverds.size()-1));
+	}
+
 
 
 	public void resetCases() {
@@ -165,6 +184,13 @@ public class HostPopulation {
 		infecteds.remove(infecteds.size()-1);
 	}
 
+	public void removeRecoverd(int i) {	
+		// remove by moving last infected to location i, and than shortening ArrayList
+		recoverds.set(i, recoverds.get(recoverds.size()-1));
+		recoverds.remove(recoverds.size()-1);
+	}
+
+
 
 	public void stepForward() {
 
@@ -184,13 +210,14 @@ public class HostPopulation {
 		}
 
 		contact(); // reassortants are sampled on contact
-		recover();			
+		recover();	
+		loseImmunity();
 		mutate(); // introduce new segments without recycling
 
 		vaccinate(); // vaccinate individuals based on policy
-		
+
 		disruption(); // 
-		
+
 		contactReservoir();
 
 		sample(); // doesn't effect dynamics
@@ -233,6 +260,11 @@ public class HostPopulation {
 						vaccineQueue.add(h);
 					}
 				}
+				for (Host h : recoverds) {
+					if (h.getAgeInDays()<=maxAge) {
+						vaccineQueue.add(h);
+					}
+				}
 			}
 
 			for (Host h : vaccineQueue ) {
@@ -247,7 +279,7 @@ public class HostPopulation {
 
 		}
 	}
-	
+
 	private void disruption() {
 		if (Parameters.day == Parameters.DisruptionParameters.disruptionTime) {
 			switch (Parameters.DisruptionParameters.disruptionType) {
@@ -260,7 +292,7 @@ public class HostPopulation {
 						Host h = infecteds.get(index);
 						removeInfected(index);
 						h.clearInfections();
-						susceptibles.add(h);
+						recoverds.add(h); // two options recover or move to suscptibles
 					}					
 				}
 				break;
@@ -279,7 +311,7 @@ public class HostPopulation {
 				break;
 			}
 		}
-		
+
 	}
 
 	private void mutate() {		
@@ -321,13 +353,22 @@ public class HostPopulation {
 				int index = getRandomI();
 				removeInfected(index);
 			}
-		}		
+		}	
+		// deaths in recoverd's class		
+		totalDeathRate = getR() * Parameters.DemographicParameters.deathRate;
+		deaths = Random.nextPoisson(totalDeathRate);
+		for (int i = 0; i < deaths; i++) {
+			if (getR()>0) {
+				int index = getRandomR();
+				removeRecoverd(index);
+			}
+		}	
 
 	}
-	
+
 	private void contactReservoir() {
 		// each infected (or superinfected) makes contacts on a per-day rate of propContactWithReservoir*beta*reservoirSize*S/N
-		double susceptibleContactRate = initialStrainReservoir.size()* getPrS()*Parameters.EpidemiologicalParameters.beta*Parameters.ReservoirParameters.proportionContactWithReservoir;
+		double susceptibleContactRate = initialStrainReservoir.size()*getPrS()*Parameters.EpidemiologicalParameters.beta*Parameters.ReservoirParameters.proportionContactWithReservoir;
 		int contacts = Random.nextPoisson(susceptibleContactRate);
 		for (int i = 0; i < contacts; i++) {
 			if (getS()>0) {
@@ -335,11 +376,11 @@ public class HostPopulation {
 				Host iH = initialStrainReservoir.get(Random.nextInt(0, initialStrainReservoir.size()-1));
 				int sndex = getRandomS();
 				Host sH = susceptibles.get(sndex);			
-
+				
 				if (!iH.isSuperinfected()) {
 					// attempt infection
 					Virus v = iH.getRandomInfection();
-					double chanceOfSuccess = sH.riskOfInfection(v); 
+					double chanceOfSuccess = sH.riskOfInfection(v)*iH.getRiskOfTransmission(); 
 					if (Random.nextBoolean(chanceOfSuccess)) {
 						sH.infect(v);
 						removeSusceptible(sndex);
@@ -353,7 +394,7 @@ public class HostPopulation {
 					boolean infected = false; 
 					for (int j=0; j<Parameters.MutationAndReassortmentParameters.n_bottleNeck; j++) {
 						Virus v = iH.getRandomInfection();
-						double chanceOfSuccess = sH.riskOfInfection(v); 
+						double chanceOfSuccess = sH.riskOfInfection(v)*iH.getRiskOfTransmission(); 
 						if (Random.nextBoolean(chanceOfSuccess)) {
 							infected = true;
 							sH.infect(v);
@@ -364,10 +405,48 @@ public class HostPopulation {
 						infecteds.add(sH);
 						cases++; // doesn't effect dynamics
 					}
-				}			
+				}		
 			}
 		}
 
+		// Contact with infecteds
+		// each infected (or superinfected) makes contacts on a per-day rate of propContactWithReservoir*beta*reservoirSize*I/N
+		double infectedContactRate = initialStrainReservoir.size()*getPrI()*Parameters.EpidemiologicalParameters.beta*Parameters.ReservoirParameters.proportionContactWithReservoir;
+		contacts = Random.nextPoisson(infectedContactRate);
+		for (int i = 0; i < contacts; i++) {
+			if (getI()>0) {
+				// get indices and objects
+				Host fromH = initialStrainReservoir.get(Random.nextInt(0, initialStrainReservoir.size()-1));
+				int index=getRandomI();
+				Host toH = infecteds.get(index);			
+			
+				if (!fromH.isSuperinfected()) {
+					// attempt infection
+					Virus v = fromH.getRandomInfection();
+					double chanceOfSuccess = toH.riskOfInfection(v);//*fromH.getRiskOfTransmission(); 
+					if (Random.nextBoolean(chanceOfSuccess)) {
+						toH.infect(v);
+						cases++; // doesn't effect dynamics
+					}
+				} else {
+					boolean infected = false; 
+					// for superinfected host:
+					// Pick n_bottleNeck random viruses, for each segment with probability rho replace it with segment from all infecting viruses
+					// viruses transmits based on individual probability		
+					for (int j=0; j<Parameters.MutationAndReassortmentParameters.n_bottleNeck; j++) {
+						Virus v = fromH.getRandomInfection();
+						double chanceOfSuccess = toH.riskOfInfection(v);//*fromH.getRiskOfTransmission(); 
+						if (Random.nextBoolean(chanceOfSuccess)) {
+							infected = true;
+							toH.infect(v);
+						}
+					}
+					if (infected) {				
+						cases++; // doesn't effect dynamics
+					}
+				}							
+			}
+		}
 	}
 
 	// draw a Poisson distributed number of births and reset these individuals
@@ -401,6 +480,19 @@ public class HostPopulation {
 				Host h = infecteds.get(index);
 				removeInfected(index);
 				h.reset();
+				susceptibles.add(h);
+			}
+		}
+
+		// draw random individuals from recoverd's class
+		totalBirthRate = getR() * Parameters.DemographicParameters.birthRate;
+		births = Random.nextPoisson(totalBirthRate);
+		for (int i = 0; i < births; i++) {
+			if (getR()>0) {
+				int index = getRandomR();
+				Host h = recoverds.get(index);		
+				removeRecoverd(index);
+				h.reset();					
 				susceptibles.add(h);
 			}
 		}	
@@ -459,18 +551,37 @@ public class HostPopulation {
 			Host fromH = getRandomHostI();
 			Host toH = getRandomHostI();
 
-			// attempt infection
-			Virus v = fromH.getRandomInfection();
-			double chanceOfSuccess = toH.riskOfInfection(v); 
-			if (Random.nextBoolean(chanceOfSuccess)) {
-				toH.infect(v);
-			}
+			if (!fromH.isSuperinfected()) {
+				// attempt infection
+				Virus v = fromH.getRandomInfection();
+				double chanceOfSuccess = toH.riskOfInfection(v)*fromH.getRiskOfTransmission(); 
+				if (Random.nextBoolean(chanceOfSuccess)) {
+					toH.infect(v);
+					cases++; // doesn't effect dynamics
+				}
+			} else {
+				// for superinfected host:
+				// Pick n_bottleNeck random viruses, for each segment with probability rho replace it with segment from all infecting viruses
+				// viruses transmits based on individual probability
+				boolean infected = false; 
+				for (int j=0; j<Parameters.MutationAndReassortmentParameters.n_bottleNeck; j++) {
+					Virus v = fromH.getRandomInfection();
+					double chanceOfSuccess = toH.riskOfInfection(v)*fromH.getRiskOfTransmission(); 
+					if (Random.nextBoolean(chanceOfSuccess)) {
+						infected = true;
+						toH.infect(v);
+					}
+				}
+				if (infected) {				
+					cases++; // doesn't effect dynamics
+				}
+			}			
 		}
 
 	}
 
 
-	// draw a Poisson distributed number of recoveries and move from I->S based upon this
+	// draw a Poisson distributed number of recoveries and move from I->R based upon this
 	public void recover() {
 		// each infected recovers at a per-day rate of nu
 		// infected clear from multiple infections simultaneously
@@ -485,7 +596,7 @@ public class HostPopulation {
 					Host h = infecteds.get(index);
 					removeInfected(index);
 					h.clearInfections();
-					susceptibles.add(h);
+					recoverds.add(h);
 				}
 			}
 			else if ((Parameters.day<Parameters.SimulationParameters.burnin || Parameters.SimulationParameters.keepAlive) && getI()>1) {
@@ -493,13 +604,29 @@ public class HostPopulation {
 				Host h = infecteds.get(index);
 				removeInfected(index);
 				h.clearInfections();					
+				recoverds.add(h);
+			}
+		}
+	}
+
+	// draw a Poisson distributed number of recoverds and move to susceptible class
+	public void loseImmunity() {
+		// each recoverd loses immuntiy at a per-day rate of omega
+		// recoverds are fully protected
+
+		double totalRecoveryRate = getR() * Parameters.EpidemiologicalParameters.omega;
+		int recoveries = Random.nextPoisson(totalRecoveryRate);
+
+		for (int i = 0; i < recoveries; i++) {		
+			if (getR()>0) {
+				int index = getRandomR();
+				Host h = recoverds.get(index);
+				removeRecoverd(index);
 				susceptibles.add(h);
 			}
-
-
 		}
+	}		
 
-	}			
 
 	public void sample() {
 		if (getI()>0 && Parameters.day >= Parameters.SimulationParameters.burnin) {
@@ -567,7 +694,7 @@ public class HostPopulation {
 
 	public void printState(PrintStream stream) {
 		if (Parameters.day > Parameters.SimulationParameters.burnin) {
-			stream.printf("\t%d\t%d\t%d\t%d\t%d", getN(), getS(), getI(),0 /* getR()*/, getCases());
+			stream.printf("\t%d\t%d\t%d\t%d\t%d", getN(), getS(), getI(), getR(), getCases());
 		}
 	}	
 
