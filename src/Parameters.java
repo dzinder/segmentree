@@ -93,14 +93,14 @@ public class Parameters {
 		@Setting (description ="number of immunogenic segments (only these first n segments will generate effective immunity)" ) 
 		static int nImmunogenicSegments = 3;
 		@Setting (description ="number of inital segment allels" ) 
-		static int[] nInitialSegmentAllels = {12,4,2};
+		static int[] nInitialSegmentAllels = {1,1,1};
 		@Setting (description ="number of inital random viral segement combinations" ) 
-		static int nInitialStrains = 13;
+		static int nInitialStrains = 1;
 	}
 
 	public static class MutationAndReassortmentParameters {
 		@Setting (description ="introduction rate - in segment introductions per day" )
-		static double intro = 0.0/365.0;
+		static double intro = 1.0/365.0;
 		// Mutation & Reassortment Parameters
 		@Setting (description ="mutation rate - in mutations per infected host per day" )
 		static double mu = 0;//1E-4;
@@ -116,7 +116,7 @@ public class Parameters {
 	public static class ReservoirParameters {
 		// Strain Reservoir Parameters 
 		@Setting (description ="contact with initial strain reservoir as proporiton of beta" )
-		static double proportionContactWithReservoir = 0.001;
+		static double proportionContactWithReservoir = 0.000;
 	}
 
 
