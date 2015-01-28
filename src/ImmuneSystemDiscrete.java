@@ -6,15 +6,17 @@ public class ImmuneSystemDiscrete implements ImmuneSystem{
 
 	public static class ImmunityParameters {
 		@Setting (description ="the part of immunity which is reduction in suscptibility based on the number of segments seen before\n"
-				+ "risk=gen_risk x specific_risk = exp(-sigma_het x #previous_infections) x exp(-sigma_spec x #previous_segments / nSegments)"	)  
-		static double sigma_spec = 0.84; // 0 - 3.9	
+				+ "infection risk=gen_risk x specific_risk = exp(-sigma_het x #previous_infections) x exp(-sigma_spec x #previous_segments / nSegments)"	)  
+		static double sigma_spec = 0.82; // 0 - 3.9	
 		@Setting (description ="the part of immunity which is reduction in suscptibility based on the number of previous infections\n"
-				+ "risk=gen_risk x specific_risk = exp(-sigma_het x #previous_infections) x exp(-sigma_ho x #previous_segments / nSegments)"	)  
-		static double sigma_gen = 0.42;	// 0 - 0.69 
+				+ "infection risk=gen_risk x specific_risk = exp(-sigma_het x #previous_infections) x exp(-sigma_ho x #previous_segments / nSegments)"	)  
+		static double sigma_gen = 0.41;	// 0 - 0.69 
 		@Setting (description ="reduction in infectivity following previous infections\n"
-				+ "risk=exp(-rho_reduced_infection x #previous_infections)"	)
+				+ "transmission risk=infectivity_at_first_infection x exp(-rho_reduced_infection x #previous_infections)"	)
 		static double rho_reduced_infectivity = 0.9;
-
+		@Setting (description ="infectivity at first infection"
+				+ "transmission risk=infectivity_at_first_infection x exp(-rho_reduced_infection x #previous_infections)"	)
+		static double infectivity_at_first_infection = 0.47;
 	}
 
 	int numPreviousInfections = 0;
@@ -70,8 +72,8 @@ public class ImmuneSystemDiscrete implements ImmuneSystem{
 	}
 
 	@Override
-	public double getRiskOfTransmission() {		
-		return Math.exp(-ImmunityParameters.rho_reduced_infectivity*numPreviousInfections);
+	public double riskOfTransmission() {		
+		return ImmunityParameters.infectivity_at_first_infection * Math.exp(-ImmunityParameters.rho_reduced_infectivity*numPreviousInfections);
 	}
 
 }

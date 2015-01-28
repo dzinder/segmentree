@@ -96,7 +96,7 @@ public class Host {
 	}
 
 	public double getRiskOfTransmission() {		
-		return Math.exp(immuneSystem.getRiskOfTransmission());
+		return Math.exp(immuneSystem.riskOfTransmission());
 	}
 
 
