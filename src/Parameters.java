@@ -62,7 +62,7 @@ public class Parameters {
 	public static class DemographicParameters {
 		// Host & Host Population Parameters & Settings
 		@Setting (description ="Number of hosts in population" )
-		static int N = 1000000;								
+		static int N = 2000000;								
 		@Setting (description ="in births per individual per day, i.e. 1/(30*365)" )
 		static double birthRate = 1.0/(30.0*365.0);	
 		@Setting (description ="in deaths per individual per day, i.e. 1/(30*365)" )
@@ -79,7 +79,7 @@ public class Parameters {
 		@Setting (description ="proportion recovered to intial virus/es (multiple recoveries for value greater than 1)" )
 		static double initialPrR = 8.0; 
 		@Setting (description ="in contacts per individual per day" )
-		static double beta = 24.6/7.0; //3.72/7.0 
+		static double beta = 3.72/7.0; //3.72/7.0 
 		@Setting (description ="in recoveries per individual per day" )
 		static double nu = 1.0/7.0;
 		@Setting (description ="in waning immunity per individual per day" )
@@ -93,14 +93,14 @@ public class Parameters {
 		@Setting (description ="number of immunogenic segments (only these first n segments will generate effective immunity)" ) 
 		static int nImmunogenicSegments = 3;
 		@Setting (description ="number of inital segment allels" ) 
-		static int[] nInitialSegmentAllels = {1,1,1};
+		static int[] nInitialSegmentAllels = {12,4,2};
 		@Setting (description ="number of inital random viral segement combinations" ) 
-		static int nInitialStrains = 1;
+		static int nInitialStrains = 13;
 	}
 
 	public static class MutationAndReassortmentParameters {
 		@Setting (description ="introduction rate - in segment introductions per day" )
-		static double intro = 1.0/3650.0;
+		static double intro = 0.0/365.0;
 		// Mutation & Reassortment Parameters
 		@Setting (description ="mutation rate - in mutations per infected host per day" )
 		static double mu = 0;//1E-4;
@@ -115,23 +115,23 @@ public class Parameters {
 	public static class ReservoirParameters {
 		// Strain Reservoir Parameters 
 		@Setting (description ="contact with initial strain reservoir as proporiton of beta" )
-		static double proportionContactWithReservoir = 0.000;
+		static double proportionContactWithReservoir = 0.001;
 	}
 
 
-	public static class VaccineParameters {
-		// Vaccine Parameters
-		@Setting (description ="vaccination ages in days (must be inputed in increasing order)" )
-		static int[] vaccinationAges = {2*30, 4*30,6*30}; 
-		@Setting (description ="vaccine proportion" )
-		static double vaccineP = 0.9;
-		@Setting (description ="vaccine makeup - PREVALENT_SEGMENTS or PREVALENT_STRAINS or MAXIMUM_COVERGE" )
-		static VaccineMakeup vaccineMakeup = VaccineMakeup.NONE;
-		@Setting (description ="vaccine valancy - number of strains or segments in vaccine" )
-		static int vaccineValancy = 2;
-		@Setting (description ="time of vaccination program start in days" )
-		static int vaccinationProgramStartTime = 365*7000; // days
-	}
+//	public static class VaccineParameters {
+//		// Vaccine Parameters
+//		@Setting (description ="vaccination ages in days (must be inputed in increasing order)" )
+//		static int[] vaccinationAges = {2*30, 4*30,6*30}; 
+//		@Setting (description ="vaccine proportion" )
+//		static double vaccineP = 0.9;
+//		@Setting (description ="vaccine makeup - PREVALENT_SEGMENTS or PREVALENT_STRAINS or MAXIMUM_COVERGE" )
+//		static VaccineMakeup vaccineMakeup = VaccineMakeup.NONE;
+//		@Setting (description ="vaccine valancy - number of strains or segments in vaccine" )
+//		static int vaccineValancy = 2;
+//		@Setting (description ="time of vaccination program start in days" )
+//		static int vaccinationProgramStartTime = 365*7000; // days
+//	}
 
 	public static class DisruptionParameters {
 		// Population Disruption Parameters
@@ -168,7 +168,7 @@ public class Parameters {
 		s.apply(SegmentParameters.class);
 		s.apply(MutationAndReassortmentParameters.class);
 		s.apply(ReservoirParameters.class);
-		s.apply(VaccineParameters.class);
+//		s.apply(VaccineParameters.class);
 		s.apply(DisruptionParameters.class);
 		s.apply(Random.class);
 
@@ -223,7 +223,7 @@ public class Parameters {
 			Settings.printSettings(Parameters.SegmentParameters.class, paramStream);
 			Settings.printSettings(Parameters.MutationAndReassortmentParameters.class, paramStream);
 			Settings.printSettings(Parameters.ReservoirParameters.class, paramStream);
-			Settings.printSettings(Parameters.VaccineParameters.class, paramStream);
+//			Settings.printSettings(Parameters.VaccineParameters.class, paramStream);
 			Settings.printSettings(Parameters.DisruptionParameters.class, paramStream);
 			Settings.printSettings(Random.class, paramStream); 	
 			Settings.printSettings(ImmuneSystemDiscrete.ImmunityParameters.class, paramStream); 	

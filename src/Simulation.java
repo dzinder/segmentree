@@ -119,9 +119,9 @@ public class Simulation {
 					resetCases();
 				}
 				
-				if (Parameters.day % Parameters.VaccineParameters.vaccinationProgramStartTime == 0) {
-					determineVaccineComposition();					
-				}
+//				if (Parameters.day % Parameters.VaccineParameters.vaccinationProgramStartTime == 0) {
+//					determineVaccineComposition();					
+//				}
 
 				if (getI()==0) {
 					if (Parameters.SimulationParameters.repeatSim) {
@@ -175,9 +175,9 @@ public class Simulation {
 
 	}	
 
-	private void determineVaccineComposition() {	
-		hp.determineVaccineComposition();				
-	}
+//	private void determineVaccineComposition() {	
+//		hp.determineVaccineComposition();				
+//	}
 
 	public void reset() {
 		Parameters.init();
