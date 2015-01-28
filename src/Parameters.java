@@ -104,7 +104,8 @@ public class Parameters {
 		// Mutation & Reassortment Parameters
 		@Setting (description ="mutation rate - in mutations per infected host per day" )
 		static double mu = 0;//1E-4;
-		@Setting (description ="reassortment probability - probability of segment to be randomly chosen from all possible segments in a superinfection" )
+		@Setting (description ="reassortment probability - the probability of a segment to be randomly chosen from all possible\n"
+							 + "                           segments during transmission from a superinfection" )
 		static double rho = 0.1;			    
 		@Setting (description ="infection bottle neck size - at most number of segment combinations to be transmitted from a superinfected host" )
 		static double n_bottleNeck = 1;
