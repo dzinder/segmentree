@@ -16,16 +16,16 @@ public class Host {
 		if (bornOld) {
 			float lifespan = (float) (1 / (365.0 * Parameters.DemographicParameters.birthRate));
 			float age = (float) Random.nextExponential(lifespan);
-			birth = (int) (Parameters.day - age*365);
+			birth = (int) (Parameters.getDay() - age*365);
 		}
 		else {
-			birth = Parameters.day;
+			birth = Parameters.getDay();
 		}
 	}
 
 	// recycle host 
 	public void reset() {
-		birth = Parameters.day;
+		birth = Parameters.getDay();
 		infectingViruses.clear();
 		immuneSystem.reset();
 	}
@@ -36,7 +36,7 @@ public class Host {
 	}
 
 	public float getAgeInDays() {
-		return Parameters.day-birth;
+		return Parameters.getDay()-birth;
 	}
 
 	public boolean isInfected() {		

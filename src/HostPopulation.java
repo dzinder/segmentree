@@ -3,7 +3,7 @@
 import java.util.*;
 import java.io.*;
 
-import org.javatuples.Pair;
+//import org.javatuples.Pair;
 
 public class HostPopulation {
 
@@ -23,13 +23,13 @@ public class HostPopulation {
 	private HostsForImmunitySamples hostsForImmunitySamples = new HostsForImmunitySamples();
 
 	// Vaccine composition
-	private HashMap<BitSet,Pair<Virus,Integer>> strainTallyForVaccineComposition = new HashMap<BitSet,Pair<Virus,Integer>>();	
-	private HashMap<Integer,Pair<Segment,Integer>> segmentTallyForVaccineComposition = new HashMap<Integer,Pair<Segment,Integer>>(); // TODO: implement this	
-	private List<Virus> vaccineComposition = new ArrayList<Virus>();
+//	private HashMap<BitSet,Pair<Virus,Integer>> strainTallyForVaccineComposition = new HashMap<BitSet,Pair<Virus,Integer>>();	
+//	private HashMap<Integer,Pair<Segment,Integer>> segmentTallyForVaccineComposition = new HashMap<Integer,Pair<Segment,Integer>>(); // TODO: implement this	
+//	private List<Virus> vaccineComposition = new ArrayList<Virus>();
 	// Vaccine queue
-	private List<Host> vaccineQueue = new ArrayList<Host>();
-	private int minTimeIntervalForVaccinationQueueUpdate;
-	private int maxAge;
+//	private List<Host> vaccineQueue = new ArrayList<Host>();
+//	private int minTimeIntervalForVaccinationQueueUpdate;
+//	private int maxAge;
 
 	// genome samples for vaccine makeup determination
 
@@ -63,14 +63,14 @@ public class HostPopulation {
 		susceptibles.clear();
 		infecteds.clear();
 		recoverds.clear();
-		strainTallyForVaccineComposition.clear();
-		segmentTallyForVaccineComposition.clear();
-		vaccineComposition.clear();
+//		strainTallyForVaccineComposition.clear();
+//		segmentTallyForVaccineComposition.clear();
+//		vaccineComposition.clear();
 
 		// reservoir
 		initialStrainReservoir.clear();
 		if (Parameters.ReservoirParameters.proportionContactWithReservoir>0) {					
-			for (Virus v : Parameters.initialViruses) {
+			for (Virus v : Parameters.getInitialViruses()) {
 				Host h = new Host(true);
 				h.infect(v);
 				initialStrainReservoir.add(h);
@@ -91,7 +91,7 @@ public class HostPopulation {
 		// infect some individuals
 		for (int i = 0; i < Parameters.EpidemiologicalParameters.initialI; i++) {		
 			Host h = new Host(true);
-			h.infect(Parameters.initialViruses.get(Random.nextInt(0, Parameters.initialViruses.size()-1)));
+			h.infect(Parameters.getInitialViruses().get(Random.nextInt(0, Parameters.getInitialViruses().size()-1)));
 			infecteds.add(h);
 		}		
 		System.out.println("finished constructing " + Parameters.EpidemiologicalParameters.initialI + " infected hosts\n"); // display
@@ -99,7 +99,7 @@ public class HostPopulation {
 		// add initial immune history to some individuals
 		for (int i = 0; i < Math.round(Parameters.EpidemiologicalParameters.initialPrR*Parameters.DemographicParameters.N); i++) {
 			if (i%5000000 == 0 ) System.out.println("adding immune history: " + i + " out of " + Math.round(Parameters.EpidemiologicalParameters.initialPrR*Parameters.DemographicParameters.N)); 	// display		
-			getRandomHost().addToImmuneHistory(Parameters.initialViruses.get(Random.nextInt(0, Parameters.initialViruses.size()-1)));
+			getRandomHost().addToImmuneHistory(Parameters.getInitialViruses().get(Random.nextInt(0, Parameters.getInitialViruses().size()-1)));
 		}		
 		System.out.println("finished immunizing " +Math.round(Parameters.EpidemiologicalParameters.initialPrR*Parameters.DemographicParameters.N) + " hosts\n"); // display
 	}
@@ -273,7 +273,7 @@ public class HostPopulation {
 //	}
 
 	private void disruption() {
-		if (Parameters.day == Parameters.DisruptionParameters.disruptionTime) {
+		if (Parameters.getDay() == Parameters.DisruptionParameters.disruptionTime) {
 			switch (Parameters.DisruptionParameters.disruptionType) {
 			case MASS_EXTINCTION :							
 				int recoveries = Random.nextPoisson(getI()*Parameters.DisruptionParameters.disruptionParameter);
@@ -458,7 +458,7 @@ public class HostPopulation {
 
 		// remove infected and add to susceptible births
 		for (int i = 0; i < births; i++) {			
-			if (((Parameters.day>Parameters.SimulationParameters.burnin) || (!Parameters.SimulationParameters.keepAliveDuringBurnin)) && (!Parameters.SimulationParameters.keepAlive)) {
+			if (((Parameters.getDay()>Parameters.SimulationParameters.burnin) || (!Parameters.SimulationParameters.keepAliveDuringBurnin)) && (!Parameters.SimulationParameters.keepAlive)) {
 				if (getI()>0) {
 					int index = getRandomI();
 					Host h = infecteds.get(index);		
@@ -467,7 +467,7 @@ public class HostPopulation {
 					susceptibles.add(h);
 				}
 			}
-			else if ((Parameters.day<Parameters.SimulationParameters.burnin || Parameters.SimulationParameters.keepAlive) && getI()>1) {
+			else if ((Parameters.getDay()<Parameters.SimulationParameters.burnin || Parameters.SimulationParameters.keepAlive) && getI()>1) {
 				int index = getRandomI();
 				Host h = infecteds.get(index);
 				removeInfected(index);
@@ -582,7 +582,7 @@ public class HostPopulation {
 		int recoveries = Random.nextPoisson(totalRecoveryRate);
 
 		for (int i = 0; i < recoveries; i++) {
-			if (((Parameters.day>Parameters.SimulationParameters.burnin) || (!Parameters.SimulationParameters.keepAliveDuringBurnin)) && (!Parameters.SimulationParameters.keepAlive)) {
+			if (((Parameters.getDay()>Parameters.SimulationParameters.burnin) || (!Parameters.SimulationParameters.keepAliveDuringBurnin)) && (!Parameters.SimulationParameters.keepAlive)) {
 				if (getI()>0) {
 					int index = getRandomI();
 					Host h = infecteds.get(index);
@@ -591,7 +591,7 @@ public class HostPopulation {
 					recoverds.add(h);
 				}
 			}
-			else if ((Parameters.day<Parameters.SimulationParameters.burnin || Parameters.SimulationParameters.keepAlive) && getI()>1) {
+			else if ((Parameters.getDay()<Parameters.SimulationParameters.burnin || Parameters.SimulationParameters.keepAlive) && getI()>1) {
 				int index = getRandomI();
 				Host h = infecteds.get(index);
 				removeInfected(index);
@@ -621,7 +621,7 @@ public class HostPopulation {
 
 
 	public void sample() {
-		if (getI()>0 && Parameters.day >= Parameters.SimulationParameters.burnin) {
+		if (getI()>0 && Parameters.getDay() >= Parameters.SimulationParameters.burnin) {
 			// Sample infected hosts for out.infected
 			int numInfectedHostSamples = Random.nextPoisson(Parameters.SamplingParameters.infectedHostSamplingRate*getI());
 
@@ -685,7 +685,7 @@ public class HostPopulation {
 	}	
 
 	public void printState(PrintStream stream) {
-		if (Parameters.day > Parameters.SimulationParameters.burnin) {
+		if (Parameters.getDay() > Parameters.SimulationParameters.burnin) {
 			stream.printf("\t%d\t%d\t%d\t%d\t%d", getN(), getS(), getI(), getR(), getCases());
 		}
 	}	
@@ -776,36 +776,36 @@ public class HostPopulation {
 //		}
 //	}
 
-	public void printVaccine() {
-		try {
-			File vacFile = new File("out.vaccine");
-			vacFile.delete();
-			vacFile.createNewFile();
-			PrintStream vacStream = new PrintStream(vacFile);
-			for (int i=0;i<Parameters.SegmentParameters.nSegments;i++) {
-				vacStream.printf("segment%d",i);
-				if (i!=(Parameters.SegmentParameters.nSegments-1)) {
-					vacStream.printf(",");
-				}					
-			}
-			vacStream.printf("\n");		
-
-			for (Virus vaccineStrain : vaccineComposition) {
-				Segment[] vaccineStrainSegments = vaccineStrain.getSegments();
-				for (int i=0; i<vaccineStrainSegments.length;i++) {
-					vacStream.printf("%d",vaccineStrainSegments[i].getSegmentNumber());
-					if (i!=(vaccineStrainSegments.length-1)) {
-						vacStream.printf(",");
-					}
-				}
-				vacStream.printf("\n");
-			}
-			vacStream.close();
-		} catch(IOException ex) {
-			System.out.println("Could not write to file out.vaccine"); 
-			System.exit(0);
-		}
-
-	}	
+//	public void printVaccine() {
+//		try {
+//			File vacFile = new File("out.vaccine");
+//			vacFile.delete();
+//			vacFile.createNewFile();
+//			PrintStream vacStream = new PrintStream(vacFile);
+//			for (int i=0;i<Parameters.SegmentParameters.nSegments;i++) {
+//				vacStream.printf("segment%d",i);
+//				if (i!=(Parameters.SegmentParameters.nSegments-1)) {
+//					vacStream.printf(",");
+//				}					
+//			}
+//			vacStream.printf("\n");		
+//
+//			for (Virus vaccineStrain : vaccineComposition) {
+//				Segment[] vaccineStrainSegments = vaccineStrain.getSegments();
+//				for (int i=0; i<vaccineStrainSegments.length;i++) {
+//					vacStream.printf("%d",vaccineStrainSegments[i].getSegmentNumber());
+//					if (i!=(vaccineStrainSegments.length-1)) {
+//						vacStream.printf(",");
+//					}
+//				}
+//				vacStream.printf("\n");
+//			}
+//			vacStream.close();
+//		} catch(IOException ex) {
+//			System.out.println("Could not write to file out.vaccine"); 
+//			System.exit(0);
+//		}
+//
+//	}	
 
 }

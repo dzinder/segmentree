@@ -201,6 +201,7 @@ public class Settings
 		}
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void apply(Object obj, Class<?> objClass, String setting)
 	{
 		Field settingField = getSettingField(objClass, setting);

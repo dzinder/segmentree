@@ -143,23 +143,22 @@ public class Parameters {
 		static double disruptionParameter = 0.00; 
 	}
 
-
-
-	public static int day = 0;
+	// "Global" fields 	
+	private static int day = 0;
+	private static List<Virus> initialViruses = null;
+	private static Segment urSegment;
+	
+	// Settings
+	static Settings s;
 
 	// measured in years, starting at Parameters.SimulationParameters.burnin
 	public static float getDate() {
-		return (float) (((float) day - (float) Parameters.SimulationParameters.burnin ) / 365.0 );
+		return (float) (((float) getDay() - (float) Parameters.SimulationParameters.burnin ) / 365.0 );
 	}
-
-	static Settings s;
-
-	public static List<Virus> initialViruses = null;
-	public static Segment urSegment;
 
 	public static void init() {
 
-		day=0;
+		day = 0;
 
 		s.apply(SimulationParameters.class);
 		s.apply(SamplingParameters.class);
@@ -177,15 +176,15 @@ public class Parameters {
 		s.apply(ImmuneSystemDiscrete.ImmunityParameters.class);		
 		ImmuneSystemDiscrete.updateImmunogenicSegmentMask(Parameters.SegmentParameters.nImmunogenicSegments);
 
-		urSegment = new Segment(); // root to all segments		
-		initialViruses=new ArrayList<Virus>();
+		setUrSegment(new Segment()); // root to all segments		
+		setInitialViruses(new ArrayList<Virus>());
 
 		// Construct initial segment types
 		List<Segment> initialSegmentRoots=new ArrayList<Segment>();
 		List<List<Segment>> initialSegments = new ArrayList<List<Segment>>(); 
 
 		for (short i=0;i<Parameters.SegmentParameters.nSegments;i++) {
-			initialSegmentRoots.add(urSegment.mutate((short)i));
+			initialSegmentRoots.add(getUrSegment().mutate((short)i));
 			initialSegments.add(new ArrayList<Segment>());
 			for (short j=0;j<Parameters.SegmentParameters.nInitialSegmentAllels[i];j++) {
 				initialSegments.get(i).add(initialSegmentRoots.get(i).mutate());
@@ -198,7 +197,7 @@ public class Parameters {
 			for (short j=0;j<Parameters.SegmentParameters.nSegments;j++) {
 				viralSegments[j]=initialSegments.get(j).get(Random.nextInt(0, Parameters.SegmentParameters.nInitialSegmentAllels[j]-1));
 			}
-			Parameters.initialViruses.add(new Virus(viralSegments,0));
+			Parameters.getInitialViruses().add(new Virus(viralSegments,0));
 		}
 
 	}
@@ -234,5 +233,30 @@ public class Parameters {
 			System.exit(0);
 		}
 	}
+
+	public static int getDay() {
+		return day;
+	}
+
+	public static void setDay(int newDay) {
+		day = newDay;		
+	}
+
+	public static List<Virus> getInitialViruses() {
+		return initialViruses;
+	}
+
+	public static void setInitialViruses(List<Virus> initialViruses) {
+		Parameters.initialViruses = initialViruses;
+	}
+
+	public static Segment getUrSegment() {
+		return urSegment;
+	}
+
+	public static void setUrSegment(Segment urSegment) {
+		Parameters.urSegment = urSegment;
+	}
+
 
 }

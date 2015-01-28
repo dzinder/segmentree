@@ -57,7 +57,7 @@ public class Simulation {
 	}	
 
 	public void printState() {
-		System.out.printf("%d\t%.3f\t%d\t%d\t%d\t%d\t%d\n", Parameters.day, getDiversity(), getN(), getS(), getI(), getR() , getCases());
+		System.out.printf("%d\t%.3f\t%d\t%d\t%d\t%d\t%d\n", Parameters.getDay(), getDiversity(), getN(), getS(), getI(), getR() , getCases());
 	}
 
 	public void printHeader(PrintStream stream) {
@@ -66,7 +66,7 @@ public class Simulation {
 	}
 
 	public void printState(PrintStream stream) {
-		if (Parameters.day > Parameters.SimulationParameters.burnin) {
+		if (Parameters.getDay() > Parameters.SimulationParameters.burnin) {
 			stream.printf("%.4f\t%.4f\t%d\t%d\t%d\t%d\t%d", Parameters.getDate(), getDiversity(), getN(), getS(), getI(), getR(), getCases());
 			totalCases+=getCases();
 			stream.println();
@@ -94,7 +94,7 @@ public class Simulation {
 
 	public void stepForward() {
 		hp.stepForward();
-		Parameters.day++;
+		Parameters.setDay(Parameters.getDay() + 1);
 	}
 
 	public void run() {
@@ -112,7 +112,7 @@ public class Simulation {
 
 				stepForward(); // population dynamics
 
-				if (Parameters.day % Parameters.SamplingParameters.printStepTimeseries == 0) { // output
+				if (Parameters.getDay() % Parameters.SamplingParameters.printStepTimeseries == 0) { // output
 					updateDiversity();
 					printState();
 					printState(seriesStream);
@@ -168,7 +168,7 @@ public class Simulation {
 		SegmentTree.printMK();
 		
 		// vaccine output
-		hp.printVaccine();
+//		hp.printVaccine();
 		
 		// close streams in host population
 		hp.close();

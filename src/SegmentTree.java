@@ -6,7 +6,7 @@ import java.io.*;
 public class SegmentTree {
 
 	// fields
-	private static Segment root = Parameters.urSegment;	
+	private static Segment root = Parameters.getUrSegment();	
 	private static List<Segment> tips = new ArrayList<Segment>();
 
 	static final Comparator<Segment> descendantOrder = new Comparator<Segment>() {
@@ -477,7 +477,7 @@ public class SegmentTree {
 
 	}
 	public static void init() {
-		root = Parameters.urSegment;	
+		root = Parameters.getUrSegment();	
 		tips = new ArrayList<Segment>();		
 	}
 	
