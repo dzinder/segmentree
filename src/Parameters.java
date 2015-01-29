@@ -18,9 +18,9 @@ public class Parameters {
 	public static class SimulationParameters {
 		// Simulation Parameterss
 		@Setting (description ="Burn In time in days. Initial run time without recording output."	) 
-		static int burnin = 365*20; 	
+		static int burnin = 365*50; 	
 		@Setting (description ="Simulation end time in days."	) 
-		static int endDay = 365*40; 	
+		static int endDay = 365*150; 	
 		@Setting (description ="Repeat simulation following a stochastic extinction until endDay is reached."	) 
 		static boolean repeatSim = true;		
 		@Setting (description ="Prevent stochastic extinction during burn-in period by maintaining at least one infected individual...." ) 
@@ -137,7 +137,7 @@ public class Parameters {
 	public static class DisruptionParameters {
 		// Population Disruption Parameters
 		@Setting (description ="distruptive interruption time" )
-		static int disruptionTime = 365*70;
+		static int disruptionTime = 365*100;
 		@Setting (description ="disruption type" )
 		static DisruptionType disruptionType = DisruptionType.CHANGE_INTRO;
 		@Setting (description ="disruption parameter (fraction extinction for mass extinciton, new mutation/introduction/reassortment_rate for change mutation/intro/reassortment)" )

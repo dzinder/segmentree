@@ -13,7 +13,7 @@ public class ImmuneSystemDiscrete implements ImmuneSystem{
 		static double sigma_gen = 0.41;	// 0 - 0.69 
 		@Setting (description ="reduction in infectivity following previous infections\n"
 				+ "transmission risk=infectivity_at_first_infection x exp(-rho_reduced_infection x #previous_infections)"	)
-		static double rho_reduced_infectivity = 0.9;
+		static double rho_reduced_infectivity = 0.6;
 		@Setting (description ="infectivity at first infection"
 				+ "transmission risk=infectivity_at_first_infection x exp(-rho_reduced_infection x #previous_infections)"	)
 		static double infectivity_at_first_infection = 0.47;
