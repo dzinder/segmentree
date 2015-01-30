@@ -603,6 +603,15 @@ public class HostPopulation {
 
 	// draw a Poisson distributed number of recoverds and move to susceptible class
 	public void loseImmunity() {
+		
+		if (Double.isInfinite(Parameters.EpidemiologicalParameters.omega)) {
+			for (int index=recoverds.size()-1;index>=0;index--) {		
+				Host h = recoverds.get(index);
+				removeRecoverd(index);
+				susceptibles.add(h);				
+			}
+		} 
+		else {
 		// each recoverd loses immuntiy at a per-day rate of omega
 		// recoverds are fully protected
 
@@ -616,6 +625,7 @@ public class HostPopulation {
 				removeRecoverd(index);
 				susceptibles.add(h);
 			}
+		}
 		}
 	}		
 

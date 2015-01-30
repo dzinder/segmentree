@@ -82,8 +82,8 @@ public class Parameters {
 		static double beta = 24.6/7.0; //3.72/7.0 
 		@Setting (description ="in recoveries per individual per day" )
 		static double nu = 1.0/7.0;
-		@Setting (description ="in waning immunity per individual per day" )
-		static double omega = 1.0/365.0; 
+		@Setting (description ="in waning immunity per individual per day (Double.POSITIVE_INFINTY for no waning immunity)" )
+		static double omega = Double.POSITIVE_INFINITY; 
 	}
 
 	public static class SegmentParameters {
