@@ -95,4 +95,41 @@ public class Virus {
 		return new Virus(mutatedSegments,hostAge);		
 	}
 	
+	public Virus introduce() {			
+		Segment[] postIntroSegments = new Segment[Parameters.SegmentParameters.nSegments];		
+		
+		int randomSite = Random.nextInt(0, segments.length-1);
+		
+		for (int i=0;i<Parameters.SegmentParameters.nSegments;i++) {
+			if (i!=randomSite)
+				postIntroSegments[i]=new Segment(segments[i],hostAge, this.hashCode());
+			else {
+				List<Virus> rootViruses = Parameters.getInitialViruses();
+				int randomSourceVirusIndex = Random.nextInt(0,rootViruses.size());
+				postIntroSegments[i]=(new Segment(rootViruses.get(randomSourceVirusIndex).segments[i], hostAge, this.hashCode())).mutate();
+			}
+		}	
+		
+		return new Virus(postIntroSegments,hostAge);		
+	}
+	
+	public Virus reintroduce() {			
+		Segment[] postIntroSegments = new Segment[Parameters.SegmentParameters.nSegments];		
+		
+		int randomSite = Random.nextInt(0, segments.length-1);
+		
+		for (int i=0;i<Parameters.SegmentParameters.nSegments;i++) {
+			if (i!=randomSite)
+				postIntroSegments[i]=new Segment(segments[i],hostAge, this.hashCode());
+			else {
+				List<Virus> rootViruses = Parameters.getInitialViruses();
+				int randomSourceVirusIndex = Random.nextInt(0,rootViruses.size());
+				postIntroSegments[i]=(new Segment(rootViruses.get(randomSourceVirusIndex).segments[i], hostAge, this.hashCode()));
+			}
+		}	
+		
+		return new Virus(postIntroSegments,hostAge);		
+	}
+	
+	
 }

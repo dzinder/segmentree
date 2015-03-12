@@ -117,6 +117,8 @@ public class Parameters {
 		// Strain Reservoir Parameters 
 		@Setting (description ="contact with initial strain reservoir as proporiton of beta" )
 		static double proportionContactWithReservoir = 0.000;
+		@Setting (description ="introduction rate - in segment introductions per day" )
+		static double reintro = 1.0/365.0;
 	}
 
 

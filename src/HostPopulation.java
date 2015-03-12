@@ -204,7 +204,11 @@ public class HostPopulation {
 		contact(); // reassortants are sampled on contact
 		recover();	
 		loseImmunity();
-		mutate(); // introduce new segments without recycling
+		mutate(); // introduce new segments without recycling with present day parents
+		
+		introduce(); // introduce new segments without recycling from initial reservoir strains
+		
+		reintroduce(); // reintroduce segments from initial reservoir strains
 
 //		vaccinate(); // vaccinate individuals based on policy
 
@@ -308,10 +312,29 @@ public class HostPopulation {
 
 	private void mutate() {		
 
-		double totalMutationRate = getI() * Parameters.MutationAndReassortmentParameters.mu+Parameters.MutationAndReassortmentParameters.intro;
+		double totalMutationRate = getI() * Parameters.MutationAndReassortmentParameters.mu;
 		int mutations = Random.nextPoisson(totalMutationRate);
 		for (int i = 0; i < mutations; i++) {
 			getRandomHostI().mutate();
+		}
+	}
+	
+	
+	private void introduce() {		
+
+		double totalIntroRate = Parameters.MutationAndReassortmentParameters.intro;
+		int introductions = Random.nextPoisson(totalIntroRate);
+		for (int i = 0; i < introductions; i++) {
+			getRandomHostI().introduce();
+		}
+	}
+	
+	private void reintroduce() {		
+
+		double totalReIntroRate = Parameters.ReservoirParameters.reintro;
+		int reintroductions = Random.nextPoisson(totalReIntroRate);
+		for (int i = 0; i < reintroductions; i++) {
+			getRandomHostI().reintroduce();
 		}
 	}
 

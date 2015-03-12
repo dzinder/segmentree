@@ -86,6 +86,21 @@ public class Host {
 		infectingViruses.set(infectingVirusToMutate, infectingViruses.get(infectingVirusToMutate).mutate());
 
 	}
+	
+	public void introduce() {
+		// TODO: What to do with mutation under coinfection? assume the same viral load? double the viral load?
+		int infectingVirusToReplace = Random.nextInt(0, infectingViruses.size()-1);
+		infectingViruses.set(infectingVirusToReplace, infectingViruses.get(infectingVirusToReplace).introduce());
+
+	}
+	
+	public void reintroduce() {
+		// TODO: What to do with mutation under coinfection? assume the same viral load? double the viral load?
+		int infectingVirusToReplace = Random.nextInt(0, infectingViruses.size()-1);
+		infectingViruses.set(infectingVirusToReplace, infectingViruses.get(infectingVirusToReplace).reintroduce());
+
+	}
+	
 
 	public ImmuneSystem getImmuneSystem() {
 		return immuneSystem;
