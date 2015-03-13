@@ -62,7 +62,7 @@ public class Parameters {
 	public static class DemographicParameters {
 		// Host & Host Population Parameters & Settings
 		@Setting (description ="Number of hosts in population" )
-		static int N = 2000000;								
+		static int N = 10000000;								
 		@Setting (description ="in births per individual per day, i.e. 1/(30*365)" )
 		static double birthRate = 1.0/(30.0*365.0);	
 		@Setting (description ="in deaths per individual per day, i.e. 1/(30*365)" )
@@ -100,13 +100,13 @@ public class Parameters {
 
 	public static class MutationAndReassortmentParameters {
 		@Setting (description ="introduction rate - in segment introductions per day" )
-		static double intro = 1.0/365.0;
+		static double intro = 8.0/365.0;
 		// Mutation & Reassortment Parameters
 		@Setting (description ="mutation rate - in mutations per infected host per day" )
 		static double mu = 0;//1E-4;
 		@Setting (description ="reassortment probability - the probability of a segment to be randomly chosen from all possible\n"
 							 + "                           segments during transmission from a superinfection" )
-		static double rho = 0.1;			    
+		static double rho = 1.0;			    
 		@Setting (description ="infection bottle neck size - at most number of segment combinations to be transmitted from a superinfected host" )
 		static double n_bottleNeck = 1;
 		//TODO: @Setting (description ="post hoc neutral segment mutation rate" )
@@ -118,7 +118,7 @@ public class Parameters {
 		@Setting (description ="contact with initial strain reservoir as proporiton of beta" )
 		static double proportionContactWithReservoir = 0.000;
 		@Setting (description ="introduction rate - in segment introductions per day" )
-		static double reintro = 1.0/365.0;
+		static double reintro = 0.0/365.0;
 	}
 
 

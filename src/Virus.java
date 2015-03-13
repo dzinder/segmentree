@@ -105,7 +105,7 @@ public class Virus {
 				postIntroSegments[i]=new Segment(segments[i],hostAge, this.hashCode());
 			else {
 				List<Virus> rootViruses = Parameters.getInitialViruses();
-				int randomSourceVirusIndex = Random.nextInt(0,rootViruses.size());
+				int randomSourceVirusIndex = Random.nextInt(0,rootViruses.size()-1);
 				postIntroSegments[i]=(new Segment(rootViruses.get(randomSourceVirusIndex).segments[i], hostAge, this.hashCode())).mutate();
 			}
 		}	
@@ -123,7 +123,7 @@ public class Virus {
 				postIntroSegments[i]=new Segment(segments[i],hostAge, this.hashCode());
 			else {
 				List<Virus> rootViruses = Parameters.getInitialViruses();
-				int randomSourceVirusIndex = Random.nextInt(0,rootViruses.size());
+				int randomSourceVirusIndex = Random.nextInt(0,rootViruses.size()-1);
 				postIntroSegments[i]=(new Segment(rootViruses.get(randomSourceVirusIndex).segments[i], hostAge, this.hashCode()));
 			}
 		}	
