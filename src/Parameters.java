@@ -36,11 +36,11 @@ public class Parameters {
 		@Setting (description ="print to out.immunity every X days")
 		static int printStepImmunity = 7;						
 		@Setting (description ="in proportion samples per day")
-		static double tipSamplingRate = 1E-5;				    
+		static double tipSamplingRate = 2.0E-4;				    
 		@Setting (description ="true to set sampling proportional to prevalence (vs. population size)" )
-		static boolean tipSamplingProportional = false;		
+		static boolean tipSamplingProportional = true;		
 		@Setting (description ="proportion of tips to use in tree reconstruction" )
-		static double treeProportion = 1E-3;	
+		static double treeProportion = 1.0E-6;	
 		@Setting (description ="interval used for sampling subset of tips to be marked" ) 
 		static double intervalForMarkTips = 2.0;
 		@Setting (description ="how many tips to sample when estimating diversity" )
