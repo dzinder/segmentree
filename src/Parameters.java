@@ -50,9 +50,9 @@ public class Parameters {
 		@Setting (description = "Sample whole genomes for tips rather than random samples.... " )
 		static boolean sampleWholeGenomes = true; 
 		@Setting (description = "Infected host sampling rate for out.infected" )
-		static double infectedHostSamplingRate = 1E-3; 
+		static double infectedHostSamplingRate = 2E-4; 
 		@Setting (description = "Host sampling rate for out.immunity" )
-		static double immunityHostSamplingRate = 1E-5;
+		static double immunityHostSamplingRate = 1E-6;
 		
 		// Memory Optimization Parameters
 //		@Setting (description ="interval at which to streamline tree (optimize memory usage)" )
