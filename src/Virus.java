@@ -130,6 +130,14 @@ public class Virus {
 		
 		return new Virus(postIntroSegments,hostAge);		
 	}
+
+	public double getFitness() {
+		double returnValue=0;
+		for (Segment s : segments) {
+			returnValue+=s.getFitness();
+		}		
+		return returnValue/((double)segments.length);
+	}
 	
 	
 }

@@ -10,8 +10,9 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 enum PhenotypeType {SEGMENTED};
-enum VaccineMakeup {NONE, PREVALENT_SEGMENTS, PREVALENT_STRAINS, MAXIMUM_COVERAGE};
+//enum VaccineMakeup {NONE, PREVALENT_SEGMENTS, PREVALENT_STRAINS, MAXIMUM_COVERAGE};
 enum DisruptionType {NONE, MASS_EXTINCTION, CHANGE_MUTATION, CHANGE_INTRO, CHANGE_REASSORTMENT};
+enum SegmentFitnessType {EQUAL_FITNESS, RANDOM_EXPONENTIAL};
 
 public class Parameters {
 
@@ -96,6 +97,8 @@ public class Parameters {
 		static int[] nInitialSegmentAllels = {1,1,1};
 		@Setting (description ="number of inital random viral segement combinations" ) 
 		static int nInitialStrains = 1;
+		@Setting (description ="segment fitness EQUAL_FITNESS/RANDOM_EXPONENTIAL" ) 
+		static SegmentFitnessType segmentFitnessType = SegmentFitnessType.RANDOM_EXPONENTIAL; 
 	}
 
 	public static class MutationAndReassortmentParameters {
@@ -140,7 +143,7 @@ public class Parameters {
 		// Population Disruption Parameters
 		@Setting (description ="distruptive interruption time" )
 		static int disruptionTime = 365*100;
-		@Setting (description ="disruption type" )
+		@Setting (description ="disruption type NONE/MASS_EXTINCTION/CHANGE_MUTATION/CHANGE_INTRO/CHANGE_REASSORTMENT" )
 		static DisruptionType disruptionType = DisruptionType.CHANGE_INTRO;
 		@Setting (description ="disruption parameter (fraction extinction for mass extinciton, new mutation/introduction/reassortment_rate for change mutation/intro/reassortment)" )
 		static double disruptionParameter = 0.00; 

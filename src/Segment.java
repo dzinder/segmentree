@@ -9,6 +9,7 @@ public class Segment {
 	private long wholeGenomeID;	
 	private int segmentNumber;
 	private short loci;
+	private double fitness;
 		
 	private float birth;		// measured in years relative to Parameters.SimulationParameters.burnin
 	private float hostAge;		// age of host in years at time of infection
@@ -31,6 +32,11 @@ public class Segment {
 		birth = (float) Parameters.getDate();
 		wholeGenomeID=-1;
 		loci=-1;
+		switch (Parameters.SegmentParameters.segmentFitnessType) {
+			case EQUAL_FITNESS : fitness=1; break;
+			case RANDOM_EXPONENTIAL : fitness=Random.nextExponential(1); break;
+			default : fitness=1;
+		}
 		parent=null;		
 	}
 	
@@ -41,11 +47,16 @@ public class Segment {
 		birth = (float) Parameters.getDate();
 		wholeGenomeID=wholeGenomeID_;
 		loci=loci_;
+		switch (Parameters.SegmentParameters.segmentFitnessType) {
+			case EQUAL_FITNESS : fitness=1; break;
+			case RANDOM_EXPONENTIAL : fitness=Random.nextExponential(1); break;
+			default : fitness=1;
+		}
 		parent=pS;
 		
 	}
 	
-	// replication, copies the segment, but remembers the ancestry
+	// replication, copies the segment, and adds ancestry
 	public Segment(Segment pS, float hostAge_, long wholeGenomeID_) {
 		parent = pS;		
 		segmentNumber=pS.segmentNumber;
@@ -53,16 +64,22 @@ public class Segment {
 		hostAge = hostAge_;
 		wholeGenomeID=wholeGenomeID_;
 		loci=pS.getLoci();
+		fitness=pS.getFitness();
 	}
 	
-	// replication, copies the segment, but remembers the ancestry
+	double getFitness() {
+		return fitness;
+	}
+
+	// replication, copies the segment, and adds ancestry
 	public Segment(Segment pS, float hostAge_, int segmentNumber_, long wholeGenomeID_) {
 		parent = pS;		
-		segmentNumber=pS.segmentNumber;
+		segmentNumber=pS.segmentNumber;		
 		birth = Parameters.getDate();
 		hostAge = hostAge_;
 		wholeGenomeID=wholeGenomeID_;
 		loci=pS.getLoci();
+		fitness=pS.getFitness();
 		segmentNumber=segmentNumber_;
 	}		
 	

@@ -12,10 +12,10 @@ public class ImmuneSystemDiscrete implements ImmuneSystem{
 				+ "infection risk=gen_risk x specific_risk = exp(-sigma_het x #previous_infections) x exp(-sigma_ho x #previous_segments / nSegments)"	)  
 		static double sigma_gen = 0.2;	// 0 - 0.69 
 		@Setting (description ="reduction in infectivity following previous infections\n"
-				+ "transmission risk=infectivity_at_first_infection x exp(-rho_reduced_infection x #previous_infections)"	)
-		static double rho_reduced_infectivity = 0.62;
+				+ "transmission risk=infectivity_at_first_infection x exp(-xi_reduced_infection x #previous_infections) x fitness"	)
+		static double xi_reduced_infectivity = 0.62;
 		@Setting (description ="infectivity at first infection"
-				+ "transmission risk=infectivity_at_first_infection x exp(-rho_reduced_infection x #previous_infections)"	)
+				+ "transmission risk=infectivity_at_first_infection x exp(-xi_reduced_infection x #previous_infections) x fitness"	)
 		static double infectivity_at_first_infection = 0.47;
 	}
 
@@ -72,8 +72,8 @@ public class ImmuneSystemDiscrete implements ImmuneSystem{
 	}
 
 	@Override
-	public double riskOfTransmission() {		
-		return ImmunityParameters.infectivity_at_first_infection * Math.exp(-ImmunityParameters.rho_reduced_infectivity*numPreviousInfections);
+	public double riskOfTransmission(Virus v) {
+		return ImmunityParameters.infectivity_at_first_infection * Math.exp(-ImmunityParameters.xi_reduced_infectivity*numPreviousInfections)*v.getFitness();
 	}
 
 }
