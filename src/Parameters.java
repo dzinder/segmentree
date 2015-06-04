@@ -109,7 +109,7 @@ public class Parameters {
 		static double mu = 0;//1E-4;
 		@Setting (description ="reassortment probability - the probability of a segment to be randomly chosen from all possible\n"
 							 + "                           segments during transmission from a superinfection" )
-		static double rho = 1.0;			    
+		static double rho = 0.1;			    
 		@Setting (description ="infection bottle neck size - at most number of segment combinations to be transmitted from a superinfected host" )
 		static double n_bottleNeck = 1;
 		//TODO: @Setting (description ="post hoc neutral segment mutation rate" )
