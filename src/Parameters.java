@@ -63,7 +63,7 @@ public class Parameters {
 	public static class DemographicParameters {
 		// Host & Host Population Parameters & Settings
 		@Setting (description ="Number of hosts in population" )
-		static int N = 10000000;								
+		static int N = 5000000;								
 		@Setting (description ="in births per individual per day, i.e. 1/(30*365)" )
 		static double birthRate = 1.0/(30.0*365.0);	
 		@Setting (description ="in deaths per individual per day, i.e. 1/(30*365)" )
@@ -80,7 +80,7 @@ public class Parameters {
 		@Setting (description ="proportion recovered to intial virus/es (multiple recoveries for value greater than 1)" )
 		static double initialPrR = 8.0; 
 		@Setting (description ="in contacts per individual per day" )
-		static double beta = 24.6/7.0; //3.72/7.0 
+		static double beta = 1.0; //3.72/7.0 or 24.6/7.0 
 		@Setting (description ="in recoveries per individual per day" )
 		static double nu = 1.0/7.0;
 		@Setting (description ="in waning immunity per individual per day (Double.POSITIVE_INFINTY for no waning immunity)" )
