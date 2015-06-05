@@ -5,6 +5,7 @@
 //import cern.jet.random.*;
 import cern.jet.random.Exponential;
 import cern.jet.random.Gamma;
+import cern.jet.random.Normal;
 import cern.jet.random.Poisson;
 import cern.jet.random.Uniform;
 import cern.jet.random.engine.*;
@@ -18,6 +19,7 @@ public class Random {
 	
 	static Uniform myUniform = null;
 	static Exponential myExp = null;
+	static Normal myNormal = null;
 	static Gamma myGamma = null;
 	static Poisson myPoisson = null;
 		
@@ -28,9 +30,10 @@ public class Random {
 			rng = new MersenneTwister();
 		
 		myUniform = new Uniform(rng);
-		myExp = new Exponential(0.1,rng);
-		myGamma = new Gamma(0.1, 0.1, rng);
-		myPoisson = new Poisson(0.1, rng);
+		myExp = new Exponential(1,rng);
+		myNormal = new Normal(1,1,rng);
+		myGamma = new Gamma(1, 1, rng);
+		myPoisson = new Poisson(1, rng);
 		
 	}
 
@@ -73,6 +76,10 @@ public class Random {
 			x = true;
 		}
 		return x;
+	}
+
+	public static double nextNormal(double mu, double sigma) {
+		return myNormal.nextDouble(mu,sigma);
 	}	
 	
 	

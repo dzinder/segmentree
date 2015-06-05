@@ -12,7 +12,7 @@ import java.util.List;
 enum PhenotypeType {SEGMENTED};
 //enum VaccineMakeup {NONE, PREVALENT_SEGMENTS, PREVALENT_STRAINS, MAXIMUM_COVERAGE};
 enum DisruptionType {NONE, MASS_EXTINCTION, CHANGE_MUTATION, CHANGE_INTRO, CHANGE_REASSORTMENT};
-enum SegmentFitnessType {EQUAL_FITNESS, RANDOM_EXPONENTIAL};
+enum SegmentFitnessType {EQUAL_FITNESS, RANDOM_EXPONENTIAL, RANDOM_TRUNCATED_NORMAL};
 
 public class Parameters {
 
@@ -97,13 +97,17 @@ public class Parameters {
 		static int[] nInitialSegmentAllels = {1,1,1};
 		@Setting (description ="number of inital random viral segement combinations" ) 
 		static int nInitialStrains = 1;
-		@Setting (description ="segment fitness EQUAL_FITNESS/RANDOM_EXPONENTIAL" ) 
-		static SegmentFitnessType segmentFitnessType = SegmentFitnessType.RANDOM_EXPONENTIAL; 
+		@Setting (description ="segment fitness EQUAL_FITNESS/RANDOM_EXPONENTIAL/RANDOM_TRUNCATED_NORMAL" ) 
+		static SegmentFitnessType segmentFitnessType = SegmentFitnessType.RANDOM_TRUNCATED_NORMAL;
+		@Setting (description ="segment fitness parameter 1" ) 
+		static double segmentFitnessParam1 = 1; 
+		@Setting (description ="segment fitness parameter 2" ) 
+		static double segmentFitnessParam2 = 1;
 	}
 
 	public static class MutationAndReassortmentParameters {
 		@Setting (description ="introduction rate - in segment introductions per day" )
-		static double intro = 4*8.0/365.0;
+		static double intro = 8.0/365.0;
 		// Mutation & Reassortment Parameters
 		@Setting (description ="mutation rate - in mutations per infected host per day" )
 		static double mu = 0;//1E-4;

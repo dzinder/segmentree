@@ -34,7 +34,8 @@ public class Segment {
 		loci=-1;
 		switch (Parameters.SegmentParameters.segmentFitnessType) {
 			case EQUAL_FITNESS : fitness=1; break;
-			case RANDOM_EXPONENTIAL : fitness=Random.nextExponential(1); break;
+			case RANDOM_EXPONENTIAL : fitness=Random.nextExponential(Parameters.SegmentParameters.segmentFitnessParam1); break;
+			case RANDOM_TRUNCATED_NORMAL :fitness=Math.min(Parameters.SegmentParameters.segmentFitnessParam1*2,Math.max(0, Random.nextNormal(Parameters.SegmentParameters.segmentFitnessParam1,Parameters.SegmentParameters.segmentFitnessParam2))); break;
 			default : fitness=1;
 		}
 		parent=null;		
@@ -49,7 +50,8 @@ public class Segment {
 		loci=loci_;
 		switch (Parameters.SegmentParameters.segmentFitnessType) {
 			case EQUAL_FITNESS : fitness=1; break;
-			case RANDOM_EXPONENTIAL : fitness=Random.nextExponential(1); break;
+			case RANDOM_EXPONENTIAL : fitness=Random.nextExponential(Parameters.SegmentParameters.segmentFitnessParam1); break;
+			case RANDOM_TRUNCATED_NORMAL : fitness=Math.min(Parameters.SegmentParameters.segmentFitnessParam1*2,Math.max(0, Random.nextNormal(Parameters.SegmentParameters.segmentFitnessParam1,Parameters.SegmentParameters.segmentFitnessParam2))); break;
 			default : fitness=1;
 		}
 		parent=pS;
