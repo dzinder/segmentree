@@ -362,10 +362,10 @@ public class SegmentTree {
 			tipFile.delete();
 			tipFile.createNewFile();
 			PrintStream tipStream = new PrintStream(tipFile);
-			tipStream.printf("{\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\"}\n", "name", "wholegenome", "year", "trunk", "tip", "mark", "hostAge", "layout","segmentID","loci");							
+			tipStream.printf("{\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\"}\n", "name", "wholegenome", "year", "trunk", "tip", "mark", "hostAge", "layout","segmentID","loci","fitness");							
 			for (int i = 0; i < tips.size(); i++) {
 				Segment s = tips.get(i);		
-				tipStream.printf("{\"%s\",%d,%.4f,%d,%d,%d,%.4f,%.4f,%s,%d}\n", s, s.getWholeGenomeID(),s.getBirth(), s.isTrunk()?1:0, s.isTip()?1:0, s.isMarked()?1:0,s.getHostAge(), s.getLayout(), s.getSegmentName(),s.getLoci());
+				tipStream.printf("{\"%s\",%d,%.4f,%d,%d,%d,%.4f,%.4f,%s,%d,%.4f}\n", s, s.getWholeGenomeID(),s.getBirth(), s.isTrunk()?1:0, s.isTip()?1:0, s.isMarked()?1:0,s.getHostAge(), s.getLayout(), s.getSegmentName(),s.getLoci());
 			}
 			tipStream.close();
 		} catch(IOException ex) {
@@ -385,8 +385,8 @@ public class SegmentTree {
 			for (Segment s : postOrderNodes(root)) {
 				if (s.getParent() != null) {
 					Segment sp = s.getParent();
-					branchStream.printf("{\"%s\",%d,%.3f,%d,%d,%d,%.4f,%.3f,%s,%d}\t", s, s.getWholeGenomeID(), s.getBirth(), s.isTrunk()?1:0, s.isTip()?1:0, s.isMarked()?1:0,  s.getHostAge(), s.getLayout(), s.getSegmentName(), s.getLoci());
-					branchStream.printf("{\"%s\",%d,%.3f,%d,%d,%d,%.4f,%.3f,%s,%d}\t", sp, sp.getWholeGenomeID(), sp.getBirth(), sp.isTrunk()?1:0, sp.isTip()?1:0, s.isMarked()?1:0,  sp.getHostAge(), sp.getLayout(), sp.getSegmentName(), s.getLoci());
+					branchStream.printf("{\"%s\",%d,%.3f,%d,%d,%d,%.4f,%.3f,%s,%d,%.4f}\t", s, s.getWholeGenomeID(), s.getBirth(), s.isTrunk()?1:0, s.isTip()?1:0, s.isMarked()?1:0,  s.getHostAge(), s.getLayout(), s.getSegmentName(), s.getLoci(),s.getFitness());
+					branchStream.printf("{\"%s\",%d,%.3f,%d,%d,%d,%.4f,%.3f,%s,%d,%.4f}\t", sp, sp.getWholeGenomeID(), sp.getBirth(), sp.isTrunk()?1:0, sp.isTip()?1:0, s.isMarked()?1:0,  sp.getHostAge(), sp.getLayout(), sp.getSegmentName(), s.getLoci(),s.getFitness());
 					branchStream.printf("%d\n", sp.getCoverage());
 				}
 			}

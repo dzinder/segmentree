@@ -78,7 +78,7 @@ public class Parameters {
 		@Setting (description ="initial number of infected individuals" )
 		static int initialI = 1;
 		@Setting (description ="proportion recovered to intial virus/es (multiple recoveries for value greater than 1)" )
-		static double initialPrR = 8.0; 
+		static double initialPrR = 4.0; 
 		@Setting (description ="in contacts per individual per day" )
 		static double beta = 1.0; //3.72/7.0 or 24.6/7.0 
 		@Setting (description ="in recoveries per individual per day" )
@@ -103,7 +103,7 @@ public class Parameters {
 
 	public static class MutationAndReassortmentParameters {
 		@Setting (description ="introduction rate - in segment introductions per day" )
-		static double intro = 8.0/365.0;
+		static double intro = 4*8.0/365.0;
 		// Mutation & Reassortment Parameters
 		@Setting (description ="mutation rate - in mutations per infected host per day" )
 		static double mu = 0;//1E-4;
