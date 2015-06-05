@@ -10,7 +10,7 @@ public class ImmuneSystemDiscrete implements ImmuneSystem{
 		static double sigma_spec = 0.252; // 0 - 3.9	
 		@Setting (description ="the part of immunity which is reduction in suscptibility based on the number of previous infections\n"
 				+ "infection risk=gen_risk x specific_risk = exp(-sigma_het x #previous_infections) x exp(-sigma_ho x #previous_segments / nSegments)"	)  
-		static double sigma_gen = 0.4;	// 0 - 0.69 
+		static double sigma_gen = 0.5;	// 0 - 0.69 
 		@Setting (description ="reduction in infectivity following previous infections\n"
 				+ "transmission risk=infectivity_at_first_infection x exp(-xi_reduced_infection x #previous_infections) x fitness"	)
 		static double xi_reduced_infectivity = 0.62;
