@@ -277,10 +277,10 @@ public class HostPopulation {
 //	}
 
 	private void disruption() {
-		if (Parameters.getDay() == Parameters.DisruptionParameters.disruptionTime) {
-			switch (Parameters.DisruptionParameters.disruptionType) {
+		if (Parameters.getDay() == Parameters.DisruptionParameters.disruptionTime1) {
+			switch (Parameters.DisruptionParameters.disruptionType1) {
 			case MASS_EXTINCTION :							
-				int recoveries = Random.nextPoisson(getI()*Parameters.DisruptionParameters.disruptionParameter);
+				int recoveries = Random.nextPoisson(getI()*Parameters.DisruptionParameters.disruptionParameter1);
 
 				for (int i = 0; i < recoveries; i++) {
 					if (getI()>0) {
@@ -293,13 +293,13 @@ public class HostPopulation {
 				}
 				break;
 			case CHANGE_MUTATION :							
-				Parameters.MutationAndReassortmentParameters.mu=Parameters.DisruptionParameters.disruptionParameter;
+				Parameters.MutationAndReassortmentParameters.mu=Parameters.DisruptionParameters.disruptionParameter1;
 				break;
 			case CHANGE_INTRO :							
-				Parameters.MutationAndReassortmentParameters.intro=Parameters.DisruptionParameters.disruptionParameter;
+				Parameters.MutationAndReassortmentParameters.intro=Parameters.DisruptionParameters.disruptionParameter1;
 				break;
 			case CHANGE_REASSORTMENT :							
-				Parameters.MutationAndReassortmentParameters.rho=Parameters.DisruptionParameters.disruptionParameter;
+				Parameters.MutationAndReassortmentParameters.rho=Parameters.DisruptionParameters.disruptionParameter1;
 				break;
 			case NONE:
 				break;
@@ -307,6 +307,38 @@ public class HostPopulation {
 				break;
 			}
 		}
+		
+		if (Parameters.getDay() == Parameters.DisruptionParameters.disruptionTime2) {
+			switch (Parameters.DisruptionParameters.disruptionType2) {
+			case MASS_EXTINCTION :							
+				int recoveries = Random.nextPoisson(getI()*Parameters.DisruptionParameters.disruptionParameter2);
+
+				for (int i = 0; i < recoveries; i++) {
+					if (getI()>0) {
+						int index = getRandomI();
+						Host h = infecteds.get(index);
+						removeInfected(index);
+						h.clearInfections();
+						recoverds.add(h); // two options recover or move to suscptibles
+					}					
+				}
+				break;
+			case CHANGE_MUTATION :							
+				Parameters.MutationAndReassortmentParameters.mu=Parameters.DisruptionParameters.disruptionParameter2;
+				break;
+			case CHANGE_INTRO :							
+				Parameters.MutationAndReassortmentParameters.intro=Parameters.DisruptionParameters.disruptionParameter2;
+				break;
+			case CHANGE_REASSORTMENT :							
+				Parameters.MutationAndReassortmentParameters.rho=Parameters.DisruptionParameters.disruptionParameter2;
+				break;
+			case NONE:
+				break;
+			default:
+				break;
+			}
+		}
+
 
 	}
 

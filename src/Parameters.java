@@ -90,15 +90,15 @@ public class Parameters {
 	public static class SegmentParameters {
 		// Virus Segment Parameters
 		@Setting (description ="number of viral segments" ) 
-		static int nSegments = 3;
+		static int nSegments = 4;
 		@Setting (description ="number of immunogenic segments (only these first n segments will generate effective immunity)" ) 
-		static int nImmunogenicSegments = 3;
+		static int nImmunogenicSegments = 2;
 		@Setting (description ="number of inital segment allels" ) 
-		static int[] nInitialSegmentAllels = {1,1,1};
+		static int[] nInitialSegmentAllels = {1,1,1,1};
 		@Setting (description ="number of inital random viral segement combinations" ) 
 		static int nInitialStrains = 1;
 		@Setting (description ="segment fitness EQUAL_FITNESS/RANDOM_EXPONENTIAL/RANDOM_TRUNCATED_NORMAL" ) 
-		static SegmentFitnessType segmentFitnessType = SegmentFitnessType.RANDOM_TRUNCATED_NORMAL;
+		static SegmentFitnessType segmentFitnessType = SegmentFitnessType.EQUAL_FITNESS;
 		@Setting (description ="segment fitness parameter 1" ) 
 		static double segmentFitnessParam1 = 1; 
 		@Setting (description ="segment fitness parameter 2" ) 
@@ -113,7 +113,7 @@ public class Parameters {
 		static double mu = 0;//1E-4;
 		@Setting (description ="reassortment probability - the probability of a segment to be randomly chosen from all possible\n"
 							 + "                           segments during transmission from a superinfection" )
-		static double rho = 0.1;			    
+		static double rho = 0.01;			    
 		@Setting (description ="infection bottle neck size - at most number of segment combinations to be transmitted from a superinfected host" )
 		static double n_bottleNeck = 1;
 		//TODO: @Setting (description ="post hoc neutral segment mutation rate" )
@@ -145,12 +145,19 @@ public class Parameters {
 
 	public static class DisruptionParameters {
 		// Population Disruption Parameters
-		@Setting (description ="distruptive interruption time" )
-		static int disruptionTime = 365*100;
-		@Setting (description ="disruption type NONE/MASS_EXTINCTION/CHANGE_MUTATION/CHANGE_INTRO/CHANGE_REASSORTMENT" )
-		static DisruptionType disruptionType = DisruptionType.CHANGE_INTRO;
-		@Setting (description ="disruption parameter (fraction extinction for mass extinciton, new mutation/introduction/reassortment_rate for change mutation/intro/reassortment)" )
-		static double disruptionParameter = 0.00; 
+		@Setting (description ="distruptive interruption 1 time" )
+		static int disruptionTime1 = 365*100;
+		@Setting (description ="disruption 1 type NONE/MASS_EXTINCTION/CHANGE_MUTATION/CHANGE_INTRO/CHANGE_REASSORTMENT" )
+		static DisruptionType disruptionType1 = DisruptionType.CHANGE_INTRO;
+		@Setting (description ="disruption 1 parameter (fraction extinction for mass extinciton, new mutation/introduction/reassortment_rate for change mutation/intro/reassortment)" )
+		static double disruptionParameter1 = 0.00; 
+		
+		@Setting (description ="distruptive interruption 2 time" )
+		static int disruptionTime2 = 365*100;
+		@Setting (description ="disruption 2 type NONE/MASS_EXTINCTION/CHANGE_MUTATION/CHANGE_INTRO/CHANGE_REASSORTMENT" )
+		static DisruptionType disruptionType2 = DisruptionType.CHANGE_INTRO;
+		@Setting (description ="disruption 2 parameter (fraction extinction for mass extinciton, new mutation/introduction/reassortment_rate for change mutation/intro/reassortment)" )
+		static double disruptionParameter2 = 0.00; 
 	}
 
 	// "Global" fields 	
