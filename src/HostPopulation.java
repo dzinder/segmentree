@@ -369,6 +369,37 @@ public class HostPopulation {
 				break;
 			}
 		}
+		
+		if (Parameters.getDay() == Parameters.DisruptionParameters.disruptionTime4) {
+			switch (Parameters.DisruptionParameters.disruptionType4) {
+			case MASS_EXTINCTION :							
+				int recoveries = Random.nextPoisson(getI()*Parameters.DisruptionParameters.disruptionParameter4);
+
+				for (int i = 0; i < recoveries; i++) {
+					if (getI()>0) {
+						int index = getRandomI();
+						Host h = infecteds.get(index);
+						removeInfected(index);
+						h.clearInfections();
+						recoverds.add(h); // two options recover or move to suscptibles
+					}					
+				}
+				break;
+			case CHANGE_MUTATION :							
+				Parameters.MutationAndReassortmentParameters.mu=Parameters.DisruptionParameters.disruptionParameter4;
+				break;
+			case CHANGE_INTRO :							
+				Parameters.MutationAndReassortmentParameters.intro=Parameters.DisruptionParameters.disruptionParameter4;
+				break;
+			case CHANGE_REASSORTMENT :							
+				Parameters.MutationAndReassortmentParameters.rho=Parameters.DisruptionParameters.disruptionParameter4;
+				break;
+			case NONE:
+				break;
+			default:
+				break;
+			}
+		}
 
 
 	}
