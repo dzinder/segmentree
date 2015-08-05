@@ -146,7 +146,7 @@ public class Parameters {
 	public static class DisruptionParameters {
 		// Population Disruption Parameters
 		@Setting (description ="distruptive interruption 1 time" )
-		static int disruptionTime1 = 365*100;
+		static int disruptionTime1 = 365*50;
 		@Setting (description ="disruption 1 type NONE/MASS_EXTINCTION/CHANGE_MUTATION/CHANGE_INTRO/CHANGE_REASSORTMENT" )
 		static DisruptionType disruptionType1 = DisruptionType.CHANGE_INTRO;
 		@Setting (description ="disruption 1 parameter (fraction extinction for mass extinciton, new mutation/introduction/reassortment_rate for change mutation/intro/reassortment)" )
@@ -157,7 +157,14 @@ public class Parameters {
 		@Setting (description ="disruption 2 type NONE/MASS_EXTINCTION/CHANGE_MUTATION/CHANGE_INTRO/CHANGE_REASSORTMENT" )
 		static DisruptionType disruptionType2 = DisruptionType.CHANGE_INTRO;
 		@Setting (description ="disruption 2 parameter (fraction extinction for mass extinciton, new mutation/introduction/reassortment_rate for change mutation/intro/reassortment)" )
-		static double disruptionParameter2 = 0.00; 
+		static double disruptionParameter2 = 1.0/365.0;
+		
+		@Setting (description ="distruptive interruption 3 time" )
+		static int disruptionTime3 = 365*100;
+		@Setting (description ="disruption 3 type NONE/MASS_EXTINCTION/CHANGE_MUTATION/CHANGE_INTRO/CHANGE_REASSORTMENT" )
+		static DisruptionType disruptionType3 = DisruptionType.CHANGE_INTRO;
+		@Setting (description ="disruption 3 parameter (fraction extinction for mass extinciton, new mutation/introduction/reassortment_rate for change mutation/intro/reassortment)" )
+		static double disruptionParameter3 = 1.0/365.0;
 	}
 
 	// "Global" fields 	
