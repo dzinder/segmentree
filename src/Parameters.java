@@ -109,7 +109,7 @@ public class Parameters {
 	public static class VirusParameters {
 		// Virus Parameters		
 		@Setting (description ="virus fitness EQUAL_FITNESS/SEGMENT_FITNESS/INC_SINCE_CREATION (1-p1*exp(-t*p2))" ) 
-		static ViralFitnessType virusFitnessType = ViralFitnessType.EQUAL_FITNESS;
+		static ViralFitnessType virusFitnessType = ViralFitnessType.INC_SINCE_CREATION;
 		@Setting (description ="viral fitness parameter 1" ) 		
 		public static double viralFitnessParam1 = 0.5;
 		@Setting (description ="viral fitness parameter 2" )
