@@ -16,7 +16,7 @@ public class ImmuneSystemDiscrete implements ImmuneSystem{
 		static double xi_reduced_infectivity = 0.62;
 		@Setting (description ="infectivity at first infection"
 				+ "transmission risk=infectivity_at_first_infection x exp(-xi_reduced_infection x #previous_infections) x fitness"	)
-		static double infectivity_at_first_infection = 0.47;
+		static double infectivity_at_first_infection = 0.47;//0.47;
 	}
 
 	int numPreviousInfections = 0;

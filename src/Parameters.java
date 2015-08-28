@@ -91,11 +91,11 @@ public class Parameters {
 	public static class SegmentParameters {
 		// Virus Segment Parameters
 		@Setting (description ="number of viral segments" ) 
-		static int nSegments = 2;
+		static int nSegments = 3;
 		@Setting (description ="number of immunogenic segments (only these first n segments will generate effective immunity)" ) 
-		static int nImmunogenicSegments = 2;
+		static int nImmunogenicSegments = 3;
 		@Setting (description ="number of inital segment allels" ) 
-		static int[] nInitialSegmentAllels = {1,1};
+		static int[] nInitialSegmentAllels = {1,1,1};
 		@Setting (description ="number of inital random viral segement combinations" ) 
 		static int nInitialStrains = 1;
 		@Setting (description ="segment fitness EQUAL_FITNESS/RANDOM_EXPONENTIAL/RANDOM_TRUNCATED_NORMAL" ) 
@@ -111,7 +111,7 @@ public class Parameters {
 		@Setting (description ="virus fitness EQUAL_FITNESS/SEGMENT_FITNESS/INC_SINCE_CREATION (1-p1*exp(-t*p2))" ) 
 		static ViralFitnessType virusFitnessType = ViralFitnessType.EQUAL_FITNESS;
 		@Setting (description ="viral fitness parameter 1" ) 		
-		public static double viralFitnessParam1 = 0.5;
+		public static double viralFitnessParam1 = 0;
 		@Setting (description ="viral fitness parameter 2" )
 		public static double viralFitnessParam2 = 1; 		
 	}
@@ -124,7 +124,7 @@ public class Parameters {
 		static double mu = 0;//1E-4;
 		@Setting (description ="reassortment probability - the probability of a segment to be randomly chosen from all possible\n"
 							 + "                           segments during transmission from a superinfection" )
-		static double rho = 0.01;			    
+		static double rho = 0.1;			    
 		@Setting (description ="infection bottle neck size - at most number of segment combinations to be transmitted from a superinfected host" )
 		static double n_bottleNeck = 1;
 		//TODO: @Setting (description ="post hoc neutral segment mutation rate" )
@@ -159,30 +159,30 @@ public class Parameters {
 		@Setting (description ="distruptive interruption 1 time" )
 		static int disruptionTime1 = 365*50;
 		@Setting (description ="disruption 1 type NONE/MASS_EXTINCTION/CHANGE_MUTATION/CHANGE_INTRO/CHANGE_REASSORTMENT" )
-		static DisruptionType disruptionType1 = DisruptionType.CHANGE_INTRO;
+		static DisruptionType disruptionType1 = DisruptionType.CHANGE_REASSORTMENT;
 		@Setting (description ="disruption 1 parameter (fraction extinction for mass extinciton, new mutation/introduction/reassortment_rate for change mutation/intro/reassortment)" )
 		static double disruptionParameter1 = 0.00; 
 		
 		@Setting (description ="distruptive interruption 2 time" )
-		static int disruptionTime2 = 365*50;
+		static int disruptionTime2 = 365*999;
 		@Setting (description ="disruption 2 type NONE/MASS_EXTINCTION/CHANGE_MUTATION/CHANGE_INTRO/CHANGE_REASSORTMENT" )
 		static DisruptionType disruptionType2 = DisruptionType.NONE;
 		@Setting (description ="disruption 2 parameter (fraction extinction for mass extinciton, new mutation/introduction/reassortment_rate for change mutation/intro/reassortment)" )
 		static double disruptionParameter2 = 0.00;
 		
 		@Setting (description ="distruptive interruption 3 time" )
-		static int disruptionTime3 = 365*100;
+		static int disruptionTime3 = 365*999;
 		@Setting (description ="disruption 3 type NONE/MASS_EXTINCTION/CHANGE_MUTATION/CHANGE_INTRO/CHANGE_REASSORTMENT" )
-		static DisruptionType disruptionType3 = DisruptionType.CHANGE_INTRO;
+		static DisruptionType disruptionType3 = DisruptionType.NONE;
 		@Setting (description ="disruption 3 parameter (fraction extinction for mass extinciton, new mutation/introduction/reassortment_rate for change mutation/intro/reassortment)" )
-		static double disruptionParameter3 = 1.0/365.0;
+		static double disruptionParameter3 = 8.0/365.0;
 		
 		@Setting (description ="distruptive interruption 4 time" )
-		static int disruptionTime4 = 365*100;
+		static int disruptionTime4 = 365*999;
 		@Setting (description ="disruption 4 type NONE/MASS_EXTINCTION/CHANGE_MUTATION/CHANGE_INTRO/CHANGE_REASSORTMENT" )
-		static DisruptionType disruptionType4 = DisruptionType.CHANGE_REASSORTMENT;
+		static DisruptionType disruptionType4 = DisruptionType.NONE;
 		@Setting (description ="disruption 4 parameter (fraction extinction for mass extinciton, new mutation/introduction/reassortment_rate for change mutation/intro/reassortment)" )
-		static double disruptionParameter4 = 0.01;
+		static double disruptionParameter4 = 0.1;
 	}
 
 	// "Global" fields 	
