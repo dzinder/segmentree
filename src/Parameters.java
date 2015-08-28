@@ -81,7 +81,7 @@ public class Parameters {
 		@Setting (description ="proportion recovered to intial virus/es (multiple recoveries for value greater than 1)" )
 		static double initialPrR = 4.0; 
 		@Setting (description ="in contacts per individual per day" )
-		static double beta = 1.0; //3.72/7.0 or 24.6/7.0 
+		static double beta = 24.6/7.0; //3.72/7.0 or 24.6/7.0 
 		@Setting (description ="in recoveries per individual per day" )
 		static double nu = 1.0/7.0;
 		@Setting (description ="in waning immunity per individual per day (Double.POSITIVE_INFINTY for no waning immunity)" )
@@ -109,7 +109,7 @@ public class Parameters {
 	public static class VirusParameters {
 		// Virus Parameters		
 		@Setting (description ="virus fitness EQUAL_FITNESS/SEGMENT_FITNESS/INC_SINCE_CREATION (1-p1*exp(-t*p2))" ) 
-		static ViralFitnessType virusFitnessType = ViralFitnessType.INC_SINCE_CREATION;
+		static ViralFitnessType virusFitnessType = ViralFitnessType.EQUAL_FITNESS;
 		@Setting (description ="viral fitness parameter 1" ) 		
 		public static double viralFitnessParam1 = 0.5;
 		@Setting (description ="viral fitness parameter 2" )
