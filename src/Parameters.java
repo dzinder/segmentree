@@ -13,6 +13,7 @@ enum PhenotypeType {SEGMENTED};
 //enum VaccineMakeup {NONE, PREVALENT_SEGMENTS, PREVALENT_STRAINS, MAXIMUM_COVERAGE};
 enum DisruptionType {NONE, MASS_EXTINCTION, CHANGE_MUTATION, CHANGE_INTRO, CHANGE_REASSORTMENT};
 enum SegmentFitnessType {EQUAL_FITNESS, RANDOM_EXPONENTIAL, RANDOM_TRUNCATED_NORMAL};
+enum ViralFitnessType {EQUAL_FITNESS, SEGMENT_FITNESS, INC_SINCE_CREATION};
 
 public class Parameters {
 
@@ -90,11 +91,11 @@ public class Parameters {
 	public static class SegmentParameters {
 		// Virus Segment Parameters
 		@Setting (description ="number of viral segments" ) 
-		static int nSegments = 4;
+		static int nSegments = 2;
 		@Setting (description ="number of immunogenic segments (only these first n segments will generate effective immunity)" ) 
 		static int nImmunogenicSegments = 2;
 		@Setting (description ="number of inital segment allels" ) 
-		static int[] nInitialSegmentAllels = {1,1,1,1};
+		static int[] nInitialSegmentAllels = {1,1};
 		@Setting (description ="number of inital random viral segement combinations" ) 
 		static int nInitialStrains = 1;
 		@Setting (description ="segment fitness EQUAL_FITNESS/RANDOM_EXPONENTIAL/RANDOM_TRUNCATED_NORMAL" ) 
@@ -103,6 +104,16 @@ public class Parameters {
 		static double segmentFitnessParam1 = 1; 
 		@Setting (description ="segment fitness parameter 2" ) 
 		static double segmentFitnessParam2 = 1;
+	}
+	
+	public static class VirusParameters {
+		// Virus Parameters		
+		@Setting (description ="virus fitness EQUAL_FITNESS/SEGMENT_FITNESS/LESS_IN_CREATION (1-p1*exp(t*p2))" ) 
+		static ViralFitnessType virusFitnessType = ViralFitnessType.EQUAL_FITNESS;
+		@Setting (description ="viral fitness parameter 1" ) 		
+		public static double viralFitnessParam1;
+		@Setting (description ="viral fitness parameter 2" )
+		public static double viralFitnessParam2; 		
 	}
 
 	public static class MutationAndReassortmentParameters {
@@ -155,7 +166,7 @@ public class Parameters {
 		@Setting (description ="distruptive interruption 2 time" )
 		static int disruptionTime2 = 365*50;
 		@Setting (description ="disruption 2 type NONE/MASS_EXTINCTION/CHANGE_MUTATION/CHANGE_INTRO/CHANGE_REASSORTMENT" )
-		static DisruptionType disruptionType2 = DisruptionType.CHANGE_REASSORTMENT;
+		static DisruptionType disruptionType2 = DisruptionType.NONE;
 		@Setting (description ="disruption 2 parameter (fraction extinction for mass extinciton, new mutation/introduction/reassortment_rate for change mutation/intro/reassortment)" )
 		static double disruptionParameter2 = 0.00;
 		

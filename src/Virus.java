@@ -26,7 +26,7 @@ public class Virus {
 		//virusNumber=lastVirusNumber+1;
 		//lastVirusNumber+=1;
 	}
-	
+
 	// generate new virus from parent viral segments (for reassortment or initial virus construction)
 	public Virus(Segment[] pSegments, float hostAge_) {
 		hostAge=hostAge_;
@@ -39,7 +39,7 @@ public class Virus {
 			segments[i]=new Segment(pSegments[i],hostAge_,pSegments[i].getSegmentNumber(),this.hashCode());
 		}		
 	}
-	
+
 	// METHODS
 	public float getBirth() {
 		return birth;
@@ -58,7 +58,7 @@ public class Virus {
 			returnValue+=(segments[i].toString()+seperator);
 		}
 		returnValue+=segments[segments.length-1].toString();
-		
+
 		return returnValue;
 	}
 
@@ -69,7 +69,7 @@ public class Virus {
 	public Segment[] getSegments() {		
 		return segments;
 	}
-	
+
 	public BitSet getImmunogenicSegmentIndices() {
 		return immunogenicSegmentIndices;
 	}
@@ -94,12 +94,12 @@ public class Virus {
 		mutatedSegments[randomSite]=segments[randomSite].mutate();
 		return new Virus(mutatedSegments,hostAge);		
 	}
-	
+
 	public Virus introduce() {			
 		Segment[] postIntroSegments = new Segment[Parameters.SegmentParameters.nSegments];		
-		
+
 		int randomSite = Random.nextInt(0, segments.length-1);
-		
+
 		for (int i=0;i<Parameters.SegmentParameters.nSegments;i++) {
 			if (i!=randomSite)
 				postIntroSegments[i]=new Segment(segments[i],hostAge, this.hashCode());
@@ -109,15 +109,15 @@ public class Virus {
 				postIntroSegments[i]=(new Segment(rootViruses.get(randomSourceVirusIndex).segments[i], hostAge, this.hashCode())).mutate();
 			}
 		}	
-		
+
 		return new Virus(postIntroSegments,hostAge);		
 	}
-	
+
 	public Virus reintroduce() {			
 		Segment[] postIntroSegments = new Segment[Parameters.SegmentParameters.nSegments];		
-		
+
 		int randomSite = Random.nextInt(0, segments.length-1);
-		
+
 		for (int i=0;i<Parameters.SegmentParameters.nSegments;i++) {
 			if (i!=randomSite)
 				postIntroSegments[i]=new Segment(segments[i],hostAge, this.hashCode());
@@ -127,17 +127,26 @@ public class Virus {
 				postIntroSegments[i]=(new Segment(rootViruses.get(randomSourceVirusIndex).segments[i], hostAge, this.hashCode()));
 			}
 		}	
-		
+
 		return new Virus(postIntroSegments,hostAge);		
 	}
 
-	public double getFitness() {
-		double returnValue=0;
-		for (Segment s : segments) {
-			returnValue+=s.getFitness();
-		}		
-		return returnValue/((double)segments.length);
+	public double getFitness() {		
+		switch (Parameters.VirusParameters.virusFitnessType) {
+		case EQUAL_FITNESS :
+			return 1;
+		case SEGMENT_FITNESS :
+			double returnValue=0;
+			for (Segment s : segments) {
+				returnValue+=s.getFitness();
+			}		
+			return returnValue/((double)segments.length);
+		case INC_SINCE_CREATION :
+			return (1-Parameters.VirusParameters.viralFitnessParam1*Math.exp(-(Parameters.getDate()-birth)*Parameters.VirusParameters.viralFitnessParam2));
+		default:
+			return 1;
+		}
 	}
-	
-	
+
+
 }
