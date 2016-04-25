@@ -262,6 +262,7 @@ public class Parameters {
 			Settings.printSettings(Parameters.DemographicParameters.class, paramStream);
 			Settings.printSettings(Parameters.EpidemiologicalParameters.class, paramStream);
 			Settings.printSettings(Parameters.SegmentParameters.class, paramStream);
+			Settings.printSettings(Parameters.VirusParameters.class, paramStream);
 			Settings.printSettings(Parameters.MutationAndReassortmentParameters.class, paramStream);
 			Settings.printSettings(Parameters.ReservoirParameters.class, paramStream);
 //			Settings.printSettings(Parameters.VaccineParameters.class, paramStream);
