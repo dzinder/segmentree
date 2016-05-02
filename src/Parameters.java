@@ -111,9 +111,9 @@ public class Parameters {
 		@Setting (description ="virus fitness EQUAL_FITNESS/SEGMENT_FITNESS/INC_SINCE_CREATION (1-p1*exp(-t*p2))" ) 
 		static ViralFitnessType virusFitnessType = ViralFitnessType.EQUAL_FITNESS;
 		@Setting (description ="viral fitness parameter 1" ) 		
-		public static double viralFitnessParam1 = 0;
+		public static double viralFitnessParam1 = 0.2;
 		@Setting (description ="viral fitness parameter 2" )
-		public static double viralFitnessParam2 = 1; 		
+		public static double viralFitnessParam2 = 0.05; 		
 	}
 
 	public static class MutationAndReassortmentParameters {
@@ -207,6 +207,7 @@ public class Parameters {
 		s.apply(EpidemiologicalParameters.class);
 		s.apply(DemographicParameters.class);
 		s.apply(SegmentParameters.class);
+		s.apply(VirusParameters.class);
 		s.apply(MutationAndReassortmentParameters.class);
 		s.apply(ReservoirParameters.class);
 //		s.apply(VaccineParameters.class);
