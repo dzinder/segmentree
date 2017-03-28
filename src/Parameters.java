@@ -20,9 +20,9 @@ public class Parameters {
 	public static class SimulationParameters {
 		// Simulation Parameterss
 		@Setting (description ="Burn In time in days. Initial run time without recording output."	) 
-		static int burnin = 365*50; 	
+		static int burnin = 365*150; 	
 		@Setting (description ="Simulation end time in days."	) 
-		static int endDay = 365*150; 	
+		static int endDay = 365*300; 	
 		@Setting (description ="Repeat simulation following a stochastic extinction until endDay is reached."	) 
 		static boolean repeatSim = true;		
 		@Setting (description ="Prevent stochastic extinction during burn-in period by maintaining at least one infected individual...." ) 
@@ -64,7 +64,7 @@ public class Parameters {
 	public static class DemographicParameters {
 		// Host & Host Population Parameters & Settings
 		@Setting (description ="Number of hosts in population" )
-		static int N = 5000000;								
+		static int N = 20000000;								
 		@Setting (description ="in births per individual per day, i.e. 1/(30*365)" )
 		static double birthRate = 1.0/(30.0*365.0);	
 		@Setting (description ="in deaths per individual per day, i.e. 1/(30*365)" )
@@ -157,9 +157,9 @@ public class Parameters {
 	public static class DisruptionParameters {
 		// Population Disruption Parameters
 		@Setting (description ="distruptive interruption 1 time" )
-		static int disruptionTime1 = 365*50;
+		static int disruptionTime1 = 365*999;
 		@Setting (description ="disruption 1 type NONE/MASS_EXTINCTION/CHANGE_MUTATION/CHANGE_INTRO/CHANGE_REASSORTMENT" )
-		static DisruptionType disruptionType1 = DisruptionType.CHANGE_REASSORTMENT;
+		static DisruptionType disruptionType1 = DisruptionType.NONE;
 		@Setting (description ="disruption 1 parameter (fraction extinction for mass extinciton, new mutation/introduction/reassortment_rate for change mutation/intro/reassortment)" )
 		static double disruptionParameter1 = 0.00; 
 		
