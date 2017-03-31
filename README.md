@@ -3,8 +3,8 @@
 ## Running the simulation
 * see release notes for details about running and downloading the simulation
 
-## Requirements for code development
+## Requirements 
 * JRE 1.6 and above
-* CERN colt
+
 
 
