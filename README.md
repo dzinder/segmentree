@@ -1,15 +1,8 @@
 # Segmented Viral Evolution and Epidemiology Model 
 
-## Requirements
+## Running the simulation
+* see releases for deails about running the simulation
 
-* git
+## Requirements
 * JRE 1.6 and above
 * CERN colt
-
-## Downloading the simulation
-
-Create a directory
-```
-mkdir path/to/my_experiment_dir
-cd path/to/my_experiment_dir
-```
