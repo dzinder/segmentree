@@ -5,6 +5,7 @@
 
 ## Requirements 
 * JRE 1.6 and above
+* CERN colt 
 
 
 
