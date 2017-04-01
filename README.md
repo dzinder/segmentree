@@ -3,19 +3,13 @@
 ## Please cite
 * [The roles of competition and mutation in shaping antigenic and genetic diversity in influenza](http://dx.doi.org/10.1371/journal.ppat.1003104) D Zinder, T Bedford, S Gupta, M Pascual \n PLoS Pathog 9 (1), e1003104
 
-* [Role of competition in the strain structure of rotavirus under invasion and reassortment] 
+* [Role of competition in the strain structure of rotavirus under invasion and reassortment](dzinder@uchicago.edu) D Zinder, M Riolo, R Woods, M Pascual (in prep) 
 
 ## Requires:
 * Java JRE 1.6 or newer
 * CERN colt
 
-## For help type:
-java -jar segmentree.jar --help
-
-### example:
-java -Xms2G -Xmx2G -jar simtree.jar phenotypeSpace=SEGMENTED beta=0.65 nu=0.20
-
-where -Xmx2G specifies the maximum allowable memory limit 
+## For help running code see individual release documentation:
 
 ### output files:
 -----------------------
