@@ -119,9 +119,9 @@ public class Simulation {
 					resetCases();
 				}
 				
-//				if (Parameters.day % Parameters.VaccineParameters.vaccinationProgramStartTime == 0) {
-//					determineVaccineComposition();					
-//				}
+				if (Parameters.day == Parameters.VaccineParameters.vaccinationProgramStartTime ) {
+					determineVaccineComposition();					
+				}
 
 				if (getI()==0) {
 					if (Parameters.SimulationParameters.repeatSim) {
@@ -136,11 +136,7 @@ public class Simulation {
 					}
 				}
 				
-//				if ((Parameters.day % Parameters.SamplingParameters.treeStreamlineInterval) == 0 && (Parameters.day>=Parameters.SimulationParameters.burnin)) {
-//					SegmentTree.fillBackward();
-//					SegmentTree.streamline();
-//					SegmentTree.removeBackward();
-//				}
+
 			}
 
 			seriesStream.close();
@@ -168,21 +164,20 @@ public class Simulation {
 		SegmentTree.printMK();
 		
 		// vaccine output
-//		hp.printVaccine();
+		hp.printVaccine();
 		
 		// close streams in host population
 		hp.close();
 
 	}	
 
-//	private void determineVaccineComposition() {	
-//		hp.determineVaccineComposition();				
-//	}
+	private void determineVaccineComposition() {	
+		hp.determineVaccineComposition();				
+	}
 
 	public void reset() {
 		Parameters.init();
 		SegmentTree.init();	
-		diversity = 0;
 		hp.reset();		
 		diversity =0;
 		totalCases=0;

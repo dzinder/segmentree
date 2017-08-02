@@ -21,6 +21,7 @@ public class Host {
 		else {
 			birth = Parameters.getDay();
 		}
+		
 	}
 
 	// recycle host 
@@ -113,7 +114,10 @@ public class Host {
 	public double getRiskOfTransmission(Virus v) {		
 		return immuneSystem.riskOfTransmission(v);
 	}
-
-
+	
+	public int getBirth() {
+		return birth;
+	}
+	
 
 }

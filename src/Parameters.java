@@ -10,7 +10,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 enum PhenotypeType {SEGMENTED};
-//enum VaccineMakeup {NONE, PREVALENT_SEGMENTS, PREVALENT_STRAINS, MAXIMUM_COVERAGE};
+enum VaccineMakeup {NONE, PREVALENT_STRAINS};
 enum DisruptionType {NONE, MASS_EXTINCTION, CHANGE_MUTATION, CHANGE_INTRO, CHANGE_REASSORTMENT};
 enum SegmentFitnessType {EQUAL_FITNESS, RANDOM_EXPONENTIAL, RANDOM_TRUNCATED_NORMAL};
 enum ViralFitnessType {EQUAL_FITNESS, SEGMENT_FITNESS, INC_SINCE_CREATION};
@@ -20,9 +20,9 @@ public class Parameters {
 	public static class SimulationParameters {
 		// Simulation Parameterss
 		@Setting (description ="Burn In time in days. Initial run time without recording output."	) 
-		static int burnin = 365*150; 	
+		static int burnin = 365*15; 	
 		@Setting (description ="Simulation end time in days."	) 
-		static int endDay = 365*300; 	
+		static int endDay = 365*30; 	
 		@Setting (description ="Repeat simulation following a stochastic extinction until endDay is reached."	) 
 		static boolean repeatSim = true;		
 		@Setting (description ="Prevent stochastic extinction during burn-in period by maintaining at least one infected individual...." ) 
@@ -56,15 +56,12 @@ public class Parameters {
 		@Setting (description = "Host sampling rate for out.immunity" )
 		static double immunityHostSamplingRate = 1E-6;
 		
-		// Memory Optimization Parameters
-//		@Setting (description ="interval at which to streamline tree (optimize memory usage)" )
-//		static int treeStreamlineInterval = 5000;
 	}
 
 	public static class DemographicParameters {
 		// Host & Host Population Parameters & Settings
 		@Setting (description ="Number of hosts in population" )
-		static int N = 20000000;								
+		static int N = 5000000;								
 		@Setting (description ="in births per individual per day, i.e. 1/(30*365)" )
 		static double birthRate = 1.0/(30.0*365.0);	
 		@Setting (description ="in deaths per individual per day, i.e. 1/(30*365)" )
@@ -140,19 +137,19 @@ public class Parameters {
 	}
 
 
-//	public static class VaccineParameters {
-//		// Vaccine Parameters
-//		@Setting (description ="vaccination ages in days (must be inputed in increasing order)" )
-//		static int[] vaccinationAges = {2*30, 4*30,6*30}; 
-//		@Setting (description ="vaccine proportion" )
-//		static double vaccineP = 0.9;
-//		@Setting (description ="vaccine makeup - PREVALENT_SEGMENTS or PREVALENT_STRAINS or MAXIMUM_COVERGE" )
-//		static VaccineMakeup vaccineMakeup = VaccineMakeup.NONE;
-//		@Setting (description ="vaccine valancy - number of strains or segments in vaccine" )
-//		static int vaccineValancy = 2;
-//		@Setting (description ="time of vaccination program start in days" )
-//		static int vaccinationProgramStartTime = 365*7000; // days
-//	}
+	public static class VaccineParameters {
+		// Vaccine Parameters
+		@Setting (description ="vaccination ages in days (must be inputed in increasing order)" )
+		static int[] vaccinationAges = {2*30, 4*30,6*30}; 
+		@Setting (description ="vaccine proportion" )
+		static double vaccineP = 0.9;
+		@Setting (description ="vaccine makeup - PREVALENT_STRAINS" )
+		static VaccineMakeup vaccineMakeup = VaccineMakeup.PREVALENT_STRAINS;
+		@Setting (description ="vaccine valancy - number of strains or segments in vaccine" )
+		static int vaccineValancy = 2; // 0 for no vaccine
+		@Setting (description ="Vaccination program start day" )
+		static int vaccinationProgramStartTime = 365*5; // days
+	}
 
 	public static class DisruptionParameters {
 		// Population Disruption Parameters
@@ -186,7 +183,7 @@ public class Parameters {
 	}
 
 	// "Global" fields 	
-	private static int day = 0;
+	static int day = 0;
 	private static List<Virus> initialViruses = null;
 	private static Segment urSegment;
 	
@@ -210,7 +207,7 @@ public class Parameters {
 		s.apply(VirusParameters.class);
 		s.apply(MutationAndReassortmentParameters.class);
 		s.apply(ReservoirParameters.class);
-//		s.apply(VaccineParameters.class);
+		s.apply(VaccineParameters.class);
 		s.apply(DisruptionParameters.class);
 		s.apply(Random.class);
 
@@ -266,7 +263,7 @@ public class Parameters {
 			Settings.printSettings(Parameters.VirusParameters.class, paramStream);
 			Settings.printSettings(Parameters.MutationAndReassortmentParameters.class, paramStream);
 			Settings.printSettings(Parameters.ReservoirParameters.class, paramStream);
-//			Settings.printSettings(Parameters.VaccineParameters.class, paramStream);
+			Settings.printSettings(Parameters.VaccineParameters.class, paramStream);
 			Settings.printSettings(Parameters.DisruptionParameters.class, paramStream);
 			Settings.printSettings(Random.class, paramStream); 	
 			Settings.printSettings(ImmuneSystemDiscrete.ImmunityParameters.class, paramStream); 	
