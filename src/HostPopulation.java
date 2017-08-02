@@ -253,7 +253,7 @@ public class HostPopulation {
 	private void vaccinate() {
 		// N queues, one for each vaccine age, for unvaccinated newborns
 		
-		if (Parameters.day > Parameters.VaccineParameters.vaccinationProgramStartTime) {
+		if (Parameters.getDay() > (Parameters.VaccineParameters.vaccinationProgramStartTime-Parameters.SimulationParameters.burnin)) {
 			for (int i=0;i<vaccineQueues.size();i++) {
 				
 				// vaccinate individuals at the right age at top of queue

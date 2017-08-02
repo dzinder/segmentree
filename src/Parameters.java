@@ -20,9 +20,9 @@ public class Parameters {
 	public static class SimulationParameters {
 		// Simulation Parameterss
 		@Setting (description ="Burn In time in days. Initial run time without recording output."	) 
-		static int burnin = 365*15; 	
+		static int burnin = 365*150; 	
 		@Setting (description ="Simulation end time in days."	) 
-		static int endDay = 365*30; 	
+		static int endDay = 365*300; 	
 		@Setting (description ="Repeat simulation following a stochastic extinction until endDay is reached."	) 
 		static boolean repeatSim = true;		
 		@Setting (description ="Prevent stochastic extinction during burn-in period by maintaining at least one infected individual...." ) 
@@ -148,7 +148,7 @@ public class Parameters {
 		@Setting (description ="vaccine valancy - number of strains or segments in vaccine" )
 		static int vaccineValancy = 2; // 0 for no vaccine
 		@Setting (description ="Vaccination program start day" )
-		static int vaccinationProgramStartTime = 365*5; // days
+		static int vaccinationProgramStartTime = 365*50; // days (burnin included)
 	}
 
 	public static class DisruptionParameters {
@@ -183,7 +183,7 @@ public class Parameters {
 	}
 
 	// "Global" fields 	
-	static int day = 0;
+	private static int day = 0;
 	private static List<Virus> initialViruses = null;
 	private static Segment urSegment;
 	
