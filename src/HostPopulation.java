@@ -9,7 +9,7 @@ import java.io.*;
 public class HostPopulation {
 
 
-	private int cases;	// number of cases from last count, doesn't effect dynamics 
+	private int cases;	// number  of cases from last count, doesn't effect dynamics 
 
 	// major classes
 	private List<Host> susceptibles = new ArrayList<Host>(); 
