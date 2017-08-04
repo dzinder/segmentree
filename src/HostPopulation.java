@@ -4,8 +4,6 @@ import java.util.*;
 
 import java.io.*;
 
-//import org.javatuples.Pair;
-
 public class HostPopulation {
 
 
@@ -27,14 +25,15 @@ public class HostPopulation {
 	private HashMap<BitSet,Pair<Virus,Integer>> strainTallyForVaccineComposition = new HashMap<BitSet,Pair<Virus,Integer>>();	
 	private List<Virus> vaccineComposition = new ArrayList<Virus>();
 	
-	// Vaccine queue
-	private List<PriorityQueue<Host>> vaccineQueues = new ArrayList<PriorityQueue<Host>>(); // newborns to vaccinate ordered by birthday
+	// Vaccine queues
+	private List<VaccineQueue> vaccineQueues = new ArrayList<VaccineQueue>(); // newborns to vaccinate ordered by birthday
+	//PriorityQueue<Host>
 	
 	// CONSTRUCTORS & INITIALIZERS
 	public HostPopulation() {		
 		// Priority queue of newborn for vaccination, queues sorted by age 
 		for (int i=0;i<Parameters.VaccineParameters.vaccinationAges.length;i++) {
-			vaccineQueues.add(new PriorityQueue<Host>(100000, (h1,h2) -> h1.getBirth() - h2.getBirth()));
+			vaccineQueues.add(new VaccineQueue(Parameters.VaccineParameters.vaccinationAges[i]));
 		}
 	}
 
@@ -105,7 +104,7 @@ public class HostPopulation {
 	private void addHostToVaccineQueues(Host h) {
 		
 		// if nearing vaccination program start day 
-		if (Parameters.getDay()>=(Parameters.VaccineParameters.vaccinationProgramStartTime-Parameters.VaccineParameters.vaccinationAges[Parameters.VaccineParameters.vaccinationAges.length-1])) {
+		if (Parameters.getDay()>=(Parameters.VaccineParameters.vaccinationProgramStartDay-Parameters.VaccineParameters.vaccinationAges[Parameters.VaccineParameters.vaccinationAges.length-1])) {
 			for (int i=0;i<vaccineQueues.size();i++) {
 				if (h.getAgeInDays()<=Parameters.VaccineParameters.vaccinationAges[i]) {
 					vaccineQueues.get(i).add(h);	
@@ -253,30 +252,15 @@ public class HostPopulation {
 	private void vaccinate() {
 		// N queues, one for each vaccine age, for unvaccinated newborns
 		
-		if (Parameters.getDay() > (Parameters.VaccineParameters.vaccinationProgramStartTime-Parameters.SimulationParameters.burnin)) {
+		if (Parameters.getDay() > (Parameters.VaccineParameters.vaccinationProgramStartDay-Parameters.SimulationParameters.burnin)) {
 			for (int i=0;i<vaccineQueues.size();i++) {
 				
 				// vaccinate individuals at the right age at top of queue
-				Queue<Host> currentQueue = vaccineQueues.get(i);
-				int currentVaccineAge = Parameters.VaccineParameters.vaccinationAges[i];
+				VaccineQueue vaccineQueue = vaccineQueues.get(i);
 
-				boolean remainingToVaccinate = false;
-				if (currentQueue.size()>=1) {
-					if (currentQueue.peek().getAgeInDays()>=currentVaccineAge) {
-						remainingToVaccinate = true;
-					}
-				}
-
-				while (remainingToVaccinate) {
-					Host vaccinatedHost = currentQueue.remove();
+				while (vaccineQueue.remainingToVaccinate()) {
+					Host vaccinatedHost = vaccineQueue.remove();
 					vaccinatedHost.immunize(vaccineComposition);
-				
-					remainingToVaccinate = false;
-					if (currentQueue.size()>=1) {
-						if (currentQueue.peek().getAgeInDays()>=currentVaccineAge) {
-							remainingToVaccinate = true;
-						}
-					}
 				}
 			}
 		}

@@ -148,7 +148,7 @@ public class Parameters {
 		@Setting (description ="vaccine valancy - number of strains or segments in vaccine" )
 		static int vaccineValancy = 2; // 0 for no vaccine
 		@Setting (description ="Vaccination program start day" )
-		static int vaccinationProgramStartTime = 365*50; // days (burnin included)
+		static int vaccinationProgramStartDay = 365*50; // days (burnin included)
 	}
 
 	public static class DisruptionParameters {
