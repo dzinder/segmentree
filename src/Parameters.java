@@ -115,7 +115,7 @@ public class Parameters {
 
 	public static class MutationAndReassortmentParameters {
 		@Setting (description ="introduction rate - in segment introductions per day" )
-		static double intro = 8.0/365.0;
+		static double intro = 4*8.0/365.0;
 		// Mutation & Reassortment Parameters
 		@Setting (description ="mutation rate - in mutations per infected host per day" )
 		static double mu = 0;//1E-4;
