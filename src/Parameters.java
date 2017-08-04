@@ -61,7 +61,7 @@ public class Parameters {
 	public static class DemographicParameters {
 		// Host & Host Population Parameters & Settings
 		@Setting (description ="Number of hosts in population" )
-		static int N = 5000000;								
+		static int N = 500000;								
 		@Setting (description ="in births per individual per day, i.e. 1/(30*365)" )
 		static double birthRate = 1.0/(30.0*365.0);	
 		@Setting (description ="in deaths per individual per day, i.e. 1/(30*365)" )
@@ -148,7 +148,7 @@ public class Parameters {
 		@Setting (description ="vaccine valancy - number of strains or segments in vaccine" )
 		static int vaccineValancy = 2; // 0 for no vaccine
 		@Setting (description ="Vaccination program start day" )
-		static int vaccinationProgramStartDay = 365*50; // days (burnin included)
+		static int vaccinationProgramStartDay = 365*175; // days 
 	}
 
 	public static class DisruptionParameters {

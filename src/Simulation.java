@@ -119,7 +119,7 @@ public class Simulation {
 					resetCases();
 				}
 				
-				if (Parameters.getDay() == (Parameters.VaccineParameters.vaccinationProgramStartDay + Parameters.SimulationParameters.burnin) ) {
+				if (Parameters.getDay() == (Parameters.VaccineParameters.vaccinationProgramStartDay) ) {
 					determineVaccineComposition();					
 				}
 

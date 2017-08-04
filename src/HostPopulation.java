@@ -102,6 +102,7 @@ public class HostPopulation {
 	}
 
 	private void addHostToVaccineQueues(Host h) {
+		// TODO: improve efficiency
 		
 		// if nearing vaccination program start day 
 		if (Parameters.getDay()>=(Parameters.VaccineParameters.vaccinationProgramStartDay-Parameters.VaccineParameters.vaccinationAges[Parameters.VaccineParameters.vaccinationAges.length-1])) {
@@ -252,7 +253,7 @@ public class HostPopulation {
 	private void vaccinate() {
 		// N queues, one for each vaccine age, for unvaccinated newborns
 		
-		if (Parameters.getDay() > (Parameters.VaccineParameters.vaccinationProgramStartDay-Parameters.SimulationParameters.burnin)) {
+		if (Parameters.getDay() > Parameters.VaccineParameters.vaccinationProgramStartDay) {
 			for (int i=0;i<vaccineQueues.size();i++) {
 				
 				// vaccinate individuals at the right age at top of queue
